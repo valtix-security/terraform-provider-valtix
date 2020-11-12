@@ -1,21 +1,21 @@
-# valtix_cloud_account
+# Resource: valtix_cloud_account
 Cloud account resource defines the credentials of the cloud provider that can be accessed by the Valtix controller.
 
 ## Example Usage
 
-**GCP**
+## GCP 
 
 Create a GCP service account for use by the Valtix controller and generate/download the key file before running this block.
 
 ```hcl
 resource "valtix_cloud_account" gcp1 {
-  name             = "gcpaccount1"
-  csp_type         = "GCP"
-  gcp_credentials_file     = file("valtix_controller_key.json")
+  name                 = "gcpaccount1"
+  csp_type             = "GCP"
+  gcp_credentials_file = file("valtix_controller_key.json")
 }
 ```
 
-**AWS**
+## AWS
 
 Create a cross account IAM role before running this block. Look at the [AWS Setup Guide](/AWS_setup_guide/sg_aws_onboarding) for more details.
 
@@ -30,7 +30,7 @@ resource "valtix_cloud_account" aws1 {
 }
 ```
 
-**Azure**
+## Azure
 
 Create an application and secret before running this block. Look at the [Azure Setup Guide](/Azure_setup_guide/sg_azure_overview) for more details.
 
@@ -45,15 +45,23 @@ resource "valtix_cloud_account" azure1 {
 }
 ```
 
-**To enable inventory monitoring, add the following section to the above resource**
+## Account with Inventory Monitoring
 ```hcl
-inventory_monitoring {
-  regions = ["us-east-1", "us-east-2"]
-  refresh_interval = 10
-}
-inventory_monitoring {
-  regions = ["us-west-2"]
-  refresh_interval = 30
+resource "valtix_cloud_account" aws1 {
+  name                     = "awsaccount1"
+  csp_type                 = "AWS"
+  aws_credentials_type     = "AWS_IAM_ROLE"
+  aws_iam_role             = "arn:aws:iam::123456789012:role/valtixcontrollerrole"
+  aws_account_number       = "123456789012"
+  aws_iam_role_external_id = "shared-external-id"
+  inventory_monitoring {
+    regions          = ["us-east-1", "us-east-2"]
+    refresh_interval = 10
+  }
+  inventory_monitoring {
+    regions          = ["us-west-1", "us-west-2"]
+    refresh_interval = 30
+  }
 }
 ```
 
@@ -62,28 +70,28 @@ inventory_monitoring {
 * `name` - (Required) Name of the Cloud Account on the Valtix console. Must contain only alphanumeric, hyphens or underscore characters and not exceed 100 characters
 * `csp_type` - (Required)  Defines the Cloud Service Provider. Must be "GCP" or "AWS" or "AZURE"
 
-**GCP Arguments**
+### GCP Arguments
 
 * `gcp_credentials_file` - (GCP - Required) Service account credentials key file created for the Valtix controller access.
-* `inventory_monitoring` - Enable inventory monitoring, look below for the structure
+* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times), look at [Inventory Monitoring](#inventory-monitoring) for details
 
-**AWS Arguments**
+### AWS Arguments
 
 * `aws_credentials_type` - (AWS - Required) must be "AWS_IAM_ROLE"
 * `aws_iam_role` - (AWS - Required) Cross IAM role ARN that Valtix assumes to manage your cloud account
 * `aws_account_number` - (AWS - Required) AWS account number
 * `aws_iam_role_external_id` - (AWS - Required) External Id for trust relationship
-* `inventory_monitoring` - Enable inventory monitoring, look below for the structure (can be repeated multiple times)
+* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times), look at [Inventory Monitoring](#inventory-monitoring) for details
 
-**Azure Arguments**
+### Azure Arguments
 
 * `azure_directory_id` - (Azure - Required) Azure Active Directory Id (Tenant Id)
 * `azure_subscription_id` - (Azure - Required) Azure Subscription Id where the Valtix gateway instances are deployed
 * `azure_application_id` - (Azure - Required) Azure Application Id that's used as credentials (along with the secret) to manage Azure account/subscription
 * `azure_client_secret` - (Azure - Required) Azure client secret for the above application
-* `inventory_monitoring` - Enable inventory monitoring, look below for the structure
+* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times), look at [Inventory Monitoring](#inventory-monitoring) for details
 
-**structure of inventory_monitoring**
+## Inventory Monitoring
 
 * `regions` - List of regions to enable and monitor inventory
 * `refresh_interval` - Interval in minutes where the inventory is refreshed
