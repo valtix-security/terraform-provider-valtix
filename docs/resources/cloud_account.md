@@ -19,7 +19,7 @@ resource "valtix_cloud_account" gcp1 {
 
 Create a cross account IAM role before running this block. Look at the [AWS Setup Guide](/AWS_setup_guide/sg_aws_onboarding) for more details.
 
-* ```hcl
+```hcl
 resource "valtix_cloud_account" aws1 {
   name                     = "awsaccount1"
   csp_type                 = "AWS"
@@ -28,13 +28,13 @@ resource "valtix_cloud_account" aws1 {
   aws_account_number       = "123456789012"
   aws_iam_role_external_id = "shared-external-id"
 }
-* ```
+```
 
 **Azure**
 
 Create an application and secret before running this block. Look at the [Azure Setup Guide](/Azure_setup_guide/sg_azure_overview) for more details.
 
-* ```hcl
+```hcl
 resource "valtix_cloud_account" azure1 {
   name                  = "azure-terraform"
   csp_type              = "AZURE"
@@ -43,10 +43,10 @@ resource "valtix_cloud_account" azure1 {
   azure_application_id  = "11111111-2222-499b-a03f-e47e012e63ae"
   azure_client_secret   = "client-secret-password"
 }
-* ```
+```
 
-** To enable inventory monitoring, add the following section to the above resource
-* ```hcl
+**To enable inventory monitoring, add the following section to the above resource
+```hcl
 inventory_monitoring {
   regions = ["us-east-1", "us-east-2"]
   refresh_interval = 10
@@ -55,7 +55,7 @@ inventory_monitoring {
   regions = ["us-west-2"]
   refresh_interval = 30
 }
-* ```
+```
 
 ## Argument Reference
 
@@ -83,7 +83,7 @@ inventory_monitoring {
 * `azure_client_secret` - (Azure - Required) Azure client secret for the above application
 * `inventory_monitoring` - Enable inventory monitoring, look below for the structure
 
-** structure of inventory_monitoring**
+**structure of inventory_monitoring**
 
 * `regions` - List of regions to enable and monitor inventory
 * `refresh_interval` - Interval in minutes where the inventory is refreshed
