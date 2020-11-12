@@ -11,7 +11,7 @@ must be defined before valtix_gateway can be created
 
 ### GCP Gateway
 
-```
+```hcl
 # create a data source for getting vpc and subnet names or provide the full subnet names
 
 # (optional) use data source to get the id of the datapath vpc
@@ -76,7 +76,7 @@ resource "valtix_gateway" gcp-gw {
 
 ### AWS Gateway
 
-```
+```hcl
 data "aws_vpc" "gw_vpc" {
   filter {
     name   = "tag:Name"
@@ -131,7 +131,7 @@ resource "valtix_gateway" aws-gw1 {
 
 ### AWS HUB mode Gateway
 
-```
+```hcl
 data "aws_ec2_transit_gateway" "transit_gateway" {
   filter {
     name   = "tag:Name"
@@ -158,7 +158,7 @@ resource "valtix_gateway" aws-hub-gw1 {
 
 ### AWS HUB mode with AWS Gateway Load Balancer
 
-```
+```hcl
 data "aws_ec2_transit_gateway" "transit_gateway" {
   filter {
     name   = "tag:Name"
@@ -186,7 +186,7 @@ resource "valtix_gateway" aws-hub-gw1 {
 
 ### Azure Gateway
 
-```
+```hcl
 resource "valtix_gateway" azure_gw1 {
   name                    = "gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
