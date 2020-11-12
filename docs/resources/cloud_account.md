@@ -7,13 +7,13 @@ Cloud account resource defines the credentials of the cloud provider that can be
 
 Create a GCP service account for use by the Valtix controller and generate/download the key file before running this block.
 
-* ```hcl
+```hcl
 resource "valtix_cloud_account" gcp1 {
   name             = "gcpaccount1"
   csp_type         = "GCP"
   gcp_credentials_file     = file("valtix_controller_key.json")
 }
-* ```
+```
 
 **AWS**
 
@@ -45,7 +45,7 @@ resource "valtix_cloud_account" azure1 {
 }
 ```
 
-**To enable inventory monitoring, add the following section to the above resource
+**To enable inventory monitoring, add the following section to the above resource**
 ```hcl
 inventory_monitoring {
   regions = ["us-east-1", "us-east-2"]
