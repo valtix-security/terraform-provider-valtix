@@ -20,8 +20,6 @@ Most of the values are defined as variables. You can customize it further if req
 
 ## variables.tf
 
-[Download](../example/variables.tf)
-
 ```
 # Ask valtix representative for this info
 variable "valtix_acct_name" {
@@ -91,14 +89,14 @@ variable "datapath_vpc" {
 
 # This tag is assigned to the management network interface. The GCP firewalls
 # must be configured to allow outgoing traffic from the tag.
-# (by default its allowed, so no configuration is required unless your org prevents that) 
+# (by default its allowed, so no configuration is required unless your org prevents that)
 variable "mgmt_network_tag" {
   description = "Management network tag"
   default = "valtix-mgmt"
 }
 
 # This tag is assigned to the datapath network interface. The GCP firewalls
-# must be configured to allow incoming traffic to the tag 
+# must be configured to allow incoming traffic to the tag
 # For every service that's configured on Valtix the corresponding listener port
 # on the service must be opened in this GCP firewall.
 variable "datapath_network_tag" {
@@ -132,8 +130,6 @@ variable "datapath_subnet1" {
 
 ## values
 
-[Download](../example/values.txt)
-
 ```
 valtix_acct_name = "cutomer-account1"
 server = "prod-apiserver.vtxsecurityservices.com"
@@ -154,8 +150,6 @@ datapath_subnet1 = "valtix-subnet1"
 ```
 
 ## main.tf
-
-[Download](../example/main.tf)
 
 This uses the data source for google to query the vpc and subnet names as defined in the values
 
@@ -201,7 +195,7 @@ resource "valtix_certificate" self_signed_cert_1 {
     name = "self_signed_cert_1"
     certificate_type = "IMPORT_CONTENTS"
     # this is your own certificate and private key that will be presented to the user
-    # when they access the backend application via valtix gateway (proxy) 
+    # when they access the backend application via valtix gateway (proxy)
     certificate_body = file("cert.pem")
     private_key = file("key.pem")
 }
