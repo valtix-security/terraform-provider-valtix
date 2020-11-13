@@ -71,7 +71,7 @@ resource "valtix_certificate" cert1 {
 * `certificate_body` - (Required) Certificate content. Provide a string with the whole content here or if it's on a file system use `file("filename")`
 * `certificate_chain` - (Optional) Certificate chain content. Provide a string with the whole content here or if it's on a file system use `file("filename")`. This is optional if the certificate has a chain available separately and not part of the certificate_body
 
-## Additional attributes based on the certificate_type
+## Additional arguments based on the certificate_type
 
 ### IMPORT_CONTENTS
 * `private_key` - (Required for IMPORT_CONTENTS) Certificate content. Provide a string with the whole content here or if it's on a file system use `file("filename")`

@@ -54,7 +54,7 @@ resource "valtix_address_object" vpc1-ag {
     * GEO_IP
     * STORAGE_BUCKET
 
-## Additional Attributes based on the type
+## Additional arguments based on the type
 
 ## STATIC
 
