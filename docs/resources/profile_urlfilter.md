@@ -33,9 +33,10 @@ resource "valtix_profile_urlfilter" url1 {
 
 * `name` - (Required) Name of the profile
 * `description` - (Optional) Description of the profile
-* `url_filter_list` - (Required) List of url_filter resources. Structure defined below
+* `url_filter_list` - (Required) List of url_filter resources. Structure [defined below](#url-filter)
+* `default_url_filter` - (Optional) Default behavior of URL filter. Structure [defined below](#url-filter)
 
-** structure of url_filter_list **
+## URL Filter
 
 * `url` - (Required) String or regular expression or a predefined Category
 * `filter_methods` - (Optional) URL Methods (GET, POST etc). Default all the methods
