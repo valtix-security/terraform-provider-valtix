@@ -7,10 +7,7 @@ Use the navigation on the left to read about each of the available resources.
 
 ## Authentication using Valtix API Key
 
-To create Valtix resources using provider you need to authenticate with the Valtix controller. Terraform provider does not use username and password that you use to login to the controller.
-
-For this purposes you need to generate an API key. This is similar to AWS access key and secret or Azure application secret.
-The key can be generated only by the super-admin user and the permissions for the key can be assigned when generating the key
+To create Valtix resources using provider you need to authenticate with the Valtix controller using an API key generated on the Valtix controller. The key can be generated only by the super-admin user and the permissions for the key can be assigned when generating the key
 
 ## Generate Key
 
