@@ -1,4 +1,5 @@
 # Resource: valtix_cloud_account
+
 Cloud account resource defines the credentials of the cloud provider that can be accessed by the Valtix controller.
 
 ## Example Usage

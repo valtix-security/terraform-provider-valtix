@@ -1,5 +1,7 @@
 # Resource: valtix_profile_application_threat
 
+Create Web Application Firewall (WAF) profile
+
 ## Example Usage
 
 ```hcl

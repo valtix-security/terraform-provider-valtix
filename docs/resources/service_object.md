@@ -1,4 +1,5 @@
 # valtix_service_object
+
 Service objects represent the backend application and how it's serviced to the external users.
 Valtix gateway acts as a proxy to this service and all the end users' access to the application
 goes via the gateway. The service defines a listen port where the gateway listens and specifies

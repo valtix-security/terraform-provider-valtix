@@ -1,5 +1,7 @@
 # Resource: valtix_profile_urlfilter
 
+Create URL Filtering Profile
+
 ## Example Usage
 
 ```hcl

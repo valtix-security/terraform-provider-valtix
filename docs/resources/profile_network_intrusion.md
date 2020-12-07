@@ -1,5 +1,7 @@
 # Resource: valtix_profile_network_intrusion
 
+Create IPS (Network Intrusion) Profile
+
 ## Example Usage
 
 ```hcl

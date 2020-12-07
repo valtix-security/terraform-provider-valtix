@@ -1,4 +1,5 @@
 # Resource: valtix_profile_packet_capture
+
 Storage location to store the pcap files
 
 ## Example Usage

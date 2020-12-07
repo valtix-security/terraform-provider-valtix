@@ -1,5 +1,7 @@
 # valtix_profile_log_forwarding
 
+Create Log Forwarding Profile
+
 ## Example Usage
 
 # syslog profile

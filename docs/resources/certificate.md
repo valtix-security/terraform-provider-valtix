@@ -1,4 +1,5 @@
 # Resource: valtix_certificate
+
 Manages certificates that are presented to the end user when they access valtix gw proxy
 
 ## Example Usage
