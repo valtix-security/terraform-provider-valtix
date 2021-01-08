@@ -1,7 +1,7 @@
 # Overview
 
 Valtix provider is used to interact with Valtix resources like address objects,
-service objects, gateways using Terraform. 
+service objects, gateways using Terraform.
 
 Use the navigation on the left to read about each of the available resources.
 
@@ -24,6 +24,15 @@ To create Valtix resources using provider you need to authenticate with the Valt
 ## Using Key
 
 ```hcl
+terraform {
+  required_providers {
+    valtix = {
+      source = "valtix-security/valtix"
+      # version = "2.5.0"
+    }
+  }
+}
+
 provider "valtix" {
   acctname     = "valtix-provided-tenant-name"
   server       = "server-url"
