@@ -1,0 +1,23 @@
+# get the public key from the secret terraform_gpg_key (in main account) and copy as gpg-public.key
+# get the private key from the secret terraform_gpg_key (in main account) and copy as gpg-private.key
+# download gh cli from github
+# curl -L gh.tgz https://github.com/cli/cli/releases/download/v1.4.0/gh_1.4.0_linux_amd64.tar.gz
+# untar and get the binary to the current directory
+
+# gh auth login (opens a browser, follow through the instructions)
+
+
+# import gpg keys
+
+# gpg --import gpg-public.key
+# gpg --allow-secret-key-import --import gpg-private.key
+# gpg --list-keys
+
+VERSION=2.5.0
+
+rm -rf terraform*
+cp ~/valtix-sw/gosrc/bin/terraform-provider-valtix terraform-provider-valtix_v${VERSION}
+zip terraform-provider-valtix_${VERSION}_linux_amd64.zip terraform-provider-valtix_v${VERSION}
+sha256sum terraform-provider-valtix_${VERSION}_linux_amd64.zip > terraform-provider-valtix_${VERSION}_SHA256SUMS
+gpg --detach-sign terraform-provider-valtix_${VERSION}_SHA256SUMS
+./gh release create -R https://github.com/valtix-security/terraform-provider-valtix v$VERSION terraform-provider-valtix_${VERSION}_*
