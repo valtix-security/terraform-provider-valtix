@@ -1,7 +1,7 @@
 # Resource: valtix_policy_rule_set
 
 A policy rule set is a list of firewall rules. The rule set can be applied to
-multiple gateways to achieve identical security posture. 
+multiple gateways to achieve identical security posture.
 
 ## Example Usage
 
@@ -14,6 +14,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
     type        = "ReverseProxy"
     action      = "ALLOW_LOG"
     service     = "${valtix_service_object.app1-svc-http.service_id}"
+    state       = "ENABLED"
   }
   rule {
     name        = "rule2"
@@ -21,6 +22,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
     type        = "ReverseProxy"
     action      = "ALLOW_LOG"
     service     = "${valtix_service_object.app1-svc-https.service_id}"
+    state       = "DISABLED"
   }
 }
 ```
@@ -35,6 +37,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 
 * `name` - (Required) Rule name.
 * `description` - (Optional) Rule detailed description.
+* `state` - (Required) "ENABLED" or "DISABLED". Set the rule's state to enabled or disabled.
 * `type` - (Required) **ReverseProxy**, **ForwardProxy**, **Forwarding**
 * `source` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.src1.address_id*
 * `destination` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.dst1.address_id*
