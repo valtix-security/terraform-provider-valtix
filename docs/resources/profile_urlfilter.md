@@ -24,7 +24,6 @@ resource "valtix_profile_urlfilter" url1 {
     return_status  = 400
   }
   default_url_filter {
-    url           = ".*"
     policy        = "DENY_LOG"
     return_status = 500
   }
