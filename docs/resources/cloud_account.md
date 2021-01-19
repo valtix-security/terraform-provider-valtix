@@ -30,6 +30,7 @@ resource "valtix_cloud_account" aws1 {
   aws_iam_role_external_id = "shared-external-id"
 }
 ```
+If using the [Valtix IAM Terraform Module](https://github.com/valtix-security/terraform-aws-valtix-iam), make sure you add a dependency on this module for the Valtix Cloud Account resource using the depends_on meta-argument.
 
 ## Azure
 
