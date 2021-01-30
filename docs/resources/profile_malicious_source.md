@@ -4,13 +4,16 @@ Create Malicious Sources Profile
 
 ## Example Usage
 
+### With auto updating ruleset and other defaults
+
 ```hcl
 resource "valtix_profile_malicious_source" msrc_auto {
   name                  = "msrc_auto"
   description           = "description"
-  ip_reputation_enabled = true
 }
 ```
+
+### With manually specified ruleset and other parameters
 
 ```hcl
 resource "valtix_profile_malicious_source" msrc_manual {

@@ -4,6 +4,8 @@ Create Web Application Firewall (WAF) profile
 
 ## Example Usage
 
+### With auto updating rulesets and other defaults
+
 ```hcl
 resource "valtix_profile_application_threat" waf_auto {
   name                      = "waf_auto"
@@ -18,7 +20,7 @@ resource "valtix_profile_application_threat" waf_auto {
 }
 ```
 
-With all the other optional/advanced attributes
+### With manually specified rulesets and other optional/advanced attributes
 
 ```hcl
 resource "valtix_profile_application_threat" waf_manual {

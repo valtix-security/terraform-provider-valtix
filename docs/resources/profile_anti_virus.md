@@ -4,6 +4,8 @@ Create Anti Virus Profile
 
 ## Example Usage
 
+### With auto updating ruleset and other defaults
+
 ```hcl
 resource "valtix_profile_anti_virus" av_auto {
   name                  = "av_auto"
@@ -11,6 +13,8 @@ resource "valtix_profile_anti_virus" av_auto {
   action                = "DROP"
 }
 ```
+
+### With manually specified ruleset version
 
 ```hcl
 resource "valtix_profile_anti_virus" av_manual {

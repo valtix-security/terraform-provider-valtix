@@ -4,6 +4,8 @@ Create IPS (Network Intrusion) Profile
 
 ## Example Usage
 
+### With auto updating ruleset and other defaults
+
 ```hcl
 resource "valtix_profile_network_intrusion" ips_auto {
   name                  = "ips_auto"
@@ -12,6 +14,8 @@ resource "valtix_profile_network_intrusion" ips_auto {
   policy_action         = "ALERT"
 }
 ```
+
+### With manually specified ruleset version
 
 ```hcl
 resource "valtix_profile_network_intrusion" ips_manual {
