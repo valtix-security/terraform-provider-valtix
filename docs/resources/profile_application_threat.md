@@ -5,8 +5,8 @@ Create Web Application Firewall (WAF) profile
 ## Example Usage
 
 ```hcl
-resource "valtix_profile_application_threat" waf1 {
-  name                      = "waf1"
+resource "valtix_profile_application_threat" waf_auto {
+  name                      = "waf_auto"
   description               = "waf basic rules"
   paranoia_level            = 1
   request_inspection_profile = [
@@ -21,11 +21,11 @@ resource "valtix_profile_application_threat" waf1 {
 With all the other optional/advanced attributes
 
 ```hcl
-resource "valtix_profile_application_threat" waf_profile1 {
-  name                      = "waf_profile1"
+resource "valtix_profile_application_threat" waf_manual {
+  name                      = "waf_manual"
   description               = "waf profile 1"
-  delay_by_days_crs         = 5
-  delay_by_days_trustwave   = 1
+  crs_ruleset_version       = "3.0.2-01272021"
+  trustwave_ruleset_version = "3.0.2-01272021"
   paranoia_level            = 3
   action                    = "BLOCK"
   request_inspection_profile = [
@@ -74,7 +74,7 @@ resource "valtix_profile_application_threat" waf_profile1 {
 
 * `name` - (Required) Name of the profile
 * `description` - (Optional) Description of the profile
-* `auto_update_crs` - (Optional) Auto update the CRS (Core Rule Set) version daily with a delay specified by `delay_by_days_crs` parameter. This is true by default.
+* `auto_update_crs` - (Optional) Auto update the CRS (Core Rule Set) version daily with a delay specified by `delay_by_days_crs` parameter. The valid values are true/false and it is true by default..
 * `delay_by_days_crs` - (Optional) How many days before we use a CRS ruleset version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
 * `crs_ruleset_version` - (Optional) CRS (Core Rule Set) version. Valid values (as of this publication of this document):
     * **3.0.2-01272021**
@@ -85,7 +85,7 @@ resource "valtix_profile_application_threat" waf_profile1 {
     * **3.0.2-01222021**
 
   If this argument is specified, Auto Update of CRS ruleset is disabled and the profile will only use this version for CRS ruleset.
-* `auto_update_trustwave` - (Optional) Auto update the Trustwave Rule Set version daily with a delay specified by `delay_by_days_trustwave` parameter. This is true by default.
+* `auto_update_trustwave` - (Optional) Auto update the Trustwave Rule Set version daily with a delay specified by `delay_by_days_trustwave` parameter. The valid values are true/false and it is true by default..
 * `delay_by_days_trustwave` - (Optional) How many days before we use a Trustwave Rule Set version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
 * `trustwave_ruleset_version` - (Optional) Trustwave Rule Set version. Valid values are (as of this publication of this document):
     * **3.0.2-01272021**

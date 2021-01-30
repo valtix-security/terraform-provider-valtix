@@ -5,11 +5,21 @@ Create IPS (Network Intrusion) Profile
 ## Example Usage
 
 ```hcl
-resource "valtix_profile_network_intrusion" ips1 {
-  name                  = "ips"
+resource "valtix_profile_network_intrusion" ips_auto {
+  name                  = "ips_auto"
   description           = "predefined rules tagged as 'connectivity'"
   policy                = "CONNECTIVITY"
   policy_action         = "ALERT"
+}
+```
+
+```hcl
+resource "valtix_profile_network_intrusion" ips_manual {
+  name                  = "ips_manual"
+  description           = "predefined rules tagged as 'connectivity'"
+  policy                = "CONNECTIVITY"
+  policy_action         = "ALERT"
+  talos_ruleset_version = "2.9.11.1-01272021"
 }
 ```
 
@@ -17,7 +27,7 @@ resource "valtix_profile_network_intrusion" ips1 {
 
 * `name` - (Required) Name of the IPS profile
 * `description` - (Optional) Description of the IPS profile
-* `auto_update` - (Optional) Auto update the Talos IPS Ruleset version daily with a delay specified by `delay_by_days` parameter. This is true by default.
+* `auto_update` - (Optional) Auto update the Talos IPS Ruleset version daily with a delay specified by `delay_by_days` parameter. The valid values are true/false and it is true by default..
 * `delay_by_days` - (Optional) How many days before we use a Talos IPS Ruleset version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
 * `talos_ruleset_version` - (Optional) Talos IPS ruleset version. Valid values (as of this publication of this document):
     * **2.9.11.1-01272021**
