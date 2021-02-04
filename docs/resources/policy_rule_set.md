@@ -50,4 +50,4 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 * `anti_virus_profile` - (Optional) profile_id of the valtix_profile_anti_virus. *e.g. valtix_profile_anti_virus.waf1.profile_id*
 * `url_filter` - (Optional) profile_id of the valtix_profile_url_filter. *e.g. valtix_profile_url_filter.url1.profile_id*
 * `malicious_src_profile` - (Optional) profile_id of the valtix_profile_malicious_src_profile. *e.g. valtix_profile_malicious_src_profile.src1.profile_id*
-* `packet_capture_profile` - (Optional) profile_id of the valtix_profile_packet_capture_profile. *e.g. valtix_profile_packet_capture_profile.src1.profile_id*
+* `packet_capture_enabled` - (Optional) true/false. Capture pcap when traffic matches the rule.
