@@ -18,7 +18,8 @@ resource "valtix_cloud_account" gcp1 {
 
 ## AWS
 
-Create a cross account IAM role before running this block. Look at the [AWS Setup Guide](/AWS_setup_guide/sg_aws_onboarding) for more details.
+Create a cross account IAM role before running this block. Look at the [AWS Setup Guide](/AWS_setup_guide/sg_aws_onboarding) for more details. Use a Valtix generated External ID in the trust Policy of the IAM role, and the same External ID in the AWS Cloud Account Setup. 
+
 
 ```hcl
 resource "valtix_cloud_account" aws1 {
@@ -27,7 +28,7 @@ resource "valtix_cloud_account" aws1 {
   aws_credentials_type     = "AWS_IAM_ROLE"
   aws_iam_role             = "arn:aws:iam::123456789012:role/valtixcontrollerrole"
   aws_account_number       = "123456789012"
-  aws_iam_role_external_id = "shared-external-id"
+  aws_iam_role_external_id = "${valtix_external_id.extID1.external_id}"
 }
 ```
 If using the [Valtix IAM Terraform Module](https://github.com/valtix-security/terraform-aws-valtix-iam), make sure you add a dependency on this module for the Valtix Cloud Account resource using the depends_on meta-argument.
