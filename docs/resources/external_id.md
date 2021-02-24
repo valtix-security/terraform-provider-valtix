@@ -4,16 +4,9 @@ Define an external_id that can be used in an IAM Role Trust Policy to designate 
 
 ## Example Usage
 
-** Slack Profile **
 ```hcl
 resource "valtix_external_id" extID1 {
     name = "extID1"
-}
-```
-
-```hcl
-resource "valtix_external_id" extID2 {
-    name = "extID2"
 }
 ```
 
