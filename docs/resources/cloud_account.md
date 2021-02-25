@@ -4,21 +4,9 @@ Cloud account resource defines the credentials of the cloud provider that can be
 
 ## Example Usage
 
-## GCP 
-
-Create a GCP service account for use by the Valtix controller and generate/download the key file before running this block.
-
-```hcl
-resource "valtix_cloud_account" gcp1 {
-  name                 = "gcpaccount1"
-  csp_type             = "GCP"
-  gcp_credentials_file = file("valtix_controller_key.json")
-}
-```
-
 ## AWS
 
-Create a cross account IAM role before running this block. Look at the [AWS Setup Guide](/AWS_setup_guide/sg_aws_onboarding) for more details. Use a Valtix generated External ID in the trust Policy of the IAM role, and the same External ID in the AWS Cloud Account Setup. 
+Create a cross account IAM role before running this block. Look at the [AWS Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/aws/overview/) for more details. Use a Valtix generated External ID in the trust Policy of the IAM role, and the same External ID in the AWS Cloud Account Setup. 
 
 
 ```hcl
@@ -35,7 +23,7 @@ If using the [Valtix IAM Terraform Module](https://github.com/valtix-security/te
 
 ## Azure
 
-Create an application and secret before running this block. Look at the [Azure Setup Guide](/Azure_setup_guide/sg_azure_overview) for more details.
+Create an application and secret before running this block. Look at the [Azure Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/azure/overview/) for more details.
 
 ```hcl
 resource "valtix_cloud_account" azure1 {
@@ -45,6 +33,18 @@ resource "valtix_cloud_account" azure1 {
   azure_subscription_id = "11111111-2222-41a6-8dfc-05b1fc703aa7"
   azure_application_id  = "11111111-2222-499b-a03f-e47e012e63ae"
   azure_client_secret   = "client-secret-password"
+}
+```
+
+## GCP 
+
+Create a GCP service account for use by the Valtix controller and generate/download the key file before running this block. Look at the [GCP Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/gcp/overview/) for more details.
+
+```hcl
+resource "valtix_cloud_account" gcp1 {
+  name                 = "gcpaccount1"
+  csp_type             = "GCP"
+  gcp_credentials_file = file("valtix_controller_key.json")
 }
 ```
 
@@ -73,11 +73,6 @@ resource "valtix_cloud_account" aws1 {
 * `name` - (Required) Name of the Cloud Account on the Valtix console. Must contain only alphanumeric, hyphens or underscore characters and not exceed 100 characters
 * `csp_type` - (Required)  Defines the Cloud Service Provider. Must be "GCP" or "AWS" or "AZURE"
 
-### GCP Arguments
-
-* `gcp_credentials_file` - (GCP - Required) Service account credentials key file created for the Valtix controller access.
-* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times), look at [Inventory Monitoring](#inventory-monitoring) for details
-
 ### AWS Arguments
 
 * `aws_credentials_type` - (AWS - Required) must be "AWS_IAM_ROLE"
@@ -92,6 +87,11 @@ resource "valtix_cloud_account" aws1 {
 * `azure_subscription_id` - (Azure - Required) Azure Subscription Id where the Valtix gateway instances are deployed
 * `azure_application_id` - (Azure - Required) Azure Application Id that's used as credentials (along with the secret) to manage Azure account/subscription
 * `azure_client_secret` - (Azure - Required) Azure client secret for the above application
+* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times), look at [Inventory Monitoring](#inventory-monitoring) for details
+
+### GCP Arguments
+
+* `gcp_credentials_file` - (GCP - Required) Service account credentials key file created for the Valtix controller access.
 * `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times), look at [Inventory Monitoring](#inventory-monitoring) for details
 
 ## Inventory Monitoring
