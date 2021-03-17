@@ -56,7 +56,7 @@ resource "valtix_profile_log_forwarding" gcplog1 {
 ## Argument Reference
 
 * `name` - (Required) Name of the decryption profile
-* `siem_vendor` - (Required) One of **SPLUNK**, **DATADOG**, **REMOTE_SYSLOG**
+* `siem_vendor` - (Required) One of **SPLUNK**, **DATADOG**, **GCPLOGGING_FROM_GATEWAY**, **REMOTE_SYSLOG**
 
 ## Additional arguments based on `siem_vendor`
 
@@ -71,7 +71,7 @@ resource "valtix_profile_log_forwarding" gcplog1 {
 * `auth_token` - (Required) https auth token
 
 
-### GCP
+### GCPLOGGING_FROM_GATEWAY
 * `log_name` - [Optional] gcp log name to store the logs. If not specified, the default name is "valtix-gateway-logs"
 
 ### SYSLOG
