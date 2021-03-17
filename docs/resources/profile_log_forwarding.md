@@ -43,10 +43,20 @@ resource "valtix_profile_log_forwarding" datadog1 {
 }
 ```
 
+
+# gcp log-forwarding
+```hcl
+resource "valtix_profile_log_forwarding" gcplog1 {
+  name                    = "gcplog1"
+  siem_vendor             = "GCPLOGGING_FROM_GATEWAY"
+  log_name                = "gcp-logging-1"
+}
+```
+
 ## Argument Reference
 
 * `name` - (Required) Name of the decryption profile
-* `siem_vendor` - (Required) One of **SPLUNK**, **DATADOG**, **REMOTE_SYSLOG**
+* `siem_vendor` - (Required) One of **SPLUNK**, **DATADOG**, **GCPLOGGING_FROM_GATEWAY**, **REMOTE_SYSLOG**
 
 ## Additional arguments based on `siem_vendor`
 
@@ -59,6 +69,10 @@ resource "valtix_profile_log_forwarding" datadog1 {
 ### DATADOG
 * `endpoint` - (Required ) https URL.
 * `auth_token` - (Required) https auth token
+
+
+### GCPLOGGING_FROM_GATEWAY
+* `log_name` - [Optional] gcp log name to store the logs. If not specified, the default name is "valtix-gateway-logs"
 
 ### SYSLOG
 * `syslog_server_ip` - (Required) syslog server ip
