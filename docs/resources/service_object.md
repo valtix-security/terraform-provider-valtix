@@ -25,7 +25,7 @@ resource "valtix_service_object" app1-svc {
     destination_ports = "80"
     backend_ports     = "80"
   }
-  backend_address_group = "${valtix_address_object.app1-ag.address_id}"
+  backend_address_group = valtix_address_object.app1-ag.address_id
 }
 ```
 
@@ -42,7 +42,7 @@ resource "valtix_service_object" app1-svc-https {
     destination_ports = "443"
     backend_ports     = "443"
   }
-  backend_address_group = "${valtix_address_object.app1-ag.address_id}"
+  backend_address_group = valtix_address_object.app1-ag.address_id
   tls_profile           = valtix_profile_decryption.decryption_profile_1.profile_id
 }
 ```
@@ -61,7 +61,7 @@ resource "valtix_service_object" app1-svc-https {
     backend_ports     = "443"
   }
   sni                   = ["www.app1.com", "subodmain1.app1.com"]
-  backend_address_group = "${valtix_address_object.app1-ag.address_id}"
+  backend_address_group = valtix_address_object.app1-ag.address_id
   tls_profile           = valtix_profile_decryption.decryption_profile_1.profile_id
 }
 
@@ -81,7 +81,7 @@ resource "valtix_service_object" app2-svc-https {
     backend_ports     = "443"
   }
   sni                   = ["www.app2.com", "subodmain1.app2.com"]
-  backend_address_group = "${valtix_address_object.app2-ag.address_id}"
+  backend_address_group = valtix_address_object.app2-ag.address_id
   tls_profile           = valtix_profile_decryption.decryption_profile_2.profile_id
 }
 ```
@@ -112,18 +112,30 @@ resource "valtix_service_object" internet-https {
 
 ```
 
+### Forwarding Service object
+
+```
+resource "valtix_service_object" forward-https {
+  name           = "Forward-HTTPS"
+  service_type   = "Forwarding"
+  port {
+    destination_ports = "443"
+  }
+}
+```
+
 ## Argument Reference
 
 ## ReverseProxy
 
 * `name` - (Required) Name of the service object
 * `description` - (Optional) Description of the service object
-* `service_type` - (Required) "ReverseProxy"
+* `service_type` - (Required) "ReverseProxy", "ForwardProxy" or "Forwarding"
 * `protocol` - (Optional) "TCP" or "UDP". "TCP" is default. This is the listener protocol.
 * `transport_mode` - (Required) "HTTP", "HTTPS", "TCP", "TLS". The protocol used by the gateway to communicate with the backend.
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port)
 * `sni` - (Optional) List of FQDN strings that's matched by GW to find the destination (target) address group. Used to distinguish multiple TLS applications on a single port
-* `tls_profile` - (Optional) Decryption profile id.
+* `tls_profile` - (Optional) Decryption profile id
 * `l7dos_profile` - (Optional) L7 DOS profile id
 
 ## ReverseProxy Port
