@@ -152,7 +152,6 @@ resource "valtix_gateway" aws-hub-gw1 {
   aws_iam_role_firewall   = "iam_role_name_for_firewall"
   region                  = "us-east-1"
   vpc_id                  = valtix_service_vpc.service_vpc.id
-  transit_gateway_id      = data.aws_ec2_transit_gateway.transit_gateway.id
 }
 ```
 
@@ -179,7 +178,6 @@ resource "valtix_gateway" aws-hub-gw1 {
   aws_iam_role_firewall   = "iam_role_name_for_firewall"
   region                  = "us-east-1"
   vpc_id                  = valtix_service_vpc.service_vpc.id
-  transit_gateway_id      = data.aws_ec2_transit_gateway.transit_gateway.id
   aws_gateway_lb          = "true"
 }
 ```
@@ -236,7 +234,6 @@ For EGRESS gateway set the **security_type = EGRESS**
 * `azure_resource_group` - (Azure - Required) Azure resource group name used for all Valtix gateway resources
 * `region` - (Required) Region where the Valtix gateway is deployed.
 * `vpc_id` - (Required) VPC ID where the Valtix gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via transit gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to a services VPC ID attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
-* `transit_gateway_id` - (AWS HUB mode - Required) Transit Gateway ID for Valtix gateway deployment in HUB mode
 * `aws_gateway_lb` - (Optional only for AWS HUB mode) "true" or "false".  If attribute is "true", this will deploy AWS Gateway using AWS Gateway Load Balancer.  This is only for EGRESS gateway that will support both East-West and Egress traffic.  This is only available for HUB mode and used in regions that support AWS Gateway Load Balancer
 * `mgmt_vpc_id` - (GCP - Required) GCP VPC ID where the management interface of the Valtix Gateway is attached.
 * `mgmt_security_group` - (Required except for AWS HUB mode) Security group ID for management traffic or GCP network tag to be used to define GCP firewall rules for Valtix firewall instances to communicate with the Valtix controller. This must allow all outbound access from Valtix management interface

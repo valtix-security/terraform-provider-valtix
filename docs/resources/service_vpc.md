@@ -11,6 +11,7 @@ resource "valtix_service_vpc" service_vpc {
   region             = "us-east-1"
   cidr               = "10.10.0.0/16"
   availability_zones = ["us-east-1a", "us-east-1b"]
+  transit_gateway_id = data.aws_ec2_transit_gateway.transit_gateway.id
 }
 ```
 
@@ -21,6 +22,7 @@ resource "valtix_service_vpc" service_vpc {
 * `region` - (Required) The AWS region where the service VPC will be deployed
 * `cidr` - (Required) The CIDR of the service VPC to be deployed
 * `availability_zones` - (Required) The list of availability zones that the service VPC will use.  HUB mode gateways deployed in this service VPC will use all availability zones defined here
+* `transit_gateway_id` - (Required) Transit Gateway ID for the service VPC to attach to
 
 ## Attribute Reference
 
