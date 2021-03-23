@@ -5,6 +5,14 @@ Valtix Service VPC is used for AWS deployments to create a Valtix Service VPC as
 ## Example Usage
 
 ```hcl
+data "aws_ec2_transit_gateway" "transit_gateway" {
+  filter {
+    name   = "tag:Name"
+    values = "transit-gateway1"
+  }
+}
+
+
 resource "valtix_service_vpc" service_vpc {
   name               = "service_vpc"
   csp_account_name   = "aws_account_1"
