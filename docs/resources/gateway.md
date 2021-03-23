@@ -132,13 +132,6 @@ resource "valtix_gateway" aws-gw1 {
 ### AWS HUB mode Gateway
 
 ```hcl
-data "aws_ec2_transit_gateway" "transit_gateway" {
-  filter {
-    name   = "tag:Name"
-    values = "transit-gateway1"
-  }
-}
-
 resource "valtix_gateway" aws-hub-gw1 {
   name                    = "aws-hub-gw1"
   description             = "AWS Gateway 1"
@@ -158,13 +151,6 @@ resource "valtix_gateway" aws-hub-gw1 {
 ### AWS HUB mode with AWS Gateway Load Balancer
 
 ```hcl
-data "aws_ec2_transit_gateway" "transit_gateway" {
-  filter {
-    name   = "tag:Name"
-    values = "transit-gateway1"
-  }
-}
-
 resource "valtix_gateway" aws-hub-gw1 {
   name                    = "aws-hub-gw1"
   description             = "AWS Gateway 1"
