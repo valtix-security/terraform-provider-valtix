@@ -88,7 +88,7 @@ resource "valtix_service_object" app2-svc-https {
 
 ### Forward Proxy (Egress) Service object
 
-```
+```hcl
 resource "valtix_service_object" internet-http {
   name           = "internet-port-80"
   description    = "allow port 80 to internet"
@@ -109,12 +109,11 @@ resource "valtix_service_object" internet-https {
   }
   tls_profile = valtix_profile_decryption.decryption_profile_2.profile_id
 }
-
 ```
 
 ### Forwarding Service object
 
-```
+```hcl
 resource "valtix_service_object" forward-https {
   name           = "Forward-HTTPS"
   service_type   = "Forwarding"
