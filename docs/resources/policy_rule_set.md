@@ -13,7 +13,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
     description = "listen port 80 to target port 80 on app1"
     type        = "ReverseProxy"
     action      = "ALLOW_LOG"
-    service     = "${valtix_service_object.app1-svc-http.service_id}"
+    service     = "valtix_service_object.app1-svc-http.service_id
     state       = "ENABLED"
   }
   rule {
@@ -21,7 +21,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
     description = "listen port 443 to target port 443 on app1"
     type        = "ReverseProxy"
     action      = "ALLOW_LOG"
-    service     = "${valtix_service_object.app1-svc-https.service_id}"
+    service     = valtix_service_object.app1-svc-https.service_id
     state       = "DISABLED"
   }
 }

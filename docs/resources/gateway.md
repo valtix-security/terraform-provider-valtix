@@ -44,7 +44,7 @@ resource "valtix_gateway" gcp-gw {
   gateway_image             = "2.3-01"
   mode                      = "EDGE"
   security_type             = "INGRESS"
-  policy_rule_set_id        = "${valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id}"
+  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-west1"
   vpc_id                    = "https://www.googleapis.com/compute/v1/projects/gcp-project/global/networks/datapath-vpc"
@@ -114,7 +114,7 @@ resource "valtix_gateway" aws-gw1 {
   gateway_image           = "2.3-04"
   mode                    = "EDGE"
   security_type           = "INGRESS"
-  policy_rule_set_id      = "${valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id}"
+  policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
   ssh_key_pair            = "ssh_keypair1"
   aws_iam_role_firewall   = "iam_role_name_for_firewall"
   region                  = "us-east-1"
@@ -140,7 +140,7 @@ resource "valtix_gateway" aws-hub-gw1 {
   gateway_image           = var.gateway_image
   mode                    = "HUB"
   security_type           = "EGRESS"
-  policy_rule_set_id      = "${valtix_policy_rule_set.egress_policy_rule_set.rule_set_id}"
+  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
   ssh_key_pair            = "ssh_keypair1"
   aws_iam_role_firewall   = "iam_role_name_for_firewall"
   region                  = "us-east-1"
@@ -159,7 +159,7 @@ resource "valtix_gateway" aws-hub-gw1 {
   gateway_image           = var.gateway_image
   mode                    = "HUB"
   security_type           = "EGRESS"
-  policy_rule_set_id      = "${valtix_policy_rule_set.egress_policy_rule_set.rule_set_id}"
+  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
   ssh_key_pair            = "ssh_keypair1"
   aws_iam_role_firewall   = "iam_role_name_for_firewall"
   region                  = "us-east-1"

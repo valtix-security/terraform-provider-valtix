@@ -16,7 +16,7 @@ resource "valtix_cloud_account" aws1 {
   aws_credentials_type     = "AWS_IAM_ROLE"
   aws_iam_role             = "arn:aws:iam::123456789012:role/valtixcontrollerrole"
   aws_account_number       = "123456789012"
-  aws_iam_role_external_id = "${valtix_external_id.extID1.external_id}"
+  aws_iam_role_external_id = var.external_id
 }
 ```
 If using the [Valtix IAM Terraform Module](https://github.com/valtix-security/terraform-aws-valtix-iam), make sure you add a dependency on this module for the Valtix Cloud Account resource using the depends_on meta-argument.
