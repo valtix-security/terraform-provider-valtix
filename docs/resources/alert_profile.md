@@ -5,7 +5,8 @@ Manages certificates that are presented to the end user when they access valtix 
 
 ## Example Usage
 
-** Slack **
+### Slack
+
 ```hcl
 resource "valtix_alert_profile" slack1 {
   name            = "slack1"
@@ -14,7 +15,8 @@ resource "valtix_alert_profile" slack1 {
 }
 ```
 
-** Pagerduty **
+### Pagerduty
+
 ```hcl
 resource "valtix_alert_profile" pd1 {
   name            = "pd1"
@@ -23,7 +25,8 @@ resource "valtix_alert_profile" pd1 {
 }
 ```
 
-** ServiceNow **
+### ServiceNow
+
 ```hcl
 resource "valtix_alert_profile" sn1 {
   name            = "sn1"

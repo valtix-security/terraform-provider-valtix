@@ -33,13 +33,7 @@ resource "valtix_profile_network_intrusion" ips_manual {
 * `description` - (Optional) Description of the IPS profile
 * `auto_update` - (Optional) Auto update the Talos IPS Ruleset version daily with a delay specified by `delay_by_days` parameter. The valid values are true/false and it is true by default..
 * `delay_by_days` - (Optional) How many days before we use a Talos IPS Ruleset version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
-* `talos_ruleset_version` - (Optional) Talos IPS ruleset version. Valid values (as of this publication of this document):
-    * **2.9.11.1-01272021**
-    * **2.9.11.1-01262021**
-    * **2.9.11.1-01252021**
-    * **2.9.11.1-01242021**
-    * **2.9.11.1-01232021**
-    * **2.9.11.1-01222021**
+* `talos_ruleset_version` - (Optional) Talos IPS ruleset version. Find the values from the UI. The rulesets are published everyday. Unless you want to use a specific version, Valtix recommends to use auto_update as described above
 
   If this argument is specified, Auto Update of Talos IPS Ruleset is disabled and the profile will only use this version for Talos IPS Ruleset.
 

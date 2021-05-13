@@ -5,6 +5,7 @@ Manages certificates that are presented to the end user when they access valtix 
 ## Example Usage
 
 ### Import a certificate and key that's on your local file system
+
 ```hcl
 resource "valtix_certificate" cert1 {
   name              = "self_signed_cert_1"
@@ -16,6 +17,7 @@ resource "valtix_certificate" cert1 {
 ```
 
 ### Import a certificate from AWS Secrets Manager
+
 ```hcl
 resource "valtix_certificate" cert1 {
   name             = "aws_secret"
@@ -28,6 +30,7 @@ resource "valtix_certificate" cert1 {
 ```
 
 ### Import a certificate from AWS KMS
+
 ```hcl
 resource "valtix_certificate" kms {
   name                    = "aws_kms"
@@ -40,6 +43,7 @@ resource "valtix_certificate" kms {
 ```
 
 ### Import a certificate from Azure Key Vault and Secret
+
 ```hcl
 resource "valtix_certificate" azure {
   name                        = "azure"
@@ -53,6 +57,7 @@ resource "valtix_certificate" azure {
 ```
 
 ### Import a certificate from GCP Secrets Manager
+
 ```hcl
 resource "valtix_certificate" cert1 {
   name             = "self_signed_cert_1"

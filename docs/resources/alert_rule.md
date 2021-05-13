@@ -4,7 +4,6 @@ Define the rules for the alerts and the destination alert profile where the aler
 
 ## Example Usage
 
-** Slack Profile **
 ```hcl
 resource "valtix_alert_profile" slack1 {
   name            = "slack1"

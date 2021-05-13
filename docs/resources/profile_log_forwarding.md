@@ -4,7 +4,8 @@ Create Log Forwarding Profile
 
 ## Example Usage
 
-# syslog profile
+### syslog
+
 ```hcl
 resource "valtix_profile_log_forwarding" syslog1 {
   name                    = "syslog1"
@@ -18,7 +19,8 @@ resource "valtix_profile_log_forwarding" syslog1 {
 }
 ```
 
-# splunk
+### splunk
+
 ```hcl
 resource "valtix_profile_log_forwarding" splunk1 {
   name                    = "splunk1"
@@ -31,7 +33,8 @@ resource "valtix_profile_log_forwarding" splunk1 {
 }
 ```
 
-# datadog
+### datadog
+
 ```hcl
 resource "valtix_profile_log_forwarding" datadog1 {
   name                    = "datadog1"
@@ -44,7 +47,8 @@ resource "valtix_profile_log_forwarding" datadog1 {
 ```
 
 
-# gcp log-forwarding
+### gcp log-forwarding
+
 ```hcl
 resource "valtix_profile_log_forwarding" gcplog1 {
   name                    = "gcplog1"
