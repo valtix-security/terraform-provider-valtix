@@ -168,6 +168,16 @@ port {
 * `port` - (Required) This can be specified multiple times if the service can run on multiple ports. Structure is [documented below](#forwardproxy-port)
 * `tls_profile` - (Optional) Decryption profile id.
 
+## Forwarding
+
+* `name` - (Required) Name of the service object
+* `description` - Description of the service object
+* `service_type` - (Required) "Forwarding"
+* `protocol` - (Optional) "TCP" or "UDP". "TCP" is default.
+* `port` - (Required) This can be specified multiple times if the service can run on multiple ports. Structure is [documented below](#forwardproxy-port)
+* `source_nat` - (Optional) true or false. Specifies whether source NAT (Network Address Translation) would be performed on the packet flow
+
+
 ## ForwardProxy Port
 port can be specified multiple times to define a list of ports that the service can listen.
 
@@ -178,3 +188,5 @@ port {
 ```
 
 * `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.g "80" or "80-100")
+
+
