@@ -1,12 +1,21 @@
-~> **Note on PolicyRuleSet and PolicyRules**
-It is recommended to use the policy_rules resource to define the firewall policies instead of defining the rules inline here
+~> **Note on valtix_policy_rule_set and valtix_policy_rules**
+It is recommended to use the valtix_policy_rules resource to define the firewall policies instead of defining the rules inline in this resource. Use this resource to just define the (empty) policy rule set only
 
 # Resource: valtix_policy_rule_set
 
-A policy rule set is a list of firewall rules. The rule set can be applied to
-multiple gateways to achieve identical security posture.
+A policy rule set is a list of firewall rules. The rule set can be applied to multiple gateways to achieve identical security posture. It is recommended to create an empty policy rule set with this resource and manage the rules using the valtix_policy_rules resource.
 
 ## Example Usage
+
+**Define empty rule set (recommended. Use valtix_policy_rules to define the rules)**
+
+```hcl
+resource "valtix_policy_rule_set" ingress_policy_rule_set {
+  name = "ingress_rule_set"
+}
+```
+
+**With inline rules (not recommended. Use valtix_policy_rules)**
 
 ```hcl
 resource "valtix_policy_rule_set" ingress_policy_rule_set {
