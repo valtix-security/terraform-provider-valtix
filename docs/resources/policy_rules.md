@@ -1,16 +1,15 @@
-~> **Note on PolicyRuleSet and PolicyRules**
-It is recommended to use the policy_rules resource to define the firewall policies instead of defining the rules inline here
+~> **Note on PolicyRules and PolicyRuleSet**
+Terraform currently provides both a standalone PolicyRules resource and a PolicyRuleSet resource with rules defined in-line. At this time you cannot use a PolicyRuleSet with in-line rules in conjunction with any PolicyRules resource. Doing so will cause a conflict of rule settings and will overwrite rules.  It is recommended to use PolicyRules to define all the firewall policies.
 
-# Resource: valtix_policy_rule_set
+# Resource: valtix_policy_rules
 
-A policy rule set is a list of firewall rules. The rule set can be applied to
-multiple gateways to achieve identical security posture.
+Policy Rules is a list of firewall rules that are specified for a Policy Rule Set. 
 
 ## Example Usage
 
 ```hcl
-resource "valtix_policy_rule_set" ingress_policy_rule_set {
-  name = "ingress_rule_set"
+resource "valtix_policy_rules" ingress_policy_rules {
+  rule_set_id = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
   rule {
     name        = "rule1"
     description = "listen port 80 to target port 80 on app1"
@@ -32,8 +31,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 
 ## Argument Reference
 
-* `name` - (Required) Name of the rule set
-* `description` - (Optional) Description of the rule set
+* `rule_set_id` - (Required) The ID of the Policy Rule Set 
 * `rule` - A list of rules, this block can be repeated multiple times. Look below for the [definition/structure](#rule) of the rule
 
 ## Rule
