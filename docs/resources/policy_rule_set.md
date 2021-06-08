@@ -1,3 +1,6 @@
+~> **Note on PolicyRuleSet and PolicyRules**
+It is recommended to use the policy_rules resource to define the firewall policies instead of defining the rules inline here
+
 # Resource: valtix_policy_rule_set
 
 A policy rule set is a list of firewall rules. The rule set can be applied to

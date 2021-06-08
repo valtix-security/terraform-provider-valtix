@@ -1,5 +1,5 @@
 ~> **Note on PolicyRules and PolicyRuleSet**
-Terraform currently provides both a standalone PolicyRules resource and a PolicyRuleSet resource with rules defined in-line. At this time you cannot use a PolicyRuleSet with in-line rules in conjunction with any PolicyRules resource. Doing so will cause a conflict of rule settings and will overwrite rules. If you use the PolicyRules resource for any PolicyRuleSet, then you should only define the rules in the PolicyRules resource.
+Terraform currently provides both a standalone PolicyRules resource and a PolicyRuleSet resource with rules defined in-line. At this time you cannot use a PolicyRuleSet with in-line rules in conjunction with any PolicyRules resource. Doing so will cause a conflict of rule settings and will overwrite rules.  It is recommended to use PolicyRules to define all the firewall policies.
 
 # Resource: valtix_policy_rules
 
