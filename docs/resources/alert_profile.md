@@ -43,3 +43,7 @@ resource "valtix_alert_profile" sn1 {
 * `type` - (Required) One of "SlackWebHook", "PagerDutyEventApi", "ServiceNowWebHook"
 * `integration_key` - (Required for ServiceNow and Pagerduty) Key
 * `integration_url` - (Required for ServiceNow and Slack) Webhook URL or ServiceNow Url
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources

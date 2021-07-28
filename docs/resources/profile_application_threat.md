@@ -126,3 +126,7 @@ If the type is "SAMPLE", the action is applied once the count of the events matc
 * `type` - (Optional) "RATE" or "SAMPLE". When "RATE" is selected, number_of_events and time must be provided. action is applied once the provided rule_ids match the given count in the given time.
 
 If the type is "SAMPLE", the action is applied once the count of the events matces
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)

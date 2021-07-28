@@ -123,3 +123,7 @@ resource "valtix_address_object" vpc1-ag {
 
 * `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `value` - (Required) Bucket Name
+
+## Attribute Reference
+
+* `address_id` - Id of the profile that can be referenced in other resources (e.g. valtix_service_object)

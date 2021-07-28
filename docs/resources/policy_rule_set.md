@@ -63,3 +63,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 * `url_filter` - (Optional) profile_id of the valtix_profile_url_filter. *e.g. valtix_profile_url_filter.url1.profile_id*
 * `malicious_src_profile` - (Optional) profile_id of the valtix_profile_malicious_src_profile. *e.g. valtix_profile_malicious_src_profile.src1.profile_id*
 * `packet_capture_enabled` - (Optional) true/false. Capture pcap when traffic matches the rule.
+
+## Attribute Reference
+
+* `rule_set_id` - Id of the rule set that can be referenced in other resources (e.g. valtix_policy_rules)
