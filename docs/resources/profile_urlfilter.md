@@ -9,16 +9,16 @@ resource "valtix_profile_urlfilter" url1 {
   name        = "url1"
   description = "predefined rules tagged as 'connectivity'"
   url_filter_list {
-    url    = "https://www.website1.com"
+    url_list    = ["www.website1.com", "www.website2.com"]
     policy = "ALLOW_LOG"
   }
   url_filter_list {
-    url           = "https://www.website2.com"
+    url_list      = ["www.website2.com", "www.website3.com"]
     policy        = "DENY_NOLOG"
     return_status = 400
   }
   url_filter_list {
-    url            = "https://www.website3.com"
+    url_list       = ["www.website4.com", "www.website5.com"]
     policy         = "DENY_NOLOG"
     filter_methods = ["POST"]
     return_status  = 400
@@ -39,7 +39,7 @@ resource "valtix_profile_urlfilter" url1 {
 
 ## URL Filter
 
-* `url` - (Required) String or regular expression or a predefined Category
+* `url_list` - (Required) List of Strings or regular expressions or predefined Categories
 * `filter_methods` - (Optional) URL Methods (GET, POST etc). Default all the methods
 * `policy` - (Required) Action to take on the matching url (and method) "ALLOW_LOG", "ALLOW" (does not log the flow), "DENY_NOLOG" (does not log the flow), "DENY" (log the flow).
 * `return_status` - (Optional) HTTP status code to return for DENY and DENY_NOLOG policy
