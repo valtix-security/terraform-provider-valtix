@@ -189,4 +189,6 @@ port {
 
 * `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.g "80" or "80-100")
 
+## Attribute Reference
 
+* `service_id` - Id of the service object that can be referenced in other resources (e.g. valtix_policy_rules)

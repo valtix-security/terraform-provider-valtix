@@ -5,21 +5,21 @@ Create FQDN filtering profile
 ## Example Usage
 
 ```hcl
-resource "valtix_profile_fqdn" url1 {
-  name        = "fqdn1"
+resource "valtix_profile_fqdn" "url1" {
+  name        = "fqdn2"
   description = "fqdn filter"
   fqdn_filter_list {
-    fqdn    = "https://www.website1.com"
-    policy = "ALLOW_LOG"
+    fqdn_list            = ["www.website1.com", "www.website2.com"]
+    policy               = "ALLOW_LOG"
+    decryption_exception = false
   }
   fqdn_filter_list {
-    fqdn           = "https://www.website2.com"
-    policy        = "DENY_LOG"
+    fqdn_list            = ["www.website3.com", "www.website4.com"]
+    policy               = "DENY_NOLOG"
     decryption_exception = true
   }
   default_fqdn_filter {
-    fqdn           = ".*"
-    policy        = "DENY_LOG"
+    policy               = "DENY_NOLOG"
     decryption_exception = false
   }
 }
@@ -35,6 +35,10 @@ resource "valtix_profile_fqdn" url1 {
 
 ## FQDN Filter
 
-* `fqdn` - (Required) String or regular expression or a predefined Category
+* `fqdn_list` - (Required) List of strings or regular expressions or predefined Categories
 * `policy` - (Required) Action to take on the matching url (and method) "ALLOW_LOG", "ALLOW" (does not log the flow), "DENY_NOLOG" (does not log the flow), "DENY" (log the flow).
-* `decryption_exception` - (Optional) true/false. In the proxy mode disable decryption and inspection of packets
+* `decryption_exception` - (Optional) true/false. In the proxy mode disable decryption and inspection of packets. Defaults to true.
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)

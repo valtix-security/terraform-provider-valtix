@@ -37,3 +37,7 @@ resource "valtix_profile_dlp" dlp1 {
     * **ALERT**
     * **DROP**
     * **PASS**
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)
