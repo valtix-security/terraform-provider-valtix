@@ -38,3 +38,7 @@ resource "valtix_profile_anti_virus" av_manual {
     * **ALERT** (logs in AV events)
     * **DROP** (drop the traffic and log the events)
     * **SILENTDROP** (drop the traffic and no log of events)
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)

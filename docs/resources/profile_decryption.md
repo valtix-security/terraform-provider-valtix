@@ -16,3 +16,7 @@ resource "valtix_profile_decryption" decryption_profile_1 {
 * `name` - (Required) Name of the decryption profile
 * `description` - (Optional) Description of the profile
 * `certificate_name` - (Required) Certificate name from the valtix_certificate object
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_service_object)

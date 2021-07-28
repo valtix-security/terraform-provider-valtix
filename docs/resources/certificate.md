@@ -102,3 +102,7 @@ resource "valtix_certificate" cert1 {
 * `region` - (Required) Region where the key/secret is location
 * `azure_key_vault_name` - (Required) Azure key vault name
 * `azure_key_vault_secret_name` - (Required) Azure secret name
+
+## Attribute Reference
+
+* `name` - Name of the certificate that can be referenced in other resources (e.g. valtix_profile_decryption)
