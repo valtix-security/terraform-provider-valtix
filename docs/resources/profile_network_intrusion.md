@@ -27,6 +27,57 @@ resource "valtix_profile_network_intrusion" ips_manual {
 }
 ```
 
+### Advanced Example with all the attributes
+
+```hcl
+resource "valtix_profile_network_intrusion" "ips_manual" {
+  name                  = "ips_manual"
+  description           = "predefined rules tagged as 'connectivity'"
+  policy                = "CONNECTIVITY"
+  action                = "ALERT"
+  policy_action         = "ALERT"
+  talos_ruleset_version = "2.9.11-07092021"
+  categories {
+    name = "app-detect"
+    action = "ALERT"
+  }
+  categories {
+    name = "browser-chrome"
+    action = "ALERT"
+  }
+  classes {
+    name = "attempted-admin"
+    action = "ALERT"
+  }
+  classes {
+    name = "attempted-dos"
+    action = "ALERT"
+  }
+  rule_event_filter {
+    rule_ids = ["12345", "12346"]
+    type = "SAMPLE"
+    number_of_events = "3"
+  }
+  rule_event_filter {
+    rule_ids = ["7689"]
+    type = "SAMPLE"
+    number_of_events = "3"
+  }
+  event_suppressor {
+    source_ips = ["172.16.1.252", "172.22.0.0/16"]
+    rule_ids = ["12345", "12346"]
+  }
+  event_suppressor {
+    source_ips = ["0.0.0.0"]
+    rule_ids = ["7689"]
+  }
+  profile_event_filter {
+    type = "SAMPLE"
+    number_of_events = "3"
+  }
+}
+```
+
 ## Argument Reference
 
 * `name` - (Required) Name of the IPS profile
@@ -47,11 +98,11 @@ resource "valtix_profile_network_intrusion" ips_manual {
     * **SECURITY**
     * **MAX_DETECT**
 * `policy_action` - (Optional) Action to apply for the predefined policy. Look at action attribute for valid values. If this is not specified, the action defined in the 'action' attribute is used.
-* `categories` - (Optional) List of predefined categories. Structure [defined below](#categories)
-* `classes` - (Optional) List of predefined classes. Structure [defined below](#classes)
+* `categories` - (Optional) Predefined Categories. Structure [defined below](#categories). This block can be repeated multiple times.
+* `classes` - (Optional) Predefined classes. Structure [defined below](#classes). This block can be repeated multiple times.
 * `pcap` - (Optional) true/false. Capture pcap when traffic matches the IPS rules
-* `rule_event_filter` - (Optional) Rate Limit / Sample a set of rules. Structure is [defined below](#rule-event-filter)
-* `event_suppressor` - (Optional) Suppress a given set of rule ids for traffic from certain sources. Structure is [defined below](#event-suppressor)
+* `rule_event_filter` - (Optional) Rate Limit / Sample a set of rules. Structure is [defined below](#rule-event-filter). This block can be repeated multiple times.
+* `event_suppressor` - (Optional) Suppress a given set of rule ids for traffic from certain sources. Structure is [defined below](#event-suppressor). This block can be repeated multiple times.
 * `profile_event_filter` - (Optional) Similar to the rule_event_filter but applies to the whole profile instead of specific rule(s).  Structure is [defined below](#profile-event-filter)
 
 ## Categories
@@ -84,3 +135,7 @@ If the type is "SAMPLE", the action is applied once the count of the events matc
 * `type` - (Optional) "RATE" or "SAMPLE". When "RATE" is selected, number_of_events and time must be provided. action is applied once the provided rule_ids match the given count in the given time.
 
 If the type is "SAMPLE", the action is applied once the count of the events matces
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)

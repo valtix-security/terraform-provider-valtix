@@ -80,10 +80,14 @@ resource "valtix_profile_log_forwarding" gcplog1 {
 
 ### SYSLOG
 * `syslog_server_ip` - (Required) syslog server ip
-* `syslog_server_port` - (Required) syslog server port
+* `syslog_port` - (Required) syslog server port
 * `network_threat_severity` - (Required) syslog server port
 * `syslog_flow_logs` - (Optional) true/false. forward flow logs to syslog
 * `syslog_firewall_events` - (Optional) true/false. forward firewall events to syslog
 * `syslog_https_logs` - (Optional) true/false. forward tls logs to syslog
 * `network_threat_severity` - (Optional) One of "Alert", "Emergency", "Critical", "Error", "Warning", "Notice", "Info", "Debug". Forward network threat events (ips) with the given severity only
 * `web_attack_severity` - (Optional) One of "Alert", "Emergency", "Critical", "Error", "Warning", "Notice", "Info", "Debug". Forward web attacks with the given severity only
+
+## Attribute Reference
+
+* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_gateway)
