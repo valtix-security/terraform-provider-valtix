@@ -194,7 +194,7 @@ resource "valtix_gateway" azure_gw1 {
 }
 ```
 
-For EGRESS gateway set the **security_type = EGRESS**
+For EGRESS and East-West gateway set the **security_type = EGRESS**
 
 ## Argument Reference
 
@@ -203,12 +203,9 @@ For EGRESS gateway set the **security_type = EGRESS**
 * `csp_account_name` - (Required) The CSP account where the gateway will be deployed.
 * `instance_type` - (Required) Must be one of:
     * **GCP_E2_8**
-    * **GCP_N1_8**
     * **AWS_M5_2XLARGE**
-    * **AWS_C4_2XLARGE**
-    * **AZURE_F8S_V2**
-    * **AZURE_DS8S_V3**
-* `gateway_image` - (Required) Example "2.3-01". This is the Valtix image version to be deployed for this gateway.  Please consult with Valtix support for recommended version.
+    * **AZURE_D8S_V3**
+* `gateway_image` - (Required) Example "2.3-01". This is the Valtix image version to be deployed for this gateway. Please consult with Valtix support for recommended version.
 * `mode` - (Required) "EDGE" or "HUB".  Use "EDGE" for Azure, GCP and for AWS Single VPC. Use "HUB" for AWS Transit Gateway deployment mode
 * `security_type` - (Optional) "INGRESS" or "EGRESS". Default "INGRESS"
 * `policy_rule_set_id` - (Required) Rule set id of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
@@ -239,3 +236,20 @@ This section is not required for AWS HUB mode as instance details are configured
 * `availability_zone` - (Required) specifies the availability zone where the Valtix gateway instance(s) are deployed
 * `mgmt_subnet` - (Required) specifies the VPC subnet ID used for management traffic where the Valtix gateway instance(s) are deployed for this availability zone.
 * `datapath_subnet` - (Required) specifies the VPC subnet ID used for data traffic where the Valtix gateway instance(s) are deployed for this availability zone.
+
+## Attribute Reference
+
+* `gateway_gwlb_endpoints` - AWS Gateway Load Balancer endpoints created in each of the AZs. It's in the following format
+    ```
+    gateway_gwlb_endpoints {
+        endpoint_id          = "vpce-047c749fc6f7e0c0d"
+        network_interface_id = "eni-017eacdb23d2ebaf4"
+        subnet_id            = "subnet-0d61750e97caafd9d"
+    }
+    gateway_gwlb_endpoints {
+        endpoint_id          = "vpce-0707fa3f03c5064a7"
+        network_interface_id = "eni-020464bd838461bca"
+        subnet_id            = "subnet-0fd61e07f200224f1"
+    }
+    ```
+* `gateway_endpoint` - For the Ingress Gateway, shows the NLB DNS/IP of the Valtix Gateway. This must be used as an endpoint for your application and Valtix proxies the traffic received on this endpoint to the target application configured

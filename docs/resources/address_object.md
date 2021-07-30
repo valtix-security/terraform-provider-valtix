@@ -127,3 +127,4 @@ resource "valtix_address_object" vpc1-ag {
 ## Attribute Reference
 
 * `address_id` - Id of the profile that can be referenced in other resources (e.g. valtix_service_object)
+
