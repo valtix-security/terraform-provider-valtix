@@ -26,6 +26,23 @@ resource "valtix_address_object" app1-lb-tag {
 }
 ```
 
+### dynamic user defined tag object using one or more tags
+```hcl
+resource "valtix_address_object" udf-tag-ag {
+  name            = "udf-tag-ag"
+  description     = "ip addresses of instances using user defined tags"
+  type            = "DYNAMIC_USER_DEFINED_TAG"
+  tag_list {
+      tag_key = "tag-name1"
+      tag_value = "tag-value1"
+  }
+  tag_list {
+     tag_key = "tag-name2"
+     tag_value = "tag-value2"
+  }
+}
+```
+
 ### dynamic vpc, use all the IP addresses with in the VPC (including public ips)
 ```hcl
 resource "valtix_address_object" vpc1-ag {
@@ -35,6 +52,17 @@ resource "valtix_address_object" vpc1-ag {
   vpc_id           = data.aws_vpc.gw_vpc.id
   csp_account_name = valtix_cloud_account.aws1.name
   region           = var.aws_region
+}
+```
+
+
++### dynamic address object (group) using a collection of address objects
+```hcl
+resource "valtix_address_object" addr-group-ag {
+  name            = "addr-group-ag"
+  description     = "collection of address groups"
+  type            = "GROUP"
+  address_group_ids = [48, 52]
 }
 ```
 
@@ -53,6 +81,7 @@ resource "valtix_address_object" vpc1-ag {
     * DYNAMIC_SERVICE_ENDPOINTS
     * GEO_IP
     * STORAGE_BUCKET
+    * GROUP
 
 ## Additional arguments based on the type
 
@@ -103,12 +132,11 @@ resource "valtix_address_object" vpc1-ag {
 
 ## DYNAMIC_USER_DEFINED_TAG
 
-* `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
-* `region` - (Required) Region where the VPC is defined
-* `vpc_id` - (Required) VPC Id
-* `tag_key` - (Required), name of the tag
-* `tag_value` - (Required), value of the tag
-* `resource_group` - (Azure only) Resource group name
+* `csp_account_name` - (Optional) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
+* `region` - (Optional) Region where the VPC is defined
+* `vpc_id` - (Optional) VPC Id
+* `tag_list` - (Required), list of tag key and tag value
+* `resource_group` - (Azure only - optional) Resource group name
 
 ## DYNAMIC_SERVICE_ENDPOINTS
 
@@ -123,6 +151,12 @@ resource "valtix_address_object" vpc1-ag {
 
 * `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `value` - (Required) Bucket Name
+
+
+## GROUP
+
+* `address_group_ids` - (Required) list of address ids that can be grouped together
+
 
 ## Attribute Reference
 
