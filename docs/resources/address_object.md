@@ -21,8 +21,10 @@ resource "valtix_address_object" app1-lb-tag {
   description     = "application load balancer using a tag"
   type            = "DYNAMIC_APPLICATIONS"
   backend_address = true
-  tag_key         = "tag-name"
-  tag_value       = "tag-value"
+  tag_list {
+      tag_key = "tag-name1"
+      tag_value = "tag-value1"
+  }
 }
 ```
 
@@ -92,8 +94,9 @@ resource "valtix_address_object" addr-group-ag {
 
 ## DYNAMIC_APPLICATIONS
 
-* `tag_key` - (Required), name of the tag
-* `tag_value` - (Required), value of the tag
+* `tag_key` - (Deprecated), name of the tag
+* `tag_value` - (Deprecated), value of the tag
+* `tag_list` - (Required), specify the tag_key and tag_value in the tag list
 * `csp_account_name` - (Optional) Restrict the tag_key and tag_value for only the given csp_account_name (e.g "gcp1". This is the name of the account added via valtix_cloud_account)
 * `vpc_id` - (OptionalRestrict the tag_key and tag_value for only the given vpc_id
 * `region` - (Optional) Restrict the tag_key and tag_value for only the given region (e.g "us-east1")
