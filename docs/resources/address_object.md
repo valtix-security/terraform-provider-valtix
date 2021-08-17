@@ -64,7 +64,7 @@ resource "valtix_address_object" addr-group-ag {
   name            = "addr-group-ag"
   description     = "collection of address groups"
   type            = "GROUP"
-  address_group_ids = [48, 52]
+  address_group_ids = [valtix_address_object.addr1.address_id, valtix_address_object.addr2.address_id]
 }
 ```
 
