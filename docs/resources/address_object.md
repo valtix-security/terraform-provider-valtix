@@ -58,7 +58,7 @@ resource "valtix_address_object" vpc1-ag {
 ```
 
 
-+### dynamic address object (group) using a collection of address objects
+### dynamic address object (group) using a collection of address objects
 ```hcl
 resource "valtix_address_object" addr-group-ag {
   name            = "addr-group-ag"
