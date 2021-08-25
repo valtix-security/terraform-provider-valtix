@@ -96,7 +96,7 @@ resource "valtix_address_object" addr-group-ag {
 
 * `tag_key` - (Deprecated), name of the tag
 * `tag_value` - (Deprecated), value of the tag
-* `tag_list` - (Required), specify the tag_key and tag_value in the tag list
+* `tag_list` - (Required) object with tag_key=<key> and tag_value=<value>, this block can be repeated multiple times. Application is selected if ALL the tags specified match
 * `csp_account_name` - (Optional) Restrict the tag_key and tag_value for only the given csp_account_name (e.g "gcp1". This is the name of the account added via valtix_cloud_account)
 * `vpc_id` - (OptionalRestrict the tag_key and tag_value for only the given vpc_id
 * `region` - (Optional) Restrict the tag_key and tag_value for only the given region (e.g "us-east1")
@@ -138,7 +138,7 @@ resource "valtix_address_object" addr-group-ag {
 * `csp_account_name` - (Optional) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `region` - (Optional) Region where the VPC is defined
 * `vpc_id` - (Optional) VPC Id
-* `tag_list` - (Required), list of tag key and tag value
+* `tag_list` - (Required) object with tag_key=<key> and tag_value=<value>, this block can be repeated multiple times. Application is selected if ALL the tags specified match
 * `resource_group` - (Azure only - optional) Resource group name
 
 ## DYNAMIC_SERVICE_ENDPOINTS
