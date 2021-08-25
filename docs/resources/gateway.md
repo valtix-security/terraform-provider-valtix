@@ -227,6 +227,7 @@ For EGRESS and East-West gateway set the **security_type = EGRESS**
 * `log_profile` - (Optional) log profile id *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
 * `packet_capture_profile` - (Optional) packet profile id *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
 * `diagnostics_profile` - (Optional) diagnostics profile id *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
+* `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure. 
 * `instance_details` - (Required) contains the parameters used to deploy gateway in each availability zone. This block can be repeated multiple times for deploying gateway instances in multiple zones. Look below for the structure of this block. Atleast 1 block must be provided.
 
 ## Instance Details
@@ -236,6 +237,34 @@ This section is not required for AWS HUB mode as instance details are configured
 * `availability_zone` - (Required) specifies the availability zone where the Valtix gateway instance(s) are deployed
 * `mgmt_subnet` - (Required) specifies the VPC subnet ID used for management traffic where the Valtix gateway instance(s) are deployed for this availability zone.
 * `datapath_subnet` - (Required) specifies the VPC subnet ID used for data traffic where the Valtix gateway instance(s) are deployed for this availability zone.
+
+## Gateway settings
+
+Gateway settings define a list of settings that applies to the given gateway
+
+
+### To enable EBS encryption for the gateway instances using default KMS key
+```hcl
+settings {
+  name = "gateway.aws.ebs.encryption.key.default"
+  value = "true"
+}
+```
+### To enable EBS encryption for the gateway instances using specified KMS key
+```hcl
+settings {
+  name = "gateway.aws.ebs.encryption.key.customer_key"
+  value = "<KMS key ID>"
+}
+```
+
+### To add a list of custom tags to the gateway instances
+```hcl
+settings {
+  name = "custom_tags"
+  value = "[{\"key\":\"customer_key1\",\"value\":\"customer_value1\"},{\"key\":\"customer_key2\",\"value\":\"customer_value2\"}]"
+}
+```
 
 ## Attribute Reference
 
