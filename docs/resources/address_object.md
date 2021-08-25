@@ -98,7 +98,7 @@ resource "valtix_address_object" addr-group-ag {
 * `tag_value` - (Deprecated), value of the tag
 * `tag_list` - (Required) object with tag_key=<key> and tag_value=<value>, this block can be repeated multiple times. Application is selected if ALL the tags specified match
 * `csp_account_name` - (Optional) Restrict the tag_key and tag_value for only the given csp_account_name (e.g "gcp1". This is the name of the account added via valtix_cloud_account)
-* `vpc_id` - (OptionalRestrict the tag_key and tag_value for only the given vpc_id
+* `vpc_id` - (Optional) Restrict the tag_key and tag_value for only the given vpc_id
 * `region` - (Optional) Restrict the tag_key and tag_value for only the given region (e.g "us-east1")
 * `resource_group` - (Azure only) Resource group name
 
