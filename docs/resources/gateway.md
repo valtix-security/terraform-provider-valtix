@@ -281,4 +281,5 @@ settings {
         subnet_id            = "subnet-0fd61e07f200224f1"
     }
     ```
+
 * `gateway_endpoint` - For the Ingress Gateway, shows the NLB DNS/IP of the Valtix Gateway. This must be used as an endpoint for your application and Valtix proxies the traffic received on this endpoint to the target application configured
