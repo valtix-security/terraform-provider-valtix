@@ -34,9 +34,6 @@ terraform {
 }
 
 provider "valtix" {
-  acctname     = "valtix-provided-tenant-name"
-  server       = "server-url"
-  port         = "port-number"
   api_key_file = file(var.valtix_api_key_file)
 }
 ```
