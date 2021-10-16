@@ -129,46 +129,27 @@ resource "valtix_gateway" aws-gw1 {
 }
 ```
 
-### AWS HUB mode Gateway
-
-```hcl
-resource "valtix_gateway" aws-hub-gw1 {
-  name                    = "aws-hub-gw1"
-  description             = "AWS Gateway 1"
-  csp_account_name        = "aws_account_1"
-  instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = var.gateway_image
-  mode                    = "HUB"
-  security_type           = "EGRESS"
-  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
-  ssh_key_pair            = "ssh_keypair1"
-  aws_iam_role_firewall   = "iam_role_name_for_firewall"
-  region                  = "us-east-1"
-  vpc_id                  = valtix_service_vpc.service_vpc.id
-}
-```
-
 ### AWS HUB mode with AWS Gateway Load Balancer
 
 ```hcl
-resource "valtix_gateway" aws-hub-gw1 {
-  name                    = "aws-hub-gw1"
-  description             = "AWS Gateway 1"
-  csp_account_name        = "aws_account_1"
-  instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = var.gateway_image
-  mode                    = "HUB"
-  security_type           = "EGRESS"
-  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
-  ssh_key_pair            = "ssh_keypair1"
-  aws_iam_role_firewall   = "iam_role_name_for_firewall"
-  region                  = "us-east-1"
-  vpc_id                  = valtix_service_vpc.service_vpc.id
-  aws_gateway_lb          = "true"
+resource "valtix_gateway" "aws-hub-gw1" {
+  name                  = "aws-hub-gw1"
+  description           = "AWS Gateway 1"
+  csp_account_name      = "aws_account_1"
+  instance_type         = "AWS_M5_2XLARGE"
+  gateway_image         = var.gateway_image
+  mode                  = "HUB"
+  security_type         = "EGRESS"
+  policy_rule_set_id    = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  ssh_key_pair          = "ssh_keypair1"
+  aws_iam_role_firewall = "iam_role_name_for_firewall"
+  region                = "us-east-1"
+  vpc_id                = valtix_service_vpc.service_vpc.id
+  aws_gateway_lb        = "true"
 }
 ```
 
-### Azure Gateway
+### Azure Gateway (EDGE Mode - VNet managed by the customer)
 
 ```hcl
 resource "valtix_gateway" azure_gw1 {
@@ -194,6 +175,25 @@ resource "valtix_gateway" azure_gw1 {
 }
 ```
 
+### Azure Gateway (HUB Mode - Service VNet Managed by Valtix)
+
+```hcl
+resource "valtix_gateway" "azure_gw1" {
+  name                 = "gw1"
+  csp_account_name     = valtix_cloud_account.azure_act.name
+  instance_type        = "AZURE_F8S_V2"
+  azure_resource_group = "rg1"
+  gateway_image        = var.gateway_image
+  mode                 = "EDGE"
+  security_type        = "INGRESS"
+  ssh_public_key       = file(var.ssh_public_key_file)
+  azure_user_name      = "centos"
+  policy_rule_set_id   = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  region               = var.region
+  vpc_id               = valtix_service_vpc.svpc1.id
+}
+```
+
 For EGRESS and East-West gateway set the **security_type = EGRESS**
 
 ## Argument Reference
@@ -216,8 +216,8 @@ For EGRESS and East-West gateway set the **security_type = EGRESS**
 * `azure_user_identity_id` - (Azure - Optional) User assgined identity This is the IAM role that's assigned to the Valtix firewall instances.
 * `azure_resource_group` - (Azure - Required) Azure resource group name used for all Valtix gateway resources
 * `region` - (Required) Region where the Valtix gateway is deployed.
-* `vpc_id` - (Required) VPC ID where the Valtix gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via transit gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to a services VPC ID attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
-* `aws_gateway_lb` - (Optional only for AWS HUB mode) "true" or "false".  If attribute is "true", this will deploy AWS Gateway using AWS Gateway Load Balancer.  This is only for EGRESS gateway that will support both East-West and Egress traffic.  This is only available for HUB mode and used in regions that support AWS Gateway Load Balancer
+* `vpc_id` - (Required) VPC ID where the Valtix gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via transit gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to **id** attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
+* `aws_gateway_lb` - (Optional only for AWS HUB mode) "true" or "false".  If attribute is "true", this will deploy AWS Gateway using AWS Gateway Load Balancer.  This is only for EGRESS gateway that will support both East-West and Egress traffic. This is only available for HUB mode and used in regions that support AWS Gateway Load Balancer
 * `mgmt_vpc_id` - (GCP - Required) GCP VPC ID where the management interface of the Valtix Gateway is attached.
 * `mgmt_security_group` - (Required except for AWS HUB mode) Security group ID for management traffic or GCP network tag to be used to define GCP firewall rules for Valtix firewall instances to communicate with the Valtix controller. This must allow all outbound access from Valtix management interface
 * `datapath_security_group` - (Required except for AWS HUB mode) Security group ID for the datapath traffic (application traffic) or GCP network tag to be used to define GCP firewall rules for application traffic to pass through the Valtix Gateway. This must allow traffic to the ports that are defined as services on the Valtix controller
