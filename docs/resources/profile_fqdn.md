@@ -2,22 +2,6 @@
 
 Create FQDN filtering profile
 
-resource "valtix_profile_fqdn" "fqdn1" {
-  name = "fqdn1"
-  fqdn_filter_list {
-    vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
-    }
-    decryption_exception = "false"
-    policy               = "DENY_NOLOG"
-  }
-  default_fqdn_filter {
-    policy               = "ALLOW"
-    decryption_exception = false
-  }
-}
-
 ## Example Usage
 
 ```hcl
