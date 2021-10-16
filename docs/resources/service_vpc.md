@@ -4,36 +4,44 @@ Valtix Service VPC is used for AWS deployments to create a Valtix Service VPC as
 
 ## Example Usage
 
+### AWS Service VPC
 ```hcl
-data "aws_ec2_transit_gateway" "transit_gateway" {
-  filter {
-    name   = "tag:Name"
-    values = "transit-gateway1"
-  }
-}
-
-
 resource "valtix_service_vpc" service_vpc {
   name               = "service_vpc"
   csp_account_name   = "aws_account_1"
   region             = "us-east-1"
-  cidr               = "10.10.0.0/16"
+  cidr               = "10.0.0.0/16"
   availability_zones = ["us-east-1a", "us-east-1b"]
-  transit_gateway_id = data.aws_ec2_transit_gateway.transit_gateway.id
+  transit_gateway_id = "tgw-12345678912345678"
+}
+```
+
+### Azure Service VNet
+```
+resource "valtix_service_vpc" "service_vpc" {
+  name                 = "service_vpc"
+  csp_account_name     = "azure_account_1"
+  region               = "eastus"
+  cidr                 = "10.0.0.0/16"
+  availability_zones   = ["1", "2"]
+  azure_resource_group = "resource-group-1"
 }
 ```
 
 ## Argument Reference
 
 * `name` - (Required) Name of the service VPC
-* `csp_account_name` - (Required) The CSP account where the service VPC will be deployed
-* `region` - (Required) The AWS region where the service VPC will be deployed
-* `cidr` - (Required) The CIDR of the service VPC to be deployed
-* `availability_zones` - (Required) The list of availability zones that the service VPC will use.  HUB mode gateways deployed in this service VPC will use all availability zones defined here
-* `transit_gateway_id` - (Required) Transit Gateway ID for the service VPC to attach to
+* `csp_account_name` - (Required) The CSP account name (configured on Valtix) where the service VPC/VNet will be deployed
+* `region` - (Required) The region/location where the service VPC will be deployed
+* `cidr` - (Required) The CIDR of the service VPC/VNet to be deployed
+* `availability_zones` - (Required) The list of availability zones that the service VPC/VNet subnets are created. Valtix Gateways deployed in this service VPC/VNet will use all availability zones defined here
+* `transit_gateway_id` - (Required for AWS) Transit Gateway ID for the service VPC to attach to
+* `azure_resource_group` - (Required for Azure) Resource Group Name in which the service VNet and its resources are created
 
 ## Attribute Reference
 
 The following attributes are exported:
 
-* `id` - (Required) VPC ID of the Services VPC that is created
+* `id` - Valtix Service VPC/VNet ID of the Services VPC/VNet that is created
+* `vpc_id` - Cloud specific VPC/VNet Id
+* `service_vpc_id` - Same as `id` (for backward compatibility)
