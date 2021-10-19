@@ -184,13 +184,13 @@ resource "valtix_gateway" "azure_gw1" {
   instance_type        = "AZURE_F8S_V2"
   azure_resource_group = "rg1"
   gateway_image        = var.gateway_image
-  mode                 = "EDGE"
+  mode                 = "HUB"
   security_type        = "INGRESS"
   ssh_public_key       = file(var.ssh_public_key_file)
   azure_user_name      = "centos"
   policy_rule_set_id   = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
   region               = var.region
-  vpc_id               = valtix_service_vpc.svpc1.id
+  vpc_id               = valtix_service_vpc.svpc1.vpc_id
 }
 ```
 
