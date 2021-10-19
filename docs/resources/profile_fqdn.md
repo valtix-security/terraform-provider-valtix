@@ -1,56 +1,55 @@
 # Resource: valtix_profile_urlfilter
-
 Create FQDN filtering profile
 
 ## Example Usage
-
 ```hcl
 resource "valtix_profile_fqdn" "url1" {
-  name        = "fqdn2"
-  description = "fqdn filter"
+  name                    = "fqdn1"
+  description             = "FQDN filter list"
   fqdn_filter_list {
-    fqdn_list = ["www.website1.com", "www.website2.com"]
+    fqdn_list             = ["www.website1.com", ".*.website2.com"]
     vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = ["Search Engines", "Reference and Research"]
+      vendor              = "BRIGHTCLOUD"
+      categories          = ["Search Engines", "Reference and Research"]
     }
-    policy               = "ALLOW_LOG"
-    decryption_exception = false
+    policy                = "ALLOW_LOG"
+    decryption_exception  = false
   }
   fqdn_filter_list {
-    fqdn_list = ["www.website3.com", "www.website4.com"]
+    fqdn_list             = ["www.website3.com", "www.website4.com"]
     vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
+      vendor              = "BRIGHTCLOUD"
+      categories          = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
     }
-    policy               = "DENY_NOLOG"
-    decryption_exception = true
+    policy                = "DENY"
+    decryption_exception  = false
   }
 
   default_fqdn_filter {
-    policy               = "DENY_NOLOG"
-    decryption_exception = false
+    policy                = "DENY_NOLOG"
+    decryption_exception  = false
   }
 }
 ```
 
 ## Argument Reference
+* `name` - (Required) Name of the Profile
+* `description` - (Optional) Description of the Profile
+* `fqdn_filter_list` - (Required) One or more *fqdn_filter* resources, where each resource is a row in the FQDN filter list (maximum of 64 rows). Structure [defined below](#fqdn-filter-list).
+* `default_fqdn_filter` - (Optional) Default FQDN filter behavior.  This should be the last resource. Any FQDN that does not match the explicit resources. Structure [defined below](#fqdn-filter-list).
 
-* `name` - (Required) Name of the profile
-* `description` - (Optional) Description of the profile
-* `fqdn_filter_list` - (Required) List of fqdn_filter resources. Structure [defined below](#fqdn-filter)
-* `default_fqdn_filter` - (Optional) Default FQDN filter behavious. Structure [defined below](#fqdn-filter)
+## FQDN Filter List
+* `fqdn_list` - (Required) List of strings (maximum of 8 per row): FQDNs or Perl Compatible Regular Expression (PCRE) patterns.  Structure [defined below](#fqdn-list).
+* `vendor_category_list` - (Optional) List of pre-defined Vendor Categories.  Structure [defined below](#vendor-category-list). 
+* `policy` - (Required) Action to take when an FQDN matches an entry in the *fqnd_list* or *vendor_category_list*.  Applicable values are: "ALLOW_LOG" (log the event), "ALLOW" (do not log the event), "DENY" (log the event), "DENY_NOLOG" (do not log the event).  Events are viewed in the Valtix UI (Investigate -> Flow Analytics -> FQDN Filtering).
+* `decryption_exception` - (Optional) When used in conjunction with a proxy Rule (ForwardProxy, ReverseProxy), instructs the proxy engine to  bypass decryption. Applicable values: *true* or *false*.  Default value: *true*.
 
-
-## FQDN Filter
-
-* `fqdn_list` - (Optional) List of strings or regular expressions or predefined Categories
-* `vendor_category_list` - (Optional) Predefined categories from Vendors. Please check [this section](#vendor-category-list) for the structure.
-* `policy` - (Required) Action to take on the matching url (and method) "ALLOW_LOG", "ALLOW" (does not log the flow), "DENY_NOLOG" (does not log the flow), "DENY" (log the flow).
-* `decryption_exception` - (Optional) true/false. In the proxy mode disable decryption and inspection of packets. Defaults to true.
+## FQDN List
+```
+fqdn_list = ["www.website1.com", ".*.website2.com"]
+```
 
 ## Vendor Category List
-
 ```
 vendor_category_list {
   vendor     = "BRIGHTCLOUD"
@@ -58,8 +57,7 @@ vendor_category_list {
 }
 ```
 
-Please check the Valtix Dashboard for a list of predefined categories
+Please check the Valtix UI (Manage -> Profiles -> FQDN Filtering) to obtain a list of predefined Categories.
 
 ## Attribute Reference
-
-* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)
+* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)

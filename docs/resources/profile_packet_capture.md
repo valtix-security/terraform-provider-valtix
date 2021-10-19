@@ -1,11 +1,9 @@
 # Resource: valtix_profile_packet_capture
-
 Storage location to store the pcap files
 
 ## Example Usage
 
 ### AWS
-
 ```hcl
 resource "valtix_profile_packet_capture" awspcap1 {
   name                 = "awspcap1"
@@ -16,7 +14,6 @@ resource "valtix_profile_packet_capture" awspcap1 {
 ```
 
 ### Azure
-
 ```hcl
 resource "valtix_profile_packet_capture" azurepcap1 {
   name                 = "azurepcap1"
@@ -28,9 +25,7 @@ resource "valtix_profile_packet_capture" azurepcap1 {
 }
 ```
 
-
 ### GCP
-
 ```hcl
 resource "valtix_profile_packet_capture" gcppcap1 {
   name                 = "gcppcap1"
@@ -41,7 +36,6 @@ resource "valtix_profile_packet_capture" gcppcap1 {
 ```
 
 ## Argument Reference
-
 * `name` - (Required) Name of the IPS profile
 * `description` - (Optional) Description of the IPS profile
 * `csp_account` - (Required) Cloud account name added to the Controller (valtix_cloud_account.name)

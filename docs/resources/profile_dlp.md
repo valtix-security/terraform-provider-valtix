@@ -1,43 +1,39 @@
 # Resource: valtix_profile_dlp
-
 Data loss prevention profile
 
 ## Example Usage
-
 ```hcl
-resource "valtix_profile_dlp" dlp1 {
-  name        = "dlp1"
-  description = "dlp1 description"
+resource "valtix_profile_dlp" "dlp1" {
+  name              = "dlp1"
+  description       = "dlp1 description"
   dlp_filter_list {
-    description = "Routing Numbers"
-    patterns = [
+    description     = "Routing Numbers"
+    patterns        = [
         "custom text to detect"
     ]
     static_patterns = [
       "Bank of America Routing Numbers - California"
     ]
-    count  = 2
-    action = "DROP"
+    count           = 2
+    action          = "DROP"
   }
 }
 ```
 
 ## Argument Reference
-
-* `name` - (Required) Name of the profile
-* `description` - (Optional) Description of the profile
-* `dlp_filter_list` - (Required) A list of dlp filters. Structure is [defined below](#dlp-filter)
+* `name` - (Required) Name of the Profile
+* `description` - (Optional) Description of the Profile
+* `dlp_filter_list` - (Required) A list of DLP Filters. Structure [defined below](#dlp-filter).
 
 ## DLP Filter
-* `description` - (Required) Descrption of the filter
-* `patterns` - (Optional) List of custom regular expression patterns 
-* `static_patterns` - (Optional) List of predefined patterns
-* `count` - (Required) Number of times the pattern must be seen before the data loss prevention functionality takes action
-* `action` - (Required) action upon detecting the data loss prevention. Valid values:
-    * **ALERT**
-    * **DROP**
-    * **PASS**
+* `description` - (Required) Description of the Filter
+* `patterns` - (Optional) List of custom Perl Compatible Regular Expression (PCRE) patterns 
+* `static_patterns` - (Optional) List of pre-defined patterns
+* `count` - (Required) Number of times the pattern must be seen before a match is determined
+* `action` - (Required) Action to take when a match is detected. Events are viewed in the Valtix UI (Investigate -> Flow Analytics -> Network Threats). Valid values:
+    * **ALERT** (Allow Log - log the event)
+    * **DROP** (Deny Log - log the event)
+    * **PASS** (Deny No Log - do not log the event)
 
 ## Attribute Reference
-
-* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)
+* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)

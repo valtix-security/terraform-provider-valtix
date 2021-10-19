@@ -1,11 +1,9 @@
 # Resource: valtix_profile_anti_virus
-
 Create Anti Virus Profile
 
 ## Example Usage
 
 ### With auto updating ruleset and other defaults
-
 ```hcl
 resource "valtix_profile_anti_virus" av_auto {
   name                  = "av_auto"
@@ -15,7 +13,6 @@ resource "valtix_profile_anti_virus" av_auto {
 ```
 
 ### With manually specified ruleset version
-
 ```hcl
 resource "valtix_profile_anti_virus" av_manual {
   name                  = "av_manual"
@@ -26,7 +23,6 @@ resource "valtix_profile_anti_virus" av_manual {
 ```
 
 ## Argument Reference
-
 * `name` - (Required) Name of the Anti Virus profile
 * `description` - (Optional) Description of the Anti Virus profile
 * `auto_update` - (Optional) Auto update the Talos ClamAV Ruleset version daily with a delay specified by `delay_by_days` parameter. The valid values are true/false and it is true by default..
@@ -34,11 +30,11 @@ resource "valtix_profile_anti_virus" av_manual {
 * `talos_ruleset_version` - (Optional) Talos ClamAV Ruleset version. Find the values from the UI. The rulesets are published everyday. Unless you want to use a specific version, Valtix recommends to use auto_update as described above
 
   If this argument is specified, Auto Update of Talos ClamAV Ruleset is disabled and the profile will only use this version for Talos ClamAV Ruleset.
+
 * `action` - (Required) Default action for all the attacks. Valid values:
     * **ALERT** (logs in AV events)
     * **DROP** (drop the traffic and log the events)
     * **SILENTDROP** (drop the traffic and no log of events)
 
 ## Attribute Reference
-
-* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)
+* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)

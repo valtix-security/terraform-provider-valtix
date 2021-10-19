@@ -1,8 +1,7 @@
 # Resource: valtix_gateway
-
 Create a valtix gateway  
 
-Please note that with the exclusion of description and gateway_image, any other arugment changes are prevented at this time as it would result in a service interruption to the Valtix gateway. In order to change these arguments, you must destroy and then create the valtix_gateway resource.
+Please note that with the exclusion of description and gateway_image, any other argument changes are prevented at this time as it would result in a service interruption to the Valtix gateway. In order to change these arguments, you must destroy and then create the valtix_gateway resource.
 
 [valtix_cloud_account](../valtix_cloud_account), [valtix_policy_rule_set](../valtix_policy_rule_set)
 must be defined before valtix_gateway can be created
@@ -10,7 +9,6 @@ must be defined before valtix_gateway can be created
 ## Example Usage
 
 ### GCP Gateway
-
 ```hcl
 # create a data source for getting vpc and subnet names or provide the full subnet names
 
@@ -75,7 +73,6 @@ resource "valtix_gateway" gcp-gw {
 ```
 
 ### AWS Gateway
-
 ```hcl
 data "aws_vpc" "gw_vpc" {
   filter {
@@ -122,15 +119,14 @@ resource "valtix_gateway" aws-gw1 {
   mgmt_security_group     = data.aws_security_group.gw_mgmt_sg.id
   datapath_security_group = data.aws_security_group.gw_datapath_sg.id
   instance_details {
-    availability_zone = var.aws_zone1_name
-    mgmt_subnet       = data.aws_subnet.gw_mgmt_subnet1.id
-    datapath_subnet   = data.aws_subnet.gw_datapath_subnet1.id
+    availability_zone     = var.aws_zone1_name
+    mgmt_subnet           = data.aws_subnet.gw_mgmt_subnet1.id
+    datapath_subnet       = data.aws_subnet.gw_datapath_subnet1.id
   }
 }
 ```
 
 ### AWS HUB mode with AWS Gateway Load Balancer
-
 ```hcl
 resource "valtix_gateway" "aws-hub-gw1" {
   name                  = "aws-hub-gw1"
@@ -150,7 +146,6 @@ resource "valtix_gateway" "aws-hub-gw1" {
 ```
 
 ### Azure Gateway (EDGE Mode - VNet managed by the customer)
-
 ```hcl
 resource "valtix_gateway" azure_gw1 {
   name                    = "gw1"
@@ -176,7 +171,6 @@ resource "valtix_gateway" azure_gw1 {
 ```
 
 ### Azure Gateway (HUB Mode - Service VNet Managed by Valtix)
-
 ```hcl
 resource "valtix_gateway" "azure_gw1" {
   name                 = "gw1"
@@ -231,7 +225,6 @@ For EGRESS and East-West gateway set the **security_type = EGRESS**
 * `instance_details` - (Required) contains the parameters used to deploy gateway in each availability zone. This block can be repeated multiple times for deploying gateway instances in multiple zones. Look below for the structure of this block. Atleast 1 block must be provided.
 
 ## Instance Details
-
 This section is not required for AWS HUB mode as instance details are configured from service VPC referenced in vpc_id attribute
 
 * `availability_zone` - (Required) specifies the availability zone where the Valtix gateway instance(s) are deployed
@@ -239,9 +232,7 @@ This section is not required for AWS HUB mode as instance details are configured
 * `datapath_subnet` - (Required) specifies the VPC subnet ID used for data traffic where the Valtix gateway instance(s) are deployed for this availability zone.
 
 ## Gateway settings
-
 Gateway settings define a list of settings that applies to the given gateway
-
 
 ### To enable EBS encryption for the gateway instances using default KMS key
 ```hcl
@@ -267,7 +258,6 @@ settings {
 ```
 
 ## Attribute Reference
-
 * `gateway_gwlb_endpoints` - AWS Gateway Load Balancer endpoints created in each of the AZs. It's in the following format
     ```
     gateway_gwlb_endpoints {
@@ -281,5 +271,4 @@ settings {
         subnet_id            = "subnet-0fd61e07f200224f1"
     }
     ```
-
 * `gateway_endpoint` - For the Ingress Gateway, shows the NLB DNS/IP of the Valtix Gateway. This must be used as an endpoint for your application and Valtix proxies the traffic received on this endpoint to the target application configured

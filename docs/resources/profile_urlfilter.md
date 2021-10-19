@@ -1,60 +1,59 @@
 # Resource: valtix_profile_urlfilter
-
 Create URL Filtering Profile
 
 ## Example Usage
-
 ```hcl
 resource "valtix_profile_urlfilter" "url1" {
-  name        = "url1"
-  description = "predefined rules tagged as 'connectivity'"
+  name              = "url1"
+  description       = "URL filter list"
   url_filter_list {
-    url_list = ["www.website1.com", "www.website2.com"]
+    url_list        = ["www.website1.com", ".*.website2.com"]
     vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = ["Search Engines", "Reference and Research"]
+      vendor        = "BRIGHTCLOUD"
+      categories    = ["Search Engines", "Reference and Research"]
     }
-    policy = "ALLOW_LOG"
+    policy          = "ALLOW_LOG"
   }
   url_filter_list {
-    url_list = ["www.website2.com", "www.website3.com"]
     vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
+      vendor        = "BRIGHTCLOUD"
+      categories    = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
     }
-    policy        = "DENY_NOLOG"
-    return_status = 400
+    policy          = "DENY"
+    return_status   = 400
   }
   url_filter_list {
-    url_list       = ["www.website4.com", "www.website5.com"]
-    policy         = "DENY_NOLOG"
-    filter_methods = ["POST"]
-    return_status  = 400
+    url_list        = ["www.website3.com", "www.website4.com"]
+    policy          = "DENY"
+    filter_methods  = ["POST"]
+    return_status   = 400
   }
   default_url_filter {
-    policy        = "DENY_NOLOG"
-    return_status = 500
+    policy          = "DENY_NOLOG"
+    return_status   = 500
   }
 }
 ```
 
 ## Argument Reference
+* `name` - (Required) Name of the Profile
+* `description` - (Optional) Description of the Profile
+* `url_filter_list` - (Required) One or more *url_filter* resources, where each resource is a row in the URL filter list (maximum of 64 rows). Structure [defined below](#url-filter-list).
+* `default_url_filter` - (Optional) Default behavior of URL filter. Structure [defined below](#url-filter).
 
-* `name` - (Required) Name of the profile
-* `description` - (Optional) Description of the profile
-* `url_filter_list` - (Required) List of url_filter resources. Structure [defined below](#url-filter)
-* `default_url_filter` - (Optional) Default behavior of URL filter. Structure [defined below](#url-filter)
+## URL Filter List
+* `url_list` - (Required) List of strings (maximum of 8 per row): URLs or Perl Compatible Regular Expression (PCRE) patterns.  Structure [defined below](#url-list).
+* `vendor_category_list` - (Optional) List of pre-defined Vendor Categories.  Structure [defined below](#vendor-category-list). 
+* `filter_methods` - (Optional) List of URL methods (e.g., GET, POST). Default (if unspecified) are all methods.
+* `policy` - (Required) Action to take when a URL matches an entry in the *url_list* or *vendor_category_list*.  Applicable values are: "ALLOW_LOG" (log the event), "ALLOW" (do not log the event), "DENY" (log the event), "DENY_NOLOG" (do not log the event).  Events are viewed in the Valtix UI (Investigate -> Flow Analytics -> URL Filtering).
+* `return_status` - (Optional) HTTP status code to return when URLs are denied.  Only applies to resources that have a *policy* specified as DENY or DENY_NOLOG.
 
-## URL Filter
-
-* `url_list` - (Required) List of Strings or regular expressions or predefined Categories
-* `vendor_category_list` - (Optional) Predefined categories from Vendors. Please check [this section](#vendor-category-list) for the structure.
-* `filter_methods` - (Optional) URL Methods (GET, POST etc). Default all the methods
-* `policy` - (Required) Action to take on the matching url (and method) "ALLOW_LOG", "ALLOW" (does not log the flow), "DENY_NOLOG" (does not log the flow), "DENY" (log the flow).
-* `return_status` - (Optional) HTTP status code to return for DENY and DENY_NOLOG policy
+## URL List
+```
+url_list = ["www.website1.com", ".*.website2.com"]
+```
 
 ## Vendor Category List
-
 ```
 vendor_category_list {
   vendor     = "BRIGHTCLOUD"
@@ -63,5 +62,4 @@ vendor_category_list {
 ```
 
 ## Attribute Reference
-
-* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)
+* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
