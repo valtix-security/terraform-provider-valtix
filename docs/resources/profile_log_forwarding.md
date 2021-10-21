@@ -45,9 +45,9 @@ resource "valtix_profile_log_forwarding" datadog1 {
 ### gcp log-forwarding
 ```hcl
 resource "valtix_profile_log_forwarding" gcplog1 {
-  name                    = "gcplog1"
-  siem_vendor             = "GCPLOGGING_FROM_GATEWAY"
-  log_name                = "gcp-logging-1"
+  name        = "gcplog1"
+  siem_vendor = "GCPLOGGING_FROM_GATEWAY"
+  log_name    = "gcp-logging-1"
 }
 ```
 

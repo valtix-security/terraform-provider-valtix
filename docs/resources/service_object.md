@@ -14,11 +14,11 @@ must be provided to differentiate the requests.
 ### ReverseProxy: Listen on port 80 and transport to port 80 on backend
 ```hcl
 resource "valtix_service_object" app1-svc {
-  name                = "app1-svc-http"
-  description         = "app1 service: listen on 80 and target to 80"
-  service_type        = "ReverseProxy"
-  protocol            = "TCP"
-  transport_mode      = "HTTP"
+  name                 = "app1-svc-http"
+  description          = "app1 service: listen on 80 and target to 80"
+  service_type         = "ReverseProxy"
+  protocol             = "TCP"
+  transport_mode       = "HTTP"
   port {
     destination_ports = "80"
     backend_ports     = "80"
@@ -36,8 +36,8 @@ resource "valtix_service_object" app1-svc-https {
   protocol              = "TCP"
   transport_mode        = "HTTPS"
   port {
-    destination_ports   = "443"
-    backend_ports       = "443"
+    destination_ports = "443"
+    backend_ports     = "443"
   }
   backend_address_group = valtix_address_object.app1-ag.address_id
   tls_profile           = valtix_profile_decryption.decryption_profile_1.profile_id
@@ -53,8 +53,8 @@ resource "valtix_service_object" app1-svc-https {
   protocol              = "TCP"
   transport_mode        = "HTTPS"
   port {
-    destination_ports   = "443"
-    backend_ports       = "443"
+    destination_ports = "443"
+    backend_ports     = "443"
   }
   sni                   = ["www.app1.com", "subodmain1.app1.com"]
   backend_address_group = valtix_address_object.app1-ag.address_id
@@ -73,8 +73,8 @@ resource "valtix_service_object" app2-svc-https {
   protocol              = "TCP"
   transport_mode        = "HTTPS"
   port {
-    destination_ports   = "443"
-    backend_ports       = "443"
+    destination_ports = "443"
+    backend_ports     = "443"
   }
   sni                   = ["www.app2.com", "subodmain1.app2.com"]
   backend_address_group = valtix_address_object.app2-ag.address_id
@@ -85,20 +85,20 @@ resource "valtix_service_object" app2-svc-https {
 ### Forward Proxy (Egress) Service object
 ```hcl
 resource "valtix_service_object" internet-http {
-  name                = "internet-port-80"
-  description         = "allow port 80 to internet"
-  service_type        = "ForwardProxy"
-  transport_mode      = "HTTP"
+  name           = "internet-port-80"
+  description    = "allow port 80 to internet"
+  service_type   = "ForwardProxy"
+  transport_mode = "HTTP"
   port {
     destination_ports = "80"
   }
 }
 
 resource "valtix_service_object" internet-https {
-  name                = "internet-port-443"
-  description         = "allow port 443 to internet"
-  service_type        = "ForwardProxy"
-  transport_mode      = "HTTPS"
+  name           = "internet-port-443"
+  description    = "allow port 443 to internet"
+  service_type   = "ForwardProxy"
+  transport_mode = "HTTPS"
   port {
     destination_ports = "443"
   }
@@ -109,8 +109,8 @@ resource "valtix_service_object" internet-https {
 ### Forwarding Service object
 ```hcl
 resource "valtix_service_object" forward-https {
-  name                = "Forward-HTTPS"
-  service_type        = "Forwarding"
+  name         = "Forward-HTTPS"
+  service_type = "Forwarding"
   port {
     destination_ports = "443"
   }

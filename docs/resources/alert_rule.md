@@ -12,34 +12,34 @@ resource "valtix_alert_profile" slack1 {
 
 ```hcl
 resource "valtix_alert_rule" rule1 {
-    name = "rule1"
+    name          = "rule1"
     alert_profile = valtix_alert_profile.slack1.profile_id
-    type = "Type_SystemLogs"
-    sub_type = "SubType_SystemLogsGateway"
-    severity = "Info"
-    is_active = true
+    type          = "Type_SystemLogs"
+    sub_type      = "SubType_SystemLogsGateway"
+    severity      = "Info"
+    is_active     = true
 }
 ```
 
 ```hcl
 resource "valtix_alert_rule" rule2 {
-    name = "rule2"
+    name          = "rule2"
     alert_profile = valtix_alert_profile.slack1.profile_id
-    type = "Type_SystemLogs"
-    sub_type = "SubType_SystemLogsAccount"
-    severity = "Info"
-    is_active = true
+    type          = "Type_SystemLogs"
+    sub_type      = "SubType_SystemLogsAccount"
+    severity      = "Info"
+    is_active     = true
 }
 ```
 
 ```hcl
 resource "valtix_alert_rule" rule3 {
-    name = "rule3"
+    name          = "rule3"
     alert_profile = valtix_alert_profile.slack1.profile_id
-    type = "Type_Inventory"
-    sub_type = "SubType_InventoryGuardRails"
-    severity = "Info"
-    is_active = true
+    type          = "Type_Inventory"
+    sub_type      = "SubType_InventoryGuardRails"
+    severity      = "Info"
+    is_active     = true
 }
 ```
 

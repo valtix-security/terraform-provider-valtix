@@ -6,8 +6,8 @@ Create Malicious IPs Profile
 ### With auto updating ruleset and other defaults
 ```hcl
 resource "valtix_profile_malicious_ip" "mips_auto" {
-  name                  = "mips_auto"
-  description           = "description"
+  name        = "mips_auto"
+  description = "description"
 }
 ```
 
@@ -25,8 +25,8 @@ resource "valtix_profile_malicious_ip" "mips_manual" {
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the  Profile
 * `ip_reputation_enabled` - (Optional) true/false
-* `auto_update` - (Optional) Auto update the Trustwave IP Reputation Ruleset version with a delay specified by `delay_by_days` parameter. The valid values are true/false and it is true by default.
-* `delay_by_days` - (Optional) How many days before we use a Trustwave IP Reputation Ruleset version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
+* `auto_update` - (Optional) Auto Update the Trustwave Malicious IP Ruleset version. Valid values are *true* or *false*.  Default (if unspecified) is *true*.
+* `delay_by_days` - (Optional) Number of days to delay updating the Trustwave Malicious IP Ruleset version after it has been published by Valtix. Valid values are integers from 0 to 30.  A value of *0* means immediate update (0 days).  The default value is *7* (7 days). Valtix publishes new Rulesets as soon as updates are available from the Vendor and complete testing by Valtix.
 * `vendor_rule_set_name` - (Optional) Vendor rule set name/version. Find the values from the UI. The rulesets are published everyday. Unless you want to use a specific version, Valtix recommends to use auto_update as described above
 
   If this argument is specified, Auto Update of Trustwave IP Reputation Ruleset is disabled and the profile will only use this version for Trustwave IP Reputation Ruleset.

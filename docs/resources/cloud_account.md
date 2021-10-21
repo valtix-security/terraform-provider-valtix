@@ -46,19 +46,19 @@ resource "valtix_cloud_account" gcp1 {
 ## Account with Inventory Monitoring
 ```hcl
 resource "valtix_cloud_account" aws1 {
-  name                      = "awsaccount1"
-  csp_type                  = "AWS"
-  aws_credentials_type      = "AWS_IAM_ROLE"
-  aws_iam_role              = "arn:aws:iam::123456789012:role/valtixcontrollerrole"
-  aws_account_number        = "123456789012"
-  aws_iam_role_external_id  = "shared-external-id"
+  name                     = "awsaccount1"
+  csp_type                 = "AWS"
+  aws_credentials_type     = "AWS_IAM_ROLE"
+  aws_iam_role             = "arn:aws:iam::123456789012:role/valtixcontrollerrole"
+  aws_account_number       = "123456789012"
+  aws_iam_role_external_id = "shared-external-id"
   inventory_monitoring {
-    regions                 = ["us-east-1", "us-east-2"]
-    refresh_interval        = 10
+    regions          = ["us-east-1", "us-east-2"]
+    refresh_interval = 10
   }
   inventory_monitoring {
-    regions                 = ["us-west-1", "us-west-2"]
-    refresh_interval        = 30
+    regions          = ["us-west-1", "us-west-2"]
+    refresh_interval = 30
   }
 }
 ```

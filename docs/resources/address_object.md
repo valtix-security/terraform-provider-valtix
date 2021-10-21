@@ -31,16 +31,16 @@ resource "valtix_address_object" app1-lb-tag {
 ### dynamic user defined tag object using one or more tags
 ```hcl
 resource "valtix_address_object" udf-tag-ag {
-  name            = "udf-tag-ag"
-  description     = "ip addresses of instances using user defined tags"
-  type            = "DYNAMIC_USER_DEFINED_TAG"
+  name        = "udf-tag-ag"
+  description = "ip addresses of instances using user defined tags"
+  type        = "DYNAMIC_USER_DEFINED_TAG"
   tag_list {
-      tag_key     = "tag-name1"
-      tag_value   = "tag-value1"
+      tag_key   = "tag-name1"
+      tag_value = "tag-value1"
   }
   tag_list {
-     tag_key      = "tag-name2"
-     tag_value    = "tag-value2"
+     tag_key   = "tag-name2"
+     tag_value = "tag-value2"
   }
 }
 ```

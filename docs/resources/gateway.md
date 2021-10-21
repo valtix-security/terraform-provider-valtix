@@ -119,9 +119,9 @@ resource "valtix_gateway" aws-gw1 {
   mgmt_security_group     = data.aws_security_group.gw_mgmt_sg.id
   datapath_security_group = data.aws_security_group.gw_datapath_sg.id
   instance_details {
-    availability_zone     = var.aws_zone1_name
-    mgmt_subnet           = data.aws_subnet.gw_mgmt_subnet1.id
-    datapath_subnet       = data.aws_subnet.gw_datapath_subnet1.id
+    availability_zone = var.aws_zone1_name
+    mgmt_subnet       = data.aws_subnet.gw_mgmt_subnet1.id
+    datapath_subnet   = data.aws_subnet.gw_datapath_subnet1.id
   }
 }
 ```
@@ -163,9 +163,9 @@ resource "valtix_gateway" azure_gw1 {
   mgmt_security_group     = azurerm_network_security_group.valtix_security_group.id
   datapath_security_group = azurerm_network_security_group.valtix_security_group.id
   instance_details {
-    availability_zone     = var.availability_zone
-    mgmt_subnet           = azurerm_subnet.mgmt_subnet.id
-    datapath_subnet       = azurerm_subnet.datapath_subnet.id
+    availability_zone = var.availability_zone
+    mgmt_subnet       = azurerm_subnet.mgmt_subnet.id
+    datapath_subnet   = azurerm_subnet.datapath_subnet.id
   }
 }
 ```
@@ -237,14 +237,14 @@ Gateway settings define a list of settings that applies to the given gateway
 ### To enable EBS encryption for the gateway instances using default KMS key
 ```hcl
 settings {
-  name = "gateway.aws.ebs.encryption.key.default"
+  name  = "gateway.aws.ebs.encryption.key.default"
   value = "true"
 }
 ```
 ### To enable EBS encryption for the gateway instances using specified KMS key
 ```hcl
 settings {
-  name = "gateway.aws.ebs.encryption.key.customer_key"
+  name  = "gateway.aws.ebs.encryption.key.customer_key"
   value = "<KMS key ID>"
 }
 ```
@@ -252,7 +252,7 @@ settings {
 ### To add a list of custom tags to the gateway instances
 ```hcl
 settings {
-  name = "custom_tags"
+  name  = "custom_tags"
   value = "[{\"key\":\"customer_key1\",\"value\":\"customer_value1\"},{\"key\":\"customer_key2\",\"value\":\"customer_value2\"}]"
 }
 ```

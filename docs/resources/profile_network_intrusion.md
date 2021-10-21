@@ -6,10 +6,10 @@ Create Network Intrusion (IPS) Profile
 ### With auto updating ruleset and other defaults
 ```hcl
 resource "valtix_profile_network_intrusion" ips_auto {
-  name                  = "ips_auto"
-  description           = "predefined rules tagged as 'connectivity'"
-  policy                = "CONNECTIVITY"
-  policy_action         = "ALERT"
+  name          = "ips_auto"
+  description   = "predefined rules tagged as 'connectivity'"
+  policy        = "CONNECTIVITY"
+  policy_action = "ALERT"
 }
 ```
 
@@ -34,42 +34,42 @@ resource "valtix_profile_network_intrusion" "ips_manual" {
   policy_action         = "ALERT"
   talos_ruleset_version = "2.9.11-07092021"
   categories {
-    name                = "app-detect"
-    action              = "ALERT"
+    name   = "app-detect"
+    action = "ALERT"
   }
   categories {
-    name                = "browser-chrome"
-    action              = "ALERT"
+    name   = "browser-chrome"
+    action = "ALERT"
   }
   classes {
-    name                = "attempted-admin"
-    action              = "ALERT"
+    name   = "attempted-admin"
+    action = "ALERT"
   }
   classes {
-    name                = "attempted-dos"
-    action              = "ALERT"
+    name   = "attempted-dos"
+    action = "ALERT"
   }
   rule_event_filter {
-    rule_ids            = ["12345", "12346"]
-    type                = "SAMPLE"
-    number_of_events    = "3"
+    rule_ids         = ["12345", "12346"]
+    type             = "SAMPLE"
+    number_of_events = "3"
   }
   rule_event_filter {
-    rule_ids            = ["7689"]
-    type                = "SAMPLE"
-    number_of_events    = "3"
+    rule_ids         = ["7689"]
+    type             = "SAMPLE"
+    number_of_events = "3"
   }
   event_suppressor {
-    source_ips          = ["172.16.1.252", "172.22.0.0/16"]
-    rule_ids            = ["12345", "12346"]
+    source_ips = ["172.16.1.252", "172.22.0.0/16"]
+    rule_ids   = ["12345", "12346"]
   }
   event_suppressor {
-    source_ips          = ["0.0.0.0"]
-    rule_ids            = ["7689"]
+    source_ips = ["0.0.0.0"]
+    rule_ids   = ["7689"]
   }
   profile_event_filter {
-    type                = "SAMPLE"
-    number_of_events    = "3"
+    type             = "SAMPLE"
+    number_of_events = "3"
   }
 }
 ```
@@ -78,7 +78,7 @@ resource "valtix_profile_network_intrusion" "ips_manual" {
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
 * `auto_update` - (Optional) Auto Update the Talos Network Intrusion Ruleset version. Valid values are *true* or *false*.  Default (if unspecified) is *true*.
-* `delay_by_days` - (Optional) Number of days to delay updating the Talos Network Intrusion Ruleset version after it has been published by Valtix. Valid values are integers from 0 to 30.  A value of *0* means immediate update (0 days).  The default value is *7* (7 days). Valtix publishes new Rulesets as soon as updates are available from the Vendor and the updates complete testing by Valtix.
+* `delay_by_days` - (Optional) Number of days to delay updating the Talos Network Intrusion Ruleset version after it has been published by Valtix. Valid values are integers from 0 to 30.  A value of *0* means immediate update (0 days).  The default value is *7* (7 days). Valtix publishes new Rulesets as soon as updates are available from the Vendor and complete testing by Valtix.
 * `talos_ruleset_version` - (Optional) The Talos Network Intrusion Ruleset version. Valid values are available in the Valtix UI (Administration -> Management -> System -> Talos / Network Intrusion). If this argument is specified, Auto Update of Talos Network Intrusion Ruleset is disabled and the Profile will only use this Talos Network Intrusion version. Valtix recommends using Auto Update to ensure the latest Rulesets are used.
 * `action` - (Optional) Action to take when a Network Intrusion is detected. This action can be overwritten for each Network Intrusion attack type (default value is specified for each Rule in the Talos Network Intrusion Ruleset). If not specified, then the action assumed is the action defined in the Policy Ruleset Rule (Rule Default). Valid values:
     * **ALERT** (Allow Log - log the event)

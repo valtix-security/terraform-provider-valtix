@@ -6,32 +6,32 @@ Storage location to store the pcap files
 ### AWS
 ```hcl
 resource "valtix_profile_packet_capture" awspcap1 {
-  name                 = "awspcap1"
-  description          = "pcap description"
-  csp_account          = "csp account name added via valtix_cloud_account"
-  storage_upload_path  = "s3-bucket-name"
+  name                = "awspcap1"
+  description         = "pcap description"
+  csp_account         = "csp account name added via valtix_cloud_account"
+  storage_upload_path = "s3-bucket-name"
 }
 ```
 
 ### Azure
 ```hcl
 resource "valtix_profile_packet_capture" azurepcap1 {
-  name                 = "azurepcap1"
-  description          = "pcap description"
-  csp_account          = "csp account name added via valtix_cloud_account"
-  azure_storage_accnt_name = "storage1"
+  name                      = "azurepcap1"
+  description               = "pcap description"
+  csp_account               = "csp account name added via valtix_cloud_account"
+  azure_storage_accnt_name  = "storage1"
   azure_blob_container_name = "ctr1"
-  azure_storage_access_key = "key1"
+  azure_storage_access_key  = "key1"
 }
 ```
 
 ### GCP
 ```hcl
 resource "valtix_profile_packet_capture" gcppcap1 {
-  name                 = "gcppcap1"
-  description          = "pcap description"
-  csp_account          = "csp account name added via valtix_cloud_account"
-  storage_upload_path  = "gcp-storage-bucket-name"
+  name                = "gcppcap1"
+  description         = "pcap description"
+  csp_account         = "csp account name added via valtix_cloud_account"
+  storage_upload_path = "gcp-storage-bucket-name"
 }
 ```
 

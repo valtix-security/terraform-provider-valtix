@@ -16,7 +16,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 **With inline rules (not recommended. Use valtix_policy_rules)**
 ```hcl
 resource "valtix_policy_rule_set" ingress_policy_rule_set {
-  name          = "ingress_rule_set"
+  name = "ingress_rule_set"
   rule {
     name        = "rule1"
     description = "listen port 80 to target port 80 on app1"

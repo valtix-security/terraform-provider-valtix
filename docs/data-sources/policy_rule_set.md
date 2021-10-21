@@ -23,9 +23,9 @@ resource "valtix_gateway" aws-gw1 {
   mgmt_security_group     = data.aws_security_group.gw_mgmt_sg.id
   datapath_security_group = data.aws_security_group.gw_datapath_sg.id
   instance_details {
-    availability_zone     = var.aws_zone1_name
-    mgmt_subnet           = data.aws_subnet.gw_mgmt_subnet1.id
-    datapath_subnet       = data.aws_subnet.gw_datapath_subnet1.id
+    availability_zone = var.aws_zone1_name
+    mgmt_subnet       = data.aws_subnet.gw_mgmt_subnet1.id
+    datapath_subnet   = data.aws_subnet.gw_datapath_subnet1.id
   }
 }
 ```

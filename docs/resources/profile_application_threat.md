@@ -21,17 +21,17 @@ resource "valtix_profile_application_threat" waf_auto {
 ### With manually specified rulesets and other optional/advanced attributes
 ```hcl
 resource "valtix_profile_application_threat" waf_manual {
-  name                          = "waf_manual"
-  description                   = "waf profile 1"
-  crs_ruleset_version           = "3.0.2-01272021"
-  trustwave_ruleset_version     = "3.0.2-01272021"
-  paranoia_level                = 3
-  action                        = "BLOCK"
-  request_inspection_profile    = [
+  name                       = "waf_manual"
+  description                = "waf profile 1"
+  crs_ruleset_version        = "3.0.2-01272021"
+  trustwave_ruleset_version  = "3.0.2-01272021"
+  paranoia_level             = 3
+  action                     = "BLOCK"
+  request_inspection_profile = [
     "Request - Protocol Enforcement",
     "Request - Protocol Attack"
   ]
-  response_inspection_profile   = [
+  response_inspection_profile = [
     "Response - General",
     "Response - SQL"
   ]
@@ -41,24 +41,24 @@ resource "valtix_profile_application_threat" waf_manual {
     "AXIGEN Mail Server"
   ]
   rule_event_filter {
-    rule_ids                    = [1, 2, 3, 6]
-    number_of_events            = 50
-    time                        = 5
-    type                        = "RATE"
+    rule_ids         = [1, 2, 3, 6]
+    number_of_events = 50
+    time             = 5
+    type             = "RATE"
   }
   rule_event_filter {
-    rule_ids                    = [4, 5]
-    number_of_events            = 20
-    type                        = "SAMPLE"
+    rule_ids         = [4, 5]
+    number_of_events = 20
+    type             = "SAMPLE"
   }
   event_suppressor {
-    source_ips                  = ["2.2.2.3", "10.2.1.3", "10.10.0.0/10"]
-    rule_ids                    = [6, 7]
+    source_ips = ["2.2.2.3", "10.2.1.3", "10.10.0.0/10"]
+    rule_ids   = [6, 7]
   }
   profile_event_filter {
-    number_of_events            = 50
-    time                        = 5
-    type                        = "RATE"
+    number_of_events = 50
+    time             = 5
+    type             = "RATE"
   }
 }
 ```
@@ -66,8 +66,8 @@ resource "valtix_profile_application_threat" waf_manual {
 ## Argument Reference
 * `name` - (Required) Name of the profile
 * `description` - (Optional) Description of the profile
-* `auto_update_crs` - (Optional) Auto update the CRS (Core Rule Set) version daily with a delay specified by `delay_by_days_crs` parameter. The valid values are true/false and it is true by default..
-* `delay_by_days_crs` - (Optional) How many days before we use a CRS ruleset version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
+* `auto_update_crs` - (Optional) Auto Update the CRS Ruleset version. Valid values are *true* or *false*.  Default (if unspecified) is *true*.
+* `delay_by_days_crs` - (Optional) Number of days to delay updating the CRS Application Threats Ruleset version after it has been published by Valtix. Valid values are integers from 0 to 30.  A value of *0* means immediate update (0 days).  The default value is *7* (7 days). Valtix publishes new Rulesets as soon as updates are available from the Vendor and complete testing by Valtix.
 * `crs_ruleset_version` - (Optional) CRS (Core Rule Set) version. Find the values from the UI. The rulesets are published everyday. Unless you want to use a specific version, Valtix recommends to use auto_update as described above
 
   If this argument is specified, Auto Update of CRS ruleset is disabled and the profile will only use this version for CRS ruleset.
