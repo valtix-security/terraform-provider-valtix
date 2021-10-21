@@ -4,10 +4,10 @@ Create FQDN filtering profile
 ## Example Usage
 ```hcl
 resource "valtix_profile_fqdn" "fqdn1" {
-  name                   = "fqdn1"
-  description            = "FQDN filter list"
+  name        = "fqdn1"
+  description = "FQDN filter list"
   fqdn_filter_list {
-    fqdn_list            = ["www.website1.com", ".*.website2.com"]
+    fqdn_list = ["www.website1.com", ".*.website2.com"]
     vendor_category_list {
       vendor     = "BRIGHTCLOUD"
       categories = ["Search Engines", "Reference and Research"]
@@ -16,7 +16,7 @@ resource "valtix_profile_fqdn" "fqdn1" {
     decryption_exception = false
   }
   fqdn_filter_list {
-    fqdn_list            = ["www.website3.com", "www.website4.com"]
+    fqdn_list = ["www.website3.com", "www.website4.com"]
     vendor_category_list {
       vendor     = "BRIGHTCLOUD"
       categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]

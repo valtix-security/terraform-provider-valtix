@@ -14,8 +14,8 @@ resource "valtix_profile_dlp" "dlp1" {
     static_patterns = [
       "Bank of America Routing Numbers - California"
     ]
-    count       = 2
-    action      = "DROP"
+    count  = 2
+    action = "DROP"
   }
 }
 ```

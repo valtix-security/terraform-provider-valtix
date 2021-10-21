@@ -12,7 +12,7 @@ resource "valtix_profile_urlfilter" "url1" {
       vendor     = "BRIGHTCLOUD"
       categories = ["Search Engines", "Reference and Research"]
     }
-    policy    = "ALLOW_LOG"
+    policy = "ALLOW_LOG"
   }
   url_filter_list {
     vendor_category_list {
@@ -29,8 +29,8 @@ resource "valtix_profile_urlfilter" "url1" {
     return_status  = 400
   }
   default_url_filter {
-    policy          = "DENY_NOLOG"
-    return_status   = 500
+    policy        = "DENY_NOLOG"
+    return_status = 500
   }
 }
 ```

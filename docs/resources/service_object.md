@@ -14,11 +14,11 @@ must be provided to differentiate the requests.
 ### ReverseProxy: Listen on port 80 and transport to port 80 on backend
 ```hcl
 resource "valtix_service_object" app1-svc {
-  name                 = "app1-svc-http"
-  description          = "app1 service: listen on 80 and target to 80"
-  service_type         = "ReverseProxy"
-  protocol             = "TCP"
-  transport_mode       = "HTTP"
+  name           = "app1-svc-http"
+  description    = "app1 service: listen on 80 and target to 80"
+  service_type   = "ReverseProxy"
+  protocol       = "TCP"
+  transport_mode = "HTTP"
   port {
     destination_ports = "80"
     backend_ports     = "80"
@@ -30,11 +30,11 @@ resource "valtix_service_object" app1-svc {
 ### ReverseProxy: Listen on port 443 TLS and transport to port 443 HTTPS on backend
 ```hcl
 resource "valtix_service_object" app1-svc-https {
-  name                  = "app1-svc-https"
-  description           = "app1 service: listen on 443 and target to 443"
-  service_type          = "ReverseProxy"
-  protocol              = "TCP"
-  transport_mode        = "HTTPS"
+  name           = "app1-svc-https"
+  description    = "app1 service: listen on 443 and target to 443"
+  service_type   = "ReverseProxy"
+  protocol       = "TCP"
+  transport_mode = "HTTPS"
   port {
     destination_ports = "443"
     backend_ports     = "443"
@@ -47,11 +47,11 @@ resource "valtix_service_object" app1-svc-https {
 ### ReverseProxy: Listen on port 443 TLS and transport to port 443 HTTPS on backend with SNI **
 ```hcl
 resource "valtix_service_object" app1-svc-https {
-  name                  = "app1-svc-https"
-  description           = "app1 service: listen on 443 and target to 443"
-  service_type          = "ReverseProxy"
-  protocol              = "TCP"
-  transport_mode        = "HTTPS"
+  name           = "app1-svc-https"
+  description    = "app1 service: listen on 443 and target to 443"
+  service_type   = "ReverseProxy"
+  protocol       = "TCP"
+  transport_mode = "HTTPS"
   port {
     destination_ports = "443"
     backend_ports     = "443"
@@ -67,11 +67,11 @@ resource "valtix_service_object" app1-svc-https {
 # defined as describe earlier.
 
 resource "valtix_service_object" app2-svc-https {
-  name                  = "app1-svc-https"
-  description           = "app1 service: listen on 443 and target to 443"
-  service_type          = "ReverseProxy"
-  protocol              = "TCP"
-  transport_mode        = "HTTPS"
+  name           = "app1-svc-https"
+  description    = "app1 service: listen on 443 and target to 443"
+  service_type   = "ReverseProxy"
+  protocol       = "TCP"
+  transport_mode = "HTTPS"
   port {
     destination_ports = "443"
     backend_ports     = "443"
