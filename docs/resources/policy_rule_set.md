@@ -2,13 +2,11 @@
 It is recommended to use the valtix_policy_rules resource to define the firewall policies instead of defining the rules inline in this resource. Use this resource to just define the (empty) policy rule set only
 
 # Resource: valtix_policy_rule_set
-
 A policy rule set is a list of firewall rules. The rule set can be applied to multiple gateways to achieve identical security posture. It is recommended to create an empty policy rule set with this resource and manage the rules using the valtix_policy_rules resource.
 
 ## Example Usage
 
 **Define empty rule set (recommended. Use valtix_policy_rules to define the rules)**
-
 ```hcl
 resource "valtix_policy_rule_set" ingress_policy_rule_set {
   name = "ingress_rule_set"
@@ -16,7 +14,6 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 ```
 
 **With inline rules (not recommended. Use valtix_policy_rules)**
-
 ```hcl
 resource "valtix_policy_rule_set" ingress_policy_rule_set {
   name = "ingress_rule_set"
@@ -40,13 +37,11 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 ```
 
 ## Argument Reference
-
 * `name` - (Required) Name of the rule set
 * `description` - (Optional) Description of the rule set
 * `rule` - A list of rules, this block can be repeated multiple times. Look below for the [definition/structure](#rule) of the rule
 
 ## Rule
-
 * `name` - (Required) Rule name.
 * `description` - (Optional) Rule detailed description.
 * `state` - (Required) "ENABLED" or "DISABLED". Set the rule's state to enabled or disabled.
@@ -54,7 +49,7 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 * `source` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.src1.address_id*
 * `destination` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.dst1.address_id*
 * `service` - (Required) Service id of the valtix_service_object. The service object's service_type must match the rule type
-* `action` - (Required) "ALLOW_LOG", "ALLOW" (does not log the flow), "DENY_NOLOG" (does not log the flow), "DENY" (log the flow)
+* `action` - (Required) "ALLOW_LOG" (log the event), "ALLOW" (do not log the event), "DENY" (log the event), "DENY_NOLOG" (do not log the event).  Events are viewed in the Valtix UI (Investigate -> Flow Analytics).
 * `network_intrusion_profile` - (Optional) profile_id of the valtix_profile_network_intrusion. *e.g. valtix_profile_network_intrusion.ips1.profile_id*
 * `dlp_profile` - (Optional) profile_id of the valtix_profile_dlp. *e.g. valtix_profile_dlp.dlp1.profile_id*
 * `web_protection_profile` - (Optional) profile_id of the valtix_profile_web_protection. *e.g. valtix_profile_web_protection.waf1.profile_id*
@@ -65,5 +60,4 @@ resource "valtix_policy_rule_set" ingress_policy_rule_set {
 * `packet_capture_enabled` - (Optional) true/false. Capture pcap when traffic matches the rule.
 
 ## Attribute Reference
-
-* `rule_set_id` - Id of the rule set that can be referenced in other resources (e.g. valtix_policy_rules)
+* `rule_set_id` - ID of the Rule Set that can be referenced in other resources (e.g., *valtix_policy_rules*)

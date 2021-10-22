@@ -1,5 +1,4 @@
 # valtix_spoke_vpc
-
 Manage Spoke VPC/Vnet. In AWS, the spoke VPC is attached to the transit gateway and appropriate routing is setup in transit gateway route tables, so the traffic reaches the service VPC. (Customer has to set the default route in the spoke VPC routing tables to point to the Transit Gateway)
 
 In Azure, VNet peering is setup between the Service VNet and the Spoke VNet

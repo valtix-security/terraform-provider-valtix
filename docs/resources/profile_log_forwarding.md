@@ -1,11 +1,9 @@
 # valtix_profile_log_forwarding
-
 Create Log Forwarding Profile
 
 ## Example Usage
 
 ### syslog
-
 ```hcl
 resource "valtix_profile_log_forwarding" syslog1 {
   name                    = "syslog1"
@@ -20,7 +18,6 @@ resource "valtix_profile_log_forwarding" syslog1 {
 ```
 
 ### splunk
-
 ```hcl
 resource "valtix_profile_log_forwarding" splunk1 {
   name                    = "splunk1"
@@ -34,7 +31,6 @@ resource "valtix_profile_log_forwarding" splunk1 {
 ```
 
 ### datadog
-
 ```hcl
 resource "valtix_profile_log_forwarding" datadog1 {
   name                    = "datadog1"
@@ -46,19 +42,16 @@ resource "valtix_profile_log_forwarding" datadog1 {
 }
 ```
 
-
 ### gcp log-forwarding
-
 ```hcl
 resource "valtix_profile_log_forwarding" gcplog1 {
-  name                    = "gcplog1"
-  siem_vendor             = "GCPLOGGING_FROM_GATEWAY"
-  log_name                = "gcp-logging-1"
+  name        = "gcplog1"
+  siem_vendor = "GCPLOGGING_FROM_GATEWAY"
+  log_name    = "gcp-logging-1"
 }
 ```
 
 ## Argument Reference
-
 * `name` - (Required) Name of the decryption profile
 * `siem_vendor` - (Required) One of **SPLUNK**, **DATADOG**, **GCPLOGGING_FROM_GATEWAY**, **REMOTE_SYSLOG**
 
@@ -89,5 +82,4 @@ resource "valtix_profile_log_forwarding" gcplog1 {
 * `web_attack_severity` - (Optional) One of "Alert", "Emergency", "Critical", "Error", "Warning", "Notice", "Info", "Debug". Forward web attacks with the given severity only
 
 ## Attribute Reference
-
-* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_gateway)
+* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_gateway*)

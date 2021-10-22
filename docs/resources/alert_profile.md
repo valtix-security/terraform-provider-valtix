@@ -1,12 +1,10 @@
 # valtix_alert_profile
-
-Configure a profile that defines the destination where the alerts are sent (pagerduty, slack, servicenow)
-Manages certificates that are presented to the end user when they access valtix gw proxy
+Configure a profile that defines the destination where the alerts are sent (Pagerduty, Slack, ServiceNow)
+Manages certificates that are presented to the end user when they access valtix Gateway proxy
 
 ## Example Usage
 
 ### Slack
-
 ```hcl
 resource "valtix_alert_profile" slack1 {
   name            = "slack1"
@@ -16,7 +14,6 @@ resource "valtix_alert_profile" slack1 {
 ```
 
 ### Pagerduty
-
 ```hcl
 resource "valtix_alert_profile" pd1 {
   name            = "pd1"
@@ -26,7 +23,6 @@ resource "valtix_alert_profile" pd1 {
 ```
 
 ### ServiceNow
-
 ```hcl
 resource "valtix_alert_profile" sn1 {
   name            = "sn1"
@@ -37,7 +33,6 @@ resource "valtix_alert_profile" sn1 {
 ```
 
 ## Argument Reference
-
 * `name` - (Required) Name of the alert profile
 * `description` - Description
 * `type` - (Required) One of "SlackWebHook", "PagerDutyEventApi", "ServiceNowWebHook"
@@ -45,5 +40,4 @@ resource "valtix_alert_profile" sn1 {
 * `integration_url` - (Required for ServiceNow and Slack) Webhook URL or ServiceNow Url
 
 ## Attribute Reference
-
-* `profile_id` - Id of the profile that can be referenced in other resources
+* `profile_id` - ID of the Profile that can be referenced in other resources

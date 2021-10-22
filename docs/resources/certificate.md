@@ -1,11 +1,9 @@
 # Resource: valtix_certificate
-
 Manages certificates that are presented to the end user when they access valtix gw proxy
 
 ## Example Usage
 
 ### Import a certificate and key that's on your local file system
-
 ```hcl
 resource "valtix_certificate" cert1 {
   name              = "self_signed_cert_1"
@@ -17,7 +15,6 @@ resource "valtix_certificate" cert1 {
 ```
 
 ### Import a certificate from AWS Secrets Manager
-
 ```hcl
 resource "valtix_certificate" cert1 {
   name             = "aws_secret"
@@ -30,7 +27,6 @@ resource "valtix_certificate" cert1 {
 ```
 
 ### Import a certificate from AWS KMS
-
 ```hcl
 resource "valtix_certificate" kms {
   name                    = "aws_kms"
@@ -43,7 +39,6 @@ resource "valtix_certificate" kms {
 ```
 
 ### Import a certificate from Azure Key Vault and Secret
-
 ```hcl
 resource "valtix_certificate" azure {
   name                        = "azure"
@@ -57,7 +52,6 @@ resource "valtix_certificate" azure {
 ```
 
 ### Import a certificate from GCP Secrets Manager
-
 ```hcl
 resource "valtix_certificate" cert1 {
   name             = "self_signed_cert_1"
@@ -70,7 +64,6 @@ resource "valtix_certificate" cert1 {
 ```
 
 ## Argument Reference
-
 * `name` - (Required) Name of the certificate
 * `description` - Description of the certificate
 * `certificate_type` - (Required) "IMPORT_CONTENTS", "AWS_KMS", "AWS_SECRET", "AZURE_KEY_VAULT_SECRET", "GCP_SECRET"
@@ -104,5 +97,4 @@ resource "valtix_certificate" cert1 {
 * `azure_key_vault_secret_name` - (Required) Azure secret name
 
 ## Attribute Reference
-
 * `name` - Name of the certificate that can be referenced in other resources (e.g. valtix_profile_decryption)

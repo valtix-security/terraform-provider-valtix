@@ -1,22 +1,19 @@
 # Resource: valtix_profile_network_intrusion
-
-Create IPS (Network Intrusion) Profile
+Create Network Intrusion (IPS) Profile
 
 ## Example Usage
 
 ### With auto updating ruleset and other defaults
-
 ```hcl
 resource "valtix_profile_network_intrusion" ips_auto {
-  name                  = "ips_auto"
-  description           = "predefined rules tagged as 'connectivity'"
-  policy                = "CONNECTIVITY"
-  policy_action         = "ALERT"
+  name          = "ips_auto"
+  description   = "predefined rules tagged as 'connectivity'"
+  policy        = "CONNECTIVITY"
+  policy_action = "ALERT"
 }
 ```
 
 ### With manually specified ruleset version
-
 ```hcl
 resource "valtix_profile_network_intrusion" ips_manual {
   name                  = "ips_manual"
@@ -28,7 +25,6 @@ resource "valtix_profile_network_intrusion" ips_manual {
 ```
 
 ### Advanced Example with all the attributes
-
 ```hcl
 resource "valtix_profile_network_intrusion" "ips_manual" {
   name                  = "ips_manual"
@@ -38,104 +34,95 @@ resource "valtix_profile_network_intrusion" "ips_manual" {
   policy_action         = "ALERT"
   talos_ruleset_version = "2.9.11-07092021"
   categories {
-    name = "app-detect"
+    name   = "app-detect"
     action = "ALERT"
   }
   categories {
-    name = "browser-chrome"
+    name   = "browser-chrome"
     action = "ALERT"
   }
   classes {
-    name = "attempted-admin"
+    name   = "attempted-admin"
     action = "ALERT"
   }
   classes {
-    name = "attempted-dos"
+    name   = "attempted-dos"
     action = "ALERT"
   }
   rule_event_filter {
-    rule_ids = ["12345", "12346"]
-    type = "SAMPLE"
+    rule_ids         = ["12345", "12346"]
+    type             = "SAMPLE"
     number_of_events = "3"
   }
   rule_event_filter {
-    rule_ids = ["7689"]
-    type = "SAMPLE"
+    rule_ids         = ["7689"]
+    type             = "SAMPLE"
     number_of_events = "3"
   }
   event_suppressor {
     source_ips = ["172.16.1.252", "172.22.0.0/16"]
-    rule_ids = ["12345", "12346"]
+    rule_ids   = ["12345", "12346"]
   }
   event_suppressor {
     source_ips = ["0.0.0.0"]
-    rule_ids = ["7689"]
+    rule_ids   = ["7689"]
   }
   profile_event_filter {
-    type = "SAMPLE"
+    type             = "SAMPLE"
     number_of_events = "3"
   }
 }
 ```
 
 ## Argument Reference
-
-* `name` - (Required) Name of the IPS profile
-* `description` - (Optional) Description of the IPS profile
-* `auto_update` - (Optional) Auto update the Talos IPS Ruleset version daily with a delay specified by `delay_by_days` parameter. The valid values are true/false and it is true by default..
-* `delay_by_days` - (Optional) How many days before we use a Talos IPS Ruleset version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
-* `talos_ruleset_version` - (Optional) Talos IPS ruleset version. Find the values from the UI. The rulesets are published everyday. Unless you want to use a specific version, Valtix recommends to use auto_update as described above
-
-  If this argument is specified, Auto Update of Talos IPS Ruleset is disabled and the profile will only use this version for Talos IPS Ruleset.
-
-* `action` - (Optional) Default action for all the attacks. Can be overwritten for each attack type. Default value is specified in the talos rule set. If this is not specified then whatever action that's specified in the ruleset is used (called Rule Default). Valid values:
-    * **ALERT** (logs in ips events)
-    * **DROP** (drop the traffic and log the events)
-    * **SILENTDROP** (drop the traffic and no log of events)
-* `policy` - (Required) Pre-defined IPS ruleset to use, must be one of:
+* `name` - (Required) Name of the Profile
+* `description` - (Optional) Description of the Profile
+* `auto_update` - (Optional) Auto Update the Talos Network Intrusion Ruleset version. Valid values are *true* or *false*.  Default (if unspecified) is *true*.
+* `delay_by_days` - (Optional) Number of days to delay updating the Talos Network Intrusion Ruleset version after it has been published by Valtix. Valid values are integers from 0 to 30.  A value of *0* means immediate update (0 days).  The default value is *7* (7 days). Valtix publishes new Rulesets as soon as updates are available from the Vendor and complete testing by Valtix.
+* `talos_ruleset_version` - (Optional) The Talos Network Intrusion Ruleset version. Valid values are available in the Valtix UI (Administration -> Management -> System -> Talos / Network Intrusion). If this argument is specified, Auto Update of Talos Network Intrusion Ruleset is disabled and the Profile will only use this Talos Network Intrusion version. Valtix recommends using Auto Update to ensure the latest Rulesets are used.
+* `action` - (Optional) Action to take when a Network Intrusion is detected. This action can be overwritten for each Network Intrusion attack type (default value is specified for each Rule in the Talos Network Intrusion Ruleset). If not specified, then the action assumed is the action defined in the Policy Ruleset Rule (Rule Default). Valid values:
+    * **ALERT** (Allow Log - log the event)
+    * **DROP** (Deny Log - log the event)
+    * **SILENTDROP** (Deny No Log - do not log the event)
+* `policy` - (Required) Pre-defined Talos Network Intrusion Ruleset to use. Valid values:
     * **CONNECTIVITY**
     * **BALANCED**,
     * **SECURITY**
     * **MAX_DETECT**
-* `policy_action` - (Optional) Action to apply for the predefined policy. Look at action attribute for valid values. If this is not specified, the action defined in the 'action' attribute is used.
-* `categories` - (Optional) Predefined Categories. Structure [defined below](#categories). This block can be repeated multiple times.
+* `policy_action` - (Optional) Action to take when a Network Intrusion is detected for a pre-defined Policy. Valid values are the same values as *action*. If not specified, then the action assumed is the action defined in the *action* argument.
+* `categories` - (Optional) Pre-defined Categories. Structure [defined below](#categories). This block can be repeated multiple times.
 * `classes` - (Optional) Predefined classes. Structure [defined below](#classes). This block can be repeated multiple times.
-* `pcap` - (Optional) true/false. Capture pcap when traffic matches the IPS rules
-* `rule_event_filter` - (Optional) Rate Limit / Sample a set of rules. Structure is [defined below](#rule-event-filter). This block can be repeated multiple times.
-* `event_suppressor` - (Optional) Suppress a given set of rule ids for traffic from certain sources. Structure is [defined below](#event-suppressor). This block can be repeated multiple times.
-* `profile_event_filter` - (Optional) Similar to the rule_event_filter but applies to the whole profile instead of specific rule(s).  Structure is [defined below](#profile-event-filter)
+* `pcap` - (Optional) Capture packets (PCAP) when traffic matches the Network Intrusion rules.  Valid values are *true* or *false*.
+* `rule_event_filter` - (Optional) Rate Limit / Sample a set of rules. Structure[defined below](#rule-event-filter). This block can be repeated multiple times.
+* `event_suppressor` - (Optional) Suppress a given set of Rule IDs for traffic from certain sources. Structure [defined below](#event-suppressor). This block can be repeated multiple times.
+* `profile_event_filter` - (Optional) Similar to the *rule_event_filter* but applies to the entire Profile instead of specific Rule(s).  Structure [defined below](#profile-event-filter)
 
 ## Categories
-* `name` - (Required) Name of IPS attacks categories
+* `name` - (Required) Name of a Talos Network Intrusion attack category
 * `action` - (Optional) Values same as action attribute. If this is not specified, then the value defined in 'action' attribute is used
 
 ## Classes
-
 * `name` - (Required) Name of IPS attacks classes
 * `action` - (Optional) Values same as action attribute. If this is not specified, then the value defined in 'action' attribute is used
 
 ## Rule Event Filter
-
-* `rule_ids` - (Optional) List of rule ids to filter
+* `rule_ids` - (Optional) List of Rule IDss to filter
 * `type` - (Optional) "RATE" or "SAMPLE". When "RATE" is selected, number_of_events and time must be provided. action is applied once the provided rule_ids match the given count in the given time.
 
-If the type is "SAMPLE", the action is applied once the count of the events matces
+  If the type is "SAMPLE", the action is applied once the count of the events matches
 
 * `number_of_events` - (Optional) Number of times the rule id attack must match before the action is applied
 * `time` - (Optional) Used when the type is "RATE", the number_of_events must match in the given time (in seconds)
 
 ## Event Suppressor
-
-* `source_ips` - (Optional) List of source ips or CIDRs
-* `rule_ids` - (Optional) List of rule ids to filter
+* `source_ips` - (Optional) List of source IPs or CIDRs
+* `rule_ids` - (Optional) List of Rule IDs to filter
 
 ## Profile Event Filter
-
-* `rule_ids` - (Optional) List of rule ids to filter
+* `rule_ids` - (Optional) List of Rule IDs to filter
 * `type` - (Optional) "RATE" or "SAMPLE". When "RATE" is selected, number_of_events and time must be provided. action is applied once the provided rule_ids match the given count in the given time.
 
-If the type is "SAMPLE", the action is applied once the count of the events matces
+  If the type is "SAMPLE", the action is applied once the count of the events matches
 
 ## Attribute Reference
-
-* `profile_id` - Id of the profile that can be referenced in other resources (e.g. valtix_policy_rules)
+* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)

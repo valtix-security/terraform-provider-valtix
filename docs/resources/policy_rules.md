@@ -2,11 +2,9 @@
 Terraform currently provides both a standalone valtix_policy_rules resource and a valtix_policy_rule_set resource with rules defined in-line. At this time you cannot use a valtix_policy_rule_set with in-line rules in conjunction with any valtix_policy_rules resource. Doing so will cause a conflict of rule settings and will overwrite rules. It is recommended to use valtix_policy_rules to define all the firewall policies.
 
 # Resource: valtix_policy_rules
-
 Policy Rules is a list of firewall rules that are specified for a Policy Rule Set. 
 
 ## Example Usage
-
 ```hcl
 resource "valtix_policy_rules" ingress_policy_rules {
   rule_set_id = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
@@ -30,12 +28,10 @@ resource "valtix_policy_rules" ingress_policy_rules {
 ```
 
 ## Argument Reference
-
 * `rule_set_id` - (Required) The ID of the Policy Rule Set 
 * `rule` - A list of rules, this block can be repeated multiple times. Look below for the [definition/structure](#rule) of the rule
 
 ## Rule
-
 * `name` - (Required) Rule name.
 * `description` - (Optional) Rule detailed description.
 * `state` - (Required) "ENABLED" or "DISABLED". Set the rule's state to enabled or disabled.
@@ -43,7 +39,7 @@ resource "valtix_policy_rules" ingress_policy_rules {
 * `source` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.src1.address_id*
 * `destination` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.dst1.address_id*
 * `service` - (Required) Service id of the valtix_service_object. The service object's service_type must match the rule type
-* `action` - (Required) "ALLOW_LOG", "ALLOW" (does not log the flow), "DENY_NOLOG" (does not log the flow), "DENY" (log the flow)
+* `action` - (Required) "ALLOW_LOG" (log the event), "ALLOW" (do not log the event), "DENY" (log the event), "DENY_NOLOG" (do not log the event).  Events are viewed in the Valtix UI (Investigate -> Flow Analytics).
 * `network_intrusion_profile` - (Optional) profile_id of the valtix_profile_network_intrusion. *e.g. valtix_profile_network_intrusion.ips1.profile_id*
 * `dlp_profile` - (Optional) profile_id of the valtix_profile_dlp. *e.g. valtix_profile_dlp.dlp1.profile_id*
 * `web_protection_profile` - (Optional) profile_id of the valtix_profile_web_protection. *e.g. valtix_profile_web_protection.waf1.profile_id*

@@ -22,8 +22,8 @@ resource "valtix_address_object" app1-lb-tag {
   type            = "DYNAMIC_APPLICATIONS"
   backend_address = true
   tag_list {
-      tag_key = "tag-name1"
-      tag_value = "tag-value1"
+      tag_key     = "tag-name1"
+      tag_value   = "tag-value1"
   }
 }
 ```
@@ -31,15 +31,15 @@ resource "valtix_address_object" app1-lb-tag {
 ### dynamic user defined tag object using one or more tags
 ```hcl
 resource "valtix_address_object" udf-tag-ag {
-  name            = "udf-tag-ag"
-  description     = "ip addresses of instances using user defined tags"
-  type            = "DYNAMIC_USER_DEFINED_TAG"
+  name        = "udf-tag-ag"
+  description = "ip addresses of instances using user defined tags"
+  type        = "DYNAMIC_USER_DEFINED_TAG"
   tag_list {
-      tag_key = "tag-name1"
+      tag_key   = "tag-name1"
       tag_value = "tag-value1"
   }
   tag_list {
-     tag_key = "tag-name2"
+     tag_key   = "tag-name2"
      tag_value = "tag-value2"
   }
 }
@@ -57,19 +57,17 @@ resource "valtix_address_object" vpc1-ag {
 }
 ```
 
-
 ### dynamic address object (group) using a collection of address objects
 ```hcl
 resource "valtix_address_object" addr-group-ag {
-  name            = "addr-group-ag"
-  description     = "collection of address groups"
-  type            = "GROUP"
+  name              = "addr-group-ag"
+  description       = "collection of address groups"
+  type              = "GROUP"
   address_group_ids = [valtix_address_object.addr1.address_id, valtix_address_object.addr2.address_id]
 }
 ```
 
 ## Argument Reference
-
 * `name` - (Required) Name of the address object
 * `description` - Description of the address object
 * `type` - (Required)
@@ -88,12 +86,10 @@ resource "valtix_address_object" addr-group-ag {
 ## Additional arguments based on the type
 
 ## STATIC
-
 * `value` - (Required) List of IP Address or FQDN. If the backend_address value is true, then this must be a list with one entry only.
 * `backend_address` - (Optional) true/false. This must be set to true if this address object runs an application that's proxied/protected by the valtix_gw. The *value* attribute must be a single item list.
 
 ## DYNAMIC_APPLICATIONS
-
 * `tag_key` - (Deprecated), name of the tag
 * `tag_value` - (Deprecated), value of the tag
 * `tag_list` - (Required) object with tag_key=<key> and tag_value=<value>, this block can be repeated multiple times. Application is selected if ALL the tags specified match
@@ -103,14 +99,12 @@ resource "valtix_address_object" addr-group-ag {
 * `resource_group` - (Azure only) Resource group name
 
 ## DYNAMIC_VPC
-
 * `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `region` - (Required) Region where the VPC is defined
 * `vpc_id` - (Required) VPC Id
 * `resource_group` - (Azure only) Resource group name
 
 ## DYNAMIC_SUBNET
-
 * `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `region` - (Required) Region where the VPC is defined
 * `vpc_id` - (Required) VPC Id
@@ -118,7 +112,6 @@ resource "valtix_address_object" addr-group-ag {
 * `resource_group` - (Azure only) Resource group name
 
 ## DYNAMIC_INSTANCE
-
 * `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `region` - (Required) Region where the VPC is defined
 * `vpc_id` - (Required) VPC Id
@@ -126,7 +119,6 @@ resource "valtix_address_object" addr-group-ag {
 * `resource_group` - (Azure only) Resource group name
 
 ## DYNAMIC_SECURITY_GROUP
-
 * `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `region` - (Required) Region where the VPC is defined
 * `vpc_id` - (Required) VPC Id
@@ -134,7 +126,6 @@ resource "valtix_address_object" addr-group-ag {
 * `resource_group` - (Azure only) Resource group name
 
 ## DYNAMIC_USER_DEFINED_TAG
-
 * `csp_account_name` - (Optional) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
 * `region` - (Optional) Region where the VPC is defined
 * `vpc_id` - (Optional) VPC Id
@@ -142,26 +133,19 @@ resource "valtix_address_object" addr-group-ag {
 * `resource_group` - (Azure only - optional) Resource group name
 
 ## DYNAMIC_SERVICE_ENDPOINTS
-
-* `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
-* `service_endpoint_name` - (Required) Service end point name
+* `csp_account_name` - (Required) This is the name of the CSP Account added via *valtix_cloud_account* that selects the CSP Account to get the VPC
+* `service_endpoint_name` - (Required) Service End Point name
 
 ## GEO_IP
-
 * `value` - (Required) Geo IP Value
 
 ## STORAGE_BUCKET
-
-* `csp_account_name` - (Required) This is the name of the account added via valtix_cloud_account that selects the csp account to get the VPC
-* `value` - (Required) Bucket Name
-
+* `csp_account_name` - (Required) Name of the CSP Account added via *valtix_cloud_account* that selects the CSP Account to get the VPC
+* `value` - (Required) Bucket name
 
 ## GROUP
-
-* `address_group_ids` - (Required) list of address ids that can be grouped together
-
+* `address_group_ids` - (Required) list of Address IDs that can be grouped together
 
 ## Attribute Reference
-
-* `address_id` - Id of the profile that can be referenced in other resources (e.g. valtix_service_object)
+* `address_id` - ID of the Address Object that can be referenced in other resources (e.g., *valtix_service_object*)
 
