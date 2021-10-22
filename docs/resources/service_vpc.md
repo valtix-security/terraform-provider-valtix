@@ -16,7 +16,7 @@ resource "valtix_service_vpc" "service_vpc" {
 ```
 
 ### Azure Service VNet
-```
+```hcl
 resource "valtix_service_vpc" "service_vpc" {
   name                 = "service_vpc"
   csp_account_name     = "azure_account_1"
@@ -37,8 +37,6 @@ resource "valtix_service_vpc" "service_vpc" {
 * `azure_resource_group` - (Required for Azure) Resource Group Name in which the Service VNet and its resources are created
 
 ## Attribute Reference
-The following attributes are exported:
-
 * `id` - Terraform resource ID of the Services VPC/VNet
 * `vpc_id` - Cloud specific ID of the Services VPC/VNet
 * `service_vpc_id` - Same as `id` (for backward compatibility)
