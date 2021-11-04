@@ -29,7 +29,7 @@ resource "valtix_service_object" app1-svc {
 
 ### ReverseProxy: Listen on port 443 TLS and transport to port 443 HTTPS on backend
 ```hcl
-resource "valtix_service_object" app1-svc-https {
+resource "valtix_service_object" "app1-svc-https" {
   name           = "app1-svc-https"
   description    = "app1 service: listen on 443 and target to 443"
   service_type   = "ReverseProxy"
@@ -44,9 +44,9 @@ resource "valtix_service_object" app1-svc-https {
 }
 ```
 
-### ReverseProxy: Listen on port 443 TLS and transport to port 443 HTTPS on backend with SNI **
+### ReverseProxy: Listen on port 443 TLS on a SNI and transport to port 443 HTTPS on backend **
 ```hcl
-resource "valtix_service_object" app1-svc-https {
+resource "valtix_service_object" "app1-svc-https" {
   name           = "app1-svc-https"
   description    = "app1 service: listen on 443 and target to 443"
   service_type   = "ReverseProxy"
@@ -61,10 +61,7 @@ resource "valtix_service_object" app1-svc-https {
   tls_profile           = valtix_profile_decryption.decryption_profile_1.profile_id
 }
 
-# Target to address object 2 with a different SNI. address and decryption are
-# provided in the example as a reference but the definition of
-# address object and decryption profile is not provided here and assumed to be
-# defined as describe earlier.
+# Target to address object 2 with a different SNI.
 
 resource "valtix_service_object" app2-svc-https {
   name           = "app1-svc-https"
@@ -84,7 +81,7 @@ resource "valtix_service_object" app2-svc-https {
 
 ### Forward Proxy (Egress) Service object
 ```hcl
-resource "valtix_service_object" internet-http {
+resource "valtix_service_object" "internet-http" {
   name           = "internet-port-80"
   description    = "allow port 80 to internet"
   service_type   = "ForwardProxy"
@@ -94,7 +91,7 @@ resource "valtix_service_object" internet-http {
   }
 }
 
-resource "valtix_service_object" internet-https {
+resource "valtix_service_object" "internet-https" {
   name           = "internet-port-443"
   description    = "allow port 443 to internet"
   service_type   = "ForwardProxy"
@@ -108,7 +105,7 @@ resource "valtix_service_object" internet-https {
 
 ### Forwarding Service object
 ```hcl
-resource "valtix_service_object" forward-https {
+resource "valtix_service_object" "forward-https" {
   name         = "Forward-HTTPS"
   service_type = "Forwarding"
   port {

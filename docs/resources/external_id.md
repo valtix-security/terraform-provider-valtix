@@ -3,8 +3,8 @@ Define an external_id that can be used in an IAM Role Trust Policy to designate 
 
 ## Example Usage
 ```hcl
-resource "valtix_external_id" ext_id {
-    name = "ext_id1"
+resource "valtix_external_id" "ext_id" {
+  name = "ext_id1"
 }
 ```
 

@@ -8,8 +8,8 @@ resource "valtix_profile_dlp" "dlp1" {
   description = "dlp1 description"
   dlp_filter_list {
     description = "Routing Numbers"
-    patterns    = [
-        "custom text to detect"
+    patterns = [
+      "custom text to detect"
     ]
     static_patterns = [
       "Bank of America Routing Numbers - California"

@@ -3,7 +3,7 @@ Create L7DoS Profile
 
 ## Example Usage
 ```hcl
-resource "valtix_profile_l7dos" l7dos1 {
+resource "valtix_profile_l7dos" "l7dos1" {
   name        = "l7dos1"
   description = "pcap description"
   request_limits {

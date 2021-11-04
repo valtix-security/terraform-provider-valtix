@@ -4,7 +4,7 @@ Create a decryption profile that can be used in a service.
 
 ## Example Usage
 ```hcl
-resource "valtix_profile_decryption" decryption_profile_1 {
+resource "valtix_profile_decryption" "decryption_profile_1" {
   name             = "tls_profile_1"
   certificate_name = valtix_certificate.cert1.name
 }

@@ -16,7 +16,7 @@ resource "valtix_certificate" cert1 {
 
 ### Import a certificate from AWS Secrets Manager
 ```hcl
-resource "valtix_certificate" cert1 {
+resource "valtix_certificate" "cert1" {
   name             = "aws_secret"
   certificate_type = "AWS_SECRET"
   certificate_body = file("cert.pem")
@@ -28,7 +28,7 @@ resource "valtix_certificate" cert1 {
 
 ### Import a certificate from AWS KMS
 ```hcl
-resource "valtix_certificate" kms {
+resource "valtix_certificate" "kms" {
   name                    = "aws_kms"
   certificate_type        = "AWS_KMS"
   certificate_body        = file("cert.pem")
@@ -40,7 +40,7 @@ resource "valtix_certificate" kms {
 
 ### Import a certificate from Azure Key Vault and Secret
 ```hcl
-resource "valtix_certificate" azure {
+resource "valtix_certificate" "azure" {
   name                        = "azure"
   certificate_type            = "AZURE_KEY_VAULT_SECRET"
   certificate_body            = file("cert.pem")
@@ -53,7 +53,7 @@ resource "valtix_certificate" azure {
 
 ### Import a certificate from GCP Secrets Manager
 ```hcl
-resource "valtix_certificate" cert1 {
+resource "valtix_certificate" "cert1" {
   name             = "self_signed_cert_1"
   certificate_type = "GCP_SECRET"
   certificate_body = file("cert.pem")

@@ -5,7 +5,7 @@ Storage location to store the pcap files
 
 ### AWS
 ```hcl
-resource "valtix_profile_packet_capture" awspcap1 {
+resource "valtix_profile_packet_capture" "awspcap1" {
   name                = "awspcap1"
   description         = "pcap description"
   csp_account         = "csp account name added via valtix_cloud_account"
@@ -15,7 +15,7 @@ resource "valtix_profile_packet_capture" awspcap1 {
 
 ### Azure
 ```hcl
-resource "valtix_profile_packet_capture" azurepcap1 {
+resource "valtix_profile_packet_capture" "azurepcap1" {
   name                      = "azurepcap1"
   description               = "pcap description"
   csp_account               = "csp account name added via valtix_cloud_account"
@@ -27,7 +27,7 @@ resource "valtix_profile_packet_capture" azurepcap1 {
 
 ### GCP
 ```hcl
-resource "valtix_profile_packet_capture" gcppcap1 {
+resource "valtix_profile_packet_capture" "gcppcap1" {
   name                = "gcppcap1"
   description         = "pcap description"
   csp_account         = "csp account name added via valtix_cloud_account"
@@ -43,3 +43,6 @@ resource "valtix_profile_packet_capture" gcppcap1 {
 * `azure_storage_accnt_name` - (Required - Azure) Storage account name
 * `azure_blob_container_name` - (Required - Azure) Storage container name
 * `azure_storage_access_key` - (Optional - Azure) Storage account access key, if required
+
+## Attribute Reference
+* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_gateway*)

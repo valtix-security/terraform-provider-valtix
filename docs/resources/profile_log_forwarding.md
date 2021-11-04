@@ -5,7 +5,7 @@ Create Log Forwarding Profile
 
 ### syslog
 ```hcl
-resource "valtix_profile_log_forwarding" syslog1 {
+resource "valtix_profile_log_forwarding" "syslog1" {
   name                    = "syslog1"
   siem_vendor             = "REMOTE_SYSLOG"
   syslog_server_ip        = "0.0.0.0"
@@ -19,7 +19,7 @@ resource "valtix_profile_log_forwarding" syslog1 {
 
 ### splunk
 ```hcl
-resource "valtix_profile_log_forwarding" splunk1 {
+resource "valtix_profile_log_forwarding" "splunk1" {
   name                    = "splunk1"
   siem_vendor             = "SPLUNK"
   endpoint                = "https://1.2.3.4:8088/services/collector"
@@ -32,7 +32,7 @@ resource "valtix_profile_log_forwarding" splunk1 {
 
 ### datadog
 ```hcl
-resource "valtix_profile_log_forwarding" datadog1 {
+resource "valtix_profile_log_forwarding" "datadog1" {
   name                    = "datadog1"
   siem_vendor             = "DATADOG"
   endpoint                = "https://http-intake.logs.datadoghq.com/"
@@ -44,7 +44,7 @@ resource "valtix_profile_log_forwarding" datadog1 {
 
 ### gcp log-forwarding
 ```hcl
-resource "valtix_profile_log_forwarding" gcplog1 {
+resource "valtix_profile_log_forwarding" "gcplog1" {
   name        = "gcplog1"
   siem_vendor = "GCPLOGGING_FROM_GATEWAY"
   log_name    = "gcp-logging-1"
@@ -66,7 +66,6 @@ resource "valtix_profile_log_forwarding" gcplog1 {
 ### DATADOG
 * `endpoint` - (Required ) https URL.
 * `auth_token` - (Required) https auth token
-
 
 ### GCPLOGGING_FROM_GATEWAY
 * `log_name` - [Optional] gcp log name to store the logs. If not specified, the default name is "valtix-gateway-logs"

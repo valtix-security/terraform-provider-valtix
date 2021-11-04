@@ -15,8 +15,8 @@ resource "valtix_service_vpc" "service_vpc" {
 }
 ```
 ~> **Note on AWS Transit Gateway (TGW)**
-If the TGW is created using the AWS Terraform Provider, the attributes *default_route_table_association* and *default_route_table_propagation* MUST be set to *"disable"*.<br><br>
-If the TGW is created using the AWS Console, the attributes *Default association route table* and *Default propagation route table* MUST be set to *Disable*.<br><br>
+If the TGW is created using the AWS Terraform Provider, the attributes *default_route_table_association* and *default_route_table_propagation* MUST be set to *"disable"*<br>
+If the TGW is created using the AWS Console, the attributes *Default association route table* and *Default propagation route table* MUST be set to *Disable*
 If these values are not set properly, traffic will bypass the Service VPC and will not be protected by Valtix.
 
 ### Azure Service VNet

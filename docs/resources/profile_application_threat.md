@@ -5,11 +5,11 @@ Create Web Application Firewall (WAF) profile
 
 ### With auto updating rulesets and other defaults
 ```hcl
-resource "valtix_profile_application_threat" waf_auto {
-  name                        = "waf_auto"
-  description                 = "waf basic rules"
-  paranoia_level              = 1
-  request_inspection_profile  = [
+resource "valtix_profile_application_threat" "waf_auto" {
+  name           = "waf_auto"
+  description    = "waf basic rules"
+  paranoia_level = 1
+  request_inspection_profile = [
     "Request - Protocol Enforcement"
   ]
   response_inspection_profile = [
@@ -20,13 +20,13 @@ resource "valtix_profile_application_threat" waf_auto {
 
 ### With manually specified rulesets and other optional/advanced attributes
 ```hcl
-resource "valtix_profile_application_threat" waf_manual {
-  name                       = "waf_manual"
-  description                = "waf profile 1"
-  crs_ruleset_version        = "3.0.2-01272021"
-  trustwave_ruleset_version  = "3.0.2-01272021"
-  paranoia_level             = 3
-  action                     = "BLOCK"
+resource "valtix_profile_application_threat" "waf_manual" {
+  name                      = "waf_manual"
+  description               = "waf profile 1"
+  crs_ruleset_version       = "3.0.2-01272021"
+  trustwave_ruleset_version = "3.0.2-01272021"
+  paranoia_level            = 3
+  action                    = "BLOCK"
   request_inspection_profile = [
     "Request - Protocol Enforcement",
     "Request - Protocol Attack"
@@ -35,7 +35,7 @@ resource "valtix_profile_application_threat" waf_manual {
     "Response - General",
     "Response - SQL"
   ]
-  advanced_application_profile  = [
+  advanced_application_profile = [
     "ARSC Really Simple Chat",
     "ASP Product Catalog",
     "AXIGEN Mail Server"
@@ -73,14 +73,7 @@ resource "valtix_profile_application_threat" waf_manual {
   If this argument is specified, Auto Update of CRS ruleset is disabled and the profile will only use this version for CRS ruleset.
 * `auto_update_trustwave` - (Optional) Auto update the Trustwave Rule Set version daily with a delay specified by `delay_by_days_trustwave` parameter. The valid values are true/false and it is true by default..
 * `delay_by_days_trustwave` - (Optional) How many days before we use a Trustwave Rule Set version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
-* `trustwave_ruleset_version` - (Optional) Trustwave Rule Set version. Valid values are (as of this publication of this document):
-    * **3.0.2-01272021**
-    * **3.0.2-01262021**
-    * **3.0.2-01252021**
-    * **3.0.2-01242021**
-    * **3.0.2-01232021**
-    * **3.0.2-01222021**
-
+* `trustwave_ruleset_version` - (Optional) Trustwave Rule Set version. Check Valtix Dashboard (UI) for a valid list of versions or contact Valtix support
   If this argument is specified, Auto Update of Trustwave Rule Set is disabled and the profile will only use this version for Trustwave Rule Set.
 * `paranoia_level` - (Required) An integer between 1 and 4. Higher number leads to more false positives but also helps in detecting more attacks. Recommended value is 1
 * `request_anamoly` - (Optional) Request anomaly score used in the mod_security anomaly scoring system. Default value is 3

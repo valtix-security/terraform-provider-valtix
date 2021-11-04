@@ -7,7 +7,7 @@ Cloud account resource defines the credentials of the cloud provider that can be
 Create a cross account IAM role before running this block. Look at the [AWS Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/aws/overview/) for more details. Use a Valtix generated External ID in the trust Policy of the IAM role, and the same External ID in the AWS Cloud Account Setup. 
 
 ```hcl
-resource "valtix_cloud_account" aws1 {
+resource "valtix_cloud_account" "aws1" {
   name                     = "awsaccount1"
   csp_type                 = "AWS"
   aws_credentials_type     = "AWS_IAM_ROLE"
@@ -16,13 +16,12 @@ resource "valtix_cloud_account" aws1 {
   aws_iam_role_external_id = var.external_id
 }
 ```
-If using the [Valtix IAM Terraform Module](https://github.com/valtix-security/terraform-aws-valtix-iam), make sure you add a dependency on this module for the Valtix Cloud Account resource using the depends_on meta-argument.
 
 ## Azure
 Create an application and secret before running this block. Look at the [Azure Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/azure/overview/) for more details.
 
 ```hcl
-resource "valtix_cloud_account" azure1 {
+resource "valtix_cloud_account" "azure1" {
   name                  = "azure-terraform"
   csp_type              = "AZURE"
   azure_directory_id    = "11111111-2222-4bab-aaec-ae38a24dd990"
@@ -36,7 +35,7 @@ resource "valtix_cloud_account" azure1 {
 Create a GCP service account for use by the Valtix controller and generate/download the key file before running this block. Look at the [GCP Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/gcp/overview/) for more details.
 
 ```hcl
-resource "valtix_cloud_account" gcp1 {
+resource "valtix_cloud_account" "gcp1" {
   name                 = "gcpaccount1"
   csp_type             = "GCP"
   gcp_credentials_file = file("valtix_controller_key.json")
@@ -45,7 +44,7 @@ resource "valtix_cloud_account" gcp1 {
 
 ## Account with Inventory Monitoring
 ```hcl
-resource "valtix_cloud_account" aws1 {
+resource "valtix_cloud_account" "aws1" {
   name                     = "awsaccount1"
   csp_type                 = "AWS"
   aws_credentials_type     = "AWS_IAM_ROLE"
