@@ -57,13 +57,13 @@ resource "valtix_address_object" "vpc1-ag" {
 }
 ```
 
-### Geo IP Address Object using four Geo IPs
+### Geo IP Address Object using three Geo IPs
 ```hcl
 resource "valtix_address_object" "geo-ip_ag" {
   name        = "geo-ip-ag"
   description = "list of Geo IP country codes"
   type        = "GEO_IP"
-  value       = ["CN","NG","KP","RU"]
+  value       = ["China","North Korea","Russia"]
 }
 ```
 
@@ -146,7 +146,7 @@ resource "valtix_address_object" "addr-group-ag" {
 * `resource_group` - (Azure only) The Resource Group to restrict the User Defined Tags
 
 ## GEO_IP
-* `value` - (Required) A list of Geo IPs defined by their two-letter country code
+* `value` - (Required) A list of Geo IPs defined by their Country name.  A full list of Country names can be obtained from the [GeoNames Countries](https://www.geonames.org/countries/) site.
 
 ## DYNAMIC_SERVICE_ENDPOINTS
 * `csp_account_name` - (Optional) The name of the CSP account onboarded into Valtix to restrict the scope of the Service Endpoint
