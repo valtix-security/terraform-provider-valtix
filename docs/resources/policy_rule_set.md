@@ -1,45 +1,22 @@
 ~> **Note on valtix_policy_rule_set and valtix_policy_rules**
-It is recommended to use the valtix_policy_rules resource to define the firewall policies instead of defining the rules inline in this resource. Use this resource to just define the (empty) policy rule set only
+Terraform currently provides both a standalone *valtix_policy_rules* resource and a *valtix_policy_rule_set* resource with rules defined in-line. At this time you cannot use a *valtix_policy_rule_set* with in-line rules in conjunction with any *valtix_policy_rules* resource. Doing so will cause a conflict of rule settings and will overwrite rules. It is recommended to use *valtix_policy_rules* to define all the firewall policies.
+Use *valtix_policy_rule_set* resource to just define the (empty) policy rule set only
 
 # Resource: valtix_policy_rule_set
 A policy rule set is a list of firewall rules. The rule set can be applied to multiple gateways to achieve identical security posture. It is recommended to create an empty policy rule set with this resource and manage the rules using the valtix_policy_rules resource.
 
 ## Example Usage
 
-**Define empty rule set (recommended. Use valtix_policy_rules to define the rules)**
 ```hcl
-resource "valtix_policy_rule_set" ingress_policy_rule_set {
+resource "valtix_policy_rule_set" "ingress_policy_rule_set" {
   name = "ingress_rule_set"
-}
-```
-
-**With inline rules (not recommended. Use valtix_policy_rules)**
-```hcl
-resource "valtix_policy_rule_set" ingress_policy_rule_set {
-  name = "ingress_rule_set"
-  rule {
-    name        = "rule1"
-    description = "listen port 80 to target port 80 on app1"
-    type        = "ReverseProxy"
-    action      = "ALLOW_LOG"
-    service     = valtix_service_object.app1-svc-http.service_id
-    state       = "ENABLED"
-  }
-  rule {
-    name        = "rule2"
-    description = "listen port 443 to target port 443 on app1"
-    type        = "ReverseProxy"
-    action      = "ALLOW_LOG"
-    service     = valtix_service_object.app1-svc-https.service_id
-    state       = "DISABLED"
-  }
 }
 ```
 
 ## Argument Reference
 * `name` - (Required) Name of the rule set
 * `description` - (Optional) Description of the rule set
-* `rule` - A list of rules, this block can be repeated multiple times. Look below for the [definition/structure](#rule) of the rule
+* `rule` - (Deprecated) This block can be repeated multiple times. Look below for the [definition/structure](#rule) of the rule
 
 ## Rule
 * `name` - (Required) Rule name.

@@ -6,7 +6,7 @@ Policy Rules is a list of firewall rules that are specified for a Policy Rule Se
 
 ## Example Usage
 ```hcl
-resource "valtix_policy_rules" ingress_policy_rules {
+resource "valtix_policy_rules" "ingress_policy_rules" {
   rule_set_id = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
   rule {
     name        = "rule1"

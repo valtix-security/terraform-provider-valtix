@@ -5,7 +5,7 @@ Create Network Intrusion (IPS) Profile
 
 ### With auto updating ruleset and other defaults
 ```hcl
-resource "valtix_profile_network_intrusion" ips_auto {
+resource "valtix_profile_network_intrusion" "ips_auto" {
   name          = "ips_auto"
   description   = "predefined rules tagged as 'connectivity'"
   policy        = "CONNECTIVITY"
@@ -15,7 +15,7 @@ resource "valtix_profile_network_intrusion" ips_auto {
 
 ### With manually specified ruleset version
 ```hcl
-resource "valtix_profile_network_intrusion" ips_manual {
+resource "valtix_profile_network_intrusion" "ips_manual" {
   name                  = "ips_manual"
   description           = "predefined rules tagged as 'connectivity'"
   policy                = "CONNECTIVITY"

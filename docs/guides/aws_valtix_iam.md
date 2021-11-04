@@ -3,4 +3,4 @@ In order for Valtix to inventory cloud resources and deploy Valtix gateways, IAM
 
 Please contact a Valtix solutions architect to review the IAM scopes to ensure least privilege in production deployments
 
-The module can be found [here](https://github.com/valtix-security/terraform-aws-valtix-iam)
+The module can be found [here](https://github.com/valtix-security/terraform-aws-setup)
