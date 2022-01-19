@@ -1,158 +1,256 @@
 # Resource: valtix_address_object
-Resource for creating and managing Address Objects that can be used as a Source and/or Destination in a Policy Ruleset Rule, or as a Target Backend Address in a Reverse Proxy Service Object.
+Resource for creating and managing Address Objects that can be used as a Source or Destination (Src/Dest) in a Policy Ruleset Rule, or as a Target Backend Address (Reverse Proxy Target) in a Reverse Proxy Service Object.
 
 ## Example Usage
 
-### Static Address Object using one IP Address used as a Reverse Proxy Target
+### STATIC (Source Destination) Example
+```hcl
+resource "valtix_address_object" "app1-ag" {
+  name        = "app1"
+  description = "Static IP/CIDR"
+  type        = "STATIC"
+  value       = ["10.0.0.0/16", "192.168.0.0/16", "172.16.1.15"]
+}
+```
+For a complete set of arguments, see [STATIC (Source Destination) Arguments](#static-source-destination-arguments)
+
+
+### STATIC (Reverse Proxy Target) Example
 ```hcl
 resource "valtix_address_object" "app1-ag" {
   name            = "app1"
-  description     = "Backend App"
+  description     = "Static IP/FQDN (backend)"
   type            = "STATIC"
   value           = ["10.10.10.10"]
   backend_address = true
 }
 ```
+For a complete set of arguments, see [STATIC (Reverse Proxy Target) Arguments](#static-reverse-proxy-target-arguments)
 
-### Dynamic User Defined Tag Address Object using tags used as a Reverse Proxy Target
+### DYNAMIC_APPLICATIONS (Reverse Proxy Target) Example
 ```hcl
-resource "valtix_address_object" "udf-tag-ag" {
-  name        = "udf-tag-ag"
-  description = "ip addresses of instances using user defined tags"
-  type        = "DYNAMIC_USER_DEFINED_TAG"
-  tag_list {
-      tag_key   = "tag-name1"
-      tag_value = "tag-value1"
-  }
-  tag_list {
-     tag_key   = "tag-name2"
-     tag_value = "tag-value2"
-  }
+resource "valtix_address_object" "apps1-ag" {
+    name        = "apps1"
+    description = "Dynamic Applications (backend)"
+    type        = "DYNAMIC_APPLICATIONS"
+    tag_list {
+        tag_key   = "tag-key1"
+        tag_value = "tag-value1"
+    }
 }
 ```
+For a complete set of arguments, see [DYNAMIC_APPLICATIONS (Reverse Proxy Target) Arguments](#dynamic_applications-reverse-proxy-target-arguments)
 
-### Static Address Object used as a Source/Destination in the Policy Rule
-```hcl
-resource "valtix_address_object" "app1-ag" {
-  name        = "app1"
-  description = "Static CIDRs / IP"
-  type        = "STATIC"
-  value       = ["10.0.0.0/16", "192.168.0.0/16", "172.16.1.15"]
-}
-```
 
-### Dynamic VPC Address Object (all CIDRs associated with the VPC)
+### DYNAMIC_VPC (Source Destination) Example
 ```hcl
 resource "valtix_address_object" "vpc1-ag" {
-  name             = "vpc1"
-  description      = "Backend VPC"
-  type             = "DYNAMIC_VPC"
-  vpc_id           = data.aws_vpc.gw_vpc.id
-  csp_account_name = valtix_cloud_account.aws1.name
-  region           = var.aws_region
+    name             = "vpc1"
+    description      = "Dynamic VPC ID"
+    type             = "DYNAMIC_VPC"
+    csp_account_name = valtix_cloud_account.aws1.name
+    region           = var.aws_region
+    vpc_id           = data.aws_vpc.vpc1.id
 }
 ```
+For a complete set of arguments, see [DYNAMIC_VPC (Source Destination) Arguments](#dynamic_vpc-source-destination-arguments)
 
-### Geo IP Address Object using three Geo IPs
+### DYNAMIC_INSTANCE (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "geo-ip_ag" {
-  name        = "geo-ip-ag"
-  description = "list of Geo IP country codes"
+resource "valtix_address_object" "instance1-ag" {
+    name             = "instance1"
+    description      = "Dynamic Instance ID"
+    type             = "DYNAMIC_INSTANCE"
+    csp_account_name = valtix_cloud_account.aws1.name
+    region           = var.aws_region
+    vpc_id           = data.aws_vpc.vpc1.id
+    instance_id      = data.aws_instance.instance1.id
+}
+```
+For a complete set of arguments, see [DYNAMIC_INSTANCE (Source Destination) Arguments](#dynamic_instance-source-destination-arguments)
+
+### DYNAMIC_SUBNET (Source Destination) Example
+```hcl
+resource "valtix_address_object" "subnet1-ag" {
+    name             = "subnet1"
+    description      = "Dynamic Subnet ID"
+    type             = "DYNAMIC_SUBNET"
+    csp_account_name = valtix_cloud_account.aws1.name
+    region           = var.aws_region
+    vpc_id           = data.aws_vpc.vpc1.id
+    subnet_id        = data.aws_subnet.subnet1.id
+}
+```
+For a complete set of arguments, see [DYNAMIC_SUBNET (Source Destination) Arguments](#dynamic_subnet-source-destination-arguments)
+
+### DYNAMIC_SECURITY_GROUP (Source Destination) Example
+```hcl
+resource "valtix_address_object" "subnet1-ag" {
+    name              = "subnet1"
+    description       = "Dynamic Subnet ID"
+    type              = "DYNAMIC_SECURITY_GROUP"
+    csp_account_name  = valtix_cloud_account.aws1.name
+    region            = var.aws_region
+    vpc_id            = data.aws_vpc.vpc1.id
+    security_group_id = data.aws_security_group.sg1.id
+}
+```
+For a complete set of arguments, see [DYNAMIC_SECURITY_GROUP (Source Destination) Arguments](#dynamic_security_group-source-destination-arguments)
+
+### DYNAMIC_USER_DEFINED_TAG (Source Destination) Example
+```hcl
+resource "valtix_address_object" "udt1-ag" {
+    name        = "udt1"
+    description = "Dynamic User Defined Tag"
+    type        = "DYNAMIC_USER_DEFINED_TAG"
+    tag_list {
+        tag_key       = "tag-key1"
+        tag_value     = "tag-value1"
+        resource_type = "RESOURCE_SUBNET"
+    }
+    tag_list {
+        tag_key       = "tag-key2"
+        tag_value     = "tag-value2"
+        resource_type = "RESOURCE_VPC"
+    }
+}
+```
+For a complete set of arguments, see [DYNAMIC_USER_DEFINED_TAG (Source Destination) Arguments](#dynamic_user_defined_tag-source-destination-arguments)
+
+### GEO_IP (Source Destination) Example
+```hcl
+resource "valtix_address_object" "geoip1_ag" {
+  name        = "geoip1"
+  description = "GeoIP Country"
   type        = "GEO_IP"
   value       = ["Country1", "Country2", "Country3"]
 }
 ```
+For a complete set of arguments, see [GEO_IP (Source Destination) Arguments](#geo_ip-source-destination-arguments)
 
-### Group Address Object using other Address Objects
+### GROUP (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "addr-group-ag" {
-  name              = "addr-group-ag"
-  description       = "collection of address groups"
+resource "valtix_address_object" "group-ag" {
+  name              = "group1"
+  description       = "Address Object Group"
   type              = "GROUP"
   address_group_ids = [valtix_address_object.addr1.address_id, valtix_address_object.addr2.address_id]
 }
 ```
+For a complete set of arguments, see [GROUP (Source Destination) Arguments](#group-source-destination-arguments)
 
 ## Argument Reference
-* `name` - (Required) Name of the address object
-* `description` - Description of the address object
-* `type` - (Required)
-    * [STATIC](#static-reverse-proxy-target)
-    * [DYNAMIC_APPLICATIONS](#dynamic_application-reverse-proxy-target)
-    * [DYNAMIC_VPC](#dynamic_vpc)
-    * [DYNAMIC_SUBNET](#dynamic_subnet)
-    * [DYNAMIC_INSTANCE](#dynamic_instance)
-    * [DYNAMIC_SECURITY_GROUP](#dynamic_security_group)
-    * [DYNAMIC_USER_DEFINED_TAG](#dynamic_user_defined_tag)
-    * [DYNAMIC_SERVICE_ENDPOINTS](#dynamic_service_endpoints)
-    * [GEO_IP](#geo_ip)
-    * [GROUP](#group)
 
-## Additional arguments based on the type
+#### STATIC (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `STATIC` - (Required) Type of the Address Object
+* `value` - (Required) A list of IPs/CIDRs
+<br><br>For an example, see [STATIC (Source Destination) Example](#static-source-destination-example)
 
-## STATIC (Reverse Proxy Target)
-* `value` - (Required). The value must be provided as a list with a single IP Address or FQDN. e.g ["10.0.0.23"] or ["internal-lb-app1.app.com]
-* `backend_address` - (Required) This argument must be set to *true*
+#### STATIC (Reverse Proxy Target) Arguments
 
-## STATIC (Source/Destination in the Policy Rule)
-* `value` - (Required) A list of IPs/CIDRs 
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `STATIC` - (Required) Type of the Address Object
+* `value` - (Required) A list of one or more IPs/FQDNs
+* `backend_address` - (Required) This argument must be set to `true`
+<br><br>For an example, see [STATIC (Reverse Proxy Target) Example](#static-reverse-proxy-target-example)
 
-## DYNAMIC_APPLICATIONS (Reverse Proxy Target)
-* `tag_list` - (Required) The set of one or more blocks where each block represents a *tag_key* and a *tag_value* argument. The set of blocks is operated on by an AND operator. Structure [defined below](#tag-list)
-* `csp_account_name` - (Optional) The name of the CSP account onboarded into Valtix to restrict the scope of the *tag_list*
-* `vpc_id` - (Optional) The VPC ID to restrict the scope of the *tag_list*
-* `region` - (Optional) The Region to restrict the scope of the *tag_list*
-* `resource_group` - (Azure only) The Resource Group to restrict the scope of the *tag_list*
-* `backend_address` - (Required) This argument must be set to *true*
+#### DYNAMIC_APPLICATIONS (Reverse Proxy Target) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_APPLICATIONS` - (Required) Type of the Address Object
+* `csp_account_name` - (Optional) The name of the CSP account onboarded into Valtix to restrict the scope of the `tag_list`
+* `vpc_id` - (Optional) The VPC/VNet ID to restrict the scope of the `tag_list`
+* `region` - (Optional) The Region to restrict the scope of the `tag_list`
+* `resource_group` - (Azure only) The Resource Group to restrict the scope of the `tag_list`
+* `tag_list` - (Required) A single block that represents a Tag key-value pair associated with one or more Application Load Balancers. `tag_list` structure [defined below](#tag-list). The `tag_list` is used to dynamically associate the IPs or FQDNs of the set of Application Load Balancers that match the Tag key-value pair.  
+* `backend_address` - (Required) This argument must be set to `true`
+<br><br>For an example, see [DYNAMIC_APPLICATIONS (Reverse Proxy Target) Example](#dynamic_applications-reverse-proxy-target-example)
 
-## DYNAMIC_VPC
-* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the VPCs/VNets
-* `region` - (Required) The Region to restrict the scope of the VPCs/VNets
-* `vpc_id` - (Required) The VPC/VNet ID used to dynamically associate all CIDRs for the VPC/VNet
-* `resource_group` - (Azure only) The Resource Group to restrict the VNet
+#### DYNAMIC_VPC (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_VPC` - (Required) Type of the Address Object
+* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the `vpc_id`
+* `region` - (Required) The Region to restrict the scope of the `vpc_id`
+* `resource_group` - (Azure only) The Resource Group to restrict the scope of the `vpc_id`
+* `vpc_id` - (Required) The VPC/VNet ID is used to dynamically associate all CIDRs of the VPC/VNet
+<br><br>For an example, see [DYNAMIC_VPC (Source Destination) Example](#dynamic_vpc-source-destination-example)
 
-## DYNAMIC_SUBNET
-* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the Subnet
-* `region` - (Required) The Region to restrict the scope of the Subnet
-* `vpc_id` - (Required) The VPC ID to restrict the scope of the Subnet
-* `subnet_id` - (Required) The Subnet ID used to dynamically associate the CIDR for the Subnet
-* `resource_group` - (Azure only) The Resource Group to restrict the Subnet
+#### DYNAMIC_SECURITY_GROUP (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_SECURITY_GROUP` - (Required) Type of the Address Object
+* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the `security_group_id`
+* `region` - (Required) The Region to restrict the scope of the `security_group_id`
+* `vpc_id` - (Required) The VPC/VNet ID to restrict the scope of the `security_group_id`
+* `resource_group` - (Azure only) The Resource Group to restrict the scope of the `security_group_id`
+* `security_group_id` - (Required) The Security Group ID used to dynamically associate all IPs of the Security Group
+<br><br>For an example, see [DYNAMIC_SECURITY_GROUP (Source Destination) Example](#dynamic_security_group-source-destination-example)
 
-## DYNAMIC_INSTANCE
-* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the Instance
-* `region` - (Required) The Region to restrict the scope of the Instance
-* `vpc_id` - (Required) The VPC ID to restrict the scope of the Instance
-* `instance_id` - (Required) The Instance ID used to dynamically associate all IPs for the Instance
-* `resource_group` - (Azure only) The Resource Group to restrict the Instance
+#### DYNAMIC_INSTANCE (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_INSTANCE` - (Required) Type of the Address Object
+* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the `instance_id`
+* `region` - (Required) The Region to restrict the scope of the `instance_id`
+* `vpc_id` - (Required) The VPC/VNet ID to restrict the scope of the `instance_id`
+* `resource_group` - (Azure only) The Resource Group to restrict the scope of the `instance_id`
+* `instance_id` - (Required) The Instance ID used to dynamically associate all IPs of the Instance
+<br><br>For an example, see [DYNAMIC_INSTANCE (Source Destination) Example](#dynamic_instance-source-destination-example)
 
-## DYNAMIC_SECURITY_GROUP
-* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the Security Group
-* `region` - (Required) The Region to restrict the scope of the Security Group
-* `vpc_id` - (Required) The VPC ID to restrict the scope of the Security Group
-* `security_group_id` - (Required) The Security Group ID used to dynamically associate all IPs for the Security Group
-* `resource_group` - (Azure only) The Resource Group to restrict the Security Group
+#### DYNAMIC_SUBNET (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_SUBNET` - (Required) Type of the Address Object
+* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the `subnet_id`
+* `region` - (Required) The Region to restrict the scope of the `subnet_id`
+* `vpc_id` - (Required) The VPC ID to restrict the scope of the `subnet_id`
+* `resource_group` - (Azure only) The Resource Group to restrict the scope of the `subnet_id`
+* `subnet_id` - (Required) The Subnet ID used to dynamically associate the CIDR of the Subnet
+<br><br>For an example, see [DYNAMIC_SUBNET (Source Destination) Example](#dynamic_subnet-source-destination-example)
 
-## DYNAMIC_USER_DEFINED_TAG
-* `csp_account_name` - (Optional) The name of the CSP account onboarded into Valtix to restrict the scope of the User Defined Tags
-* `region` - (Optional) The Region to restrict the scope of the User Defined Tags
-* `vpc_id` - (Optional) The VPC ID to restrict the scope of the User Defined Tags
-* `tag_list` - (Required) The set of one or more blocks where each block represents a *tag_key* and a *tag_value* argument.  The set of blocks is operated on by an AND operator. Structure [defined below](#tag-list)
-* `resource_group` - (Azure only) The Resource Group to restrict the User Defined Tags
+#### DYNAMIC_USER_DEFINED_TAG (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_USER_DEFINED_TAG` - (Required) Type of the Address Object
+* `csp_account_name` - (Optional) The name of the CSP account onboarded into Valtix to restrict the scope of the `tag_list`
+* `region` - (Optional) The Region to restrict the scope of the `tag_list`
+* `vpc_id` - (Optional) The VPC ID to restrict the scope of the `tag_list`
+* `resource_group` - (Azure only) The Resource Group to restrict the scope of the `tag_list`
+* `tag_list` - (Required) The set of one or more blocks where each block represents a Tag key-value pair and Resource type. The set of blocks is operated on by an AND operator. `tag_list` structure [defined below](#tag-list). The set of `tag_list` arguments are used to dynamically associate the IPs or CIDRs of Instances, Subnets and VPCs/Vnets that match the set of Tag key-value pairs.
+<br><br>For an example, see [DYNAMIC_USER_DEFINED_TAG (Source Destination) Example](#dynamic_user_defined_tag-source-destination-example)
 
-## GEO_IP
+#### DYNAMIC_SERVICE_ENDPOINTS (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_SERVICE_ENDPOINTS` - (Required) Type of the Address Object
+* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the `service_endpoint_name`
+* `region` - (Required) The Region to restrict the scope of the `service_endpoint_name`
+* `service_endpoint_name` - (Required) The Service Endpoint used to dynamically associate all CIDRs of the Service Endpoint
+<br><br>For an example, see [DYNAMIC_SERVICE_ENDPOINTS (Source Destination) Example](#dynamic_service_endpoints-source-destination-example)
+
+#### GEO_IP (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `GEO_IP` - (Required) Type of the Address Object
 * `value` - (Required) A list of Geo IPs defined by their Country name.  A full list of Country names can be obtained from the [GeoNames Countries](https://www.geonames.org/countries/) site.
+<br><br>For an example, see [GEO_IP (Source Destination) Example](#geo_ip-source-destination-example)
 
-## DYNAMIC_SERVICE_ENDPOINTS
-* `csp_account_name` - (Required) The name of the CSP account onboarded into Valtix to restrict the scope of the Service Endpoint
-* `service_endpoint_name` - (Required) The Service Endpoint used to dynamically associate all FQDNs for the Service Endpoint
-* `region` - (Required) The Region to restrict the scope of the Service Endpoint
+#### GROUP (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `GROUP` - (Required) Type of the Address Object
+* `address_group_ids` - (Required) A list of `address_id` to be grouped together
+<br><br>For an example, see [GROUP (Source Destination) Example](#group-source-destination-example)
 
-## GROUP
-* `address_group_ids` - (Required) A list of Valtix Address Object IDs to be grouped together
-
-## Tag List
-* `tag_key` - (Required) The Tag Key used within a *tag_list* block
-* `tag_value` - (Required) Tag Value used within a *tag_list* block
+### Tag List
+A `tag_list` block representing a Tag key-value pair requires the following arguments:
+* `tag_key` - (Required) The Tag Key specified in a Tag key-value pair
+* `tag_value` - (Required) The Tag Value specified in a Tag key-value pair
+* `resource_type`- (Optional) The Resource type to restrict the scope of the Tag key-value pair. If not supplied, will default to `RESOURCE_INSTANCE`. Valid values: `RESOURCE_INSTANCE`, `RESOURCE_SUBNET`, `RESOURCE_VPC`.
 
 ## Attribute Reference
-* `address_id` - ID of the Address Object that can be referenced in other resources (e.g., *valtix_service_object*)
+* `address_id` - The ID of the Address Object that can be referenced in other resources (e.g., *valtix_service_object*, `address_group_ids`)
