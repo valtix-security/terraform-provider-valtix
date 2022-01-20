@@ -66,35 +66,33 @@ resource "valtix_certificate" "cert1" {
 ## Argument Reference
 * `name` - (Required) Name of the certificate
 * `description` - Description of the certificate
-* `certificate_type` - (Required) "IMPORT_CONTENTS", "AWS_KMS", "AWS_SECRET", "AZURE_KEY_VAULT_SECRET", "GCP_SECRET"
-* `certificate_body` - (Required) Certificate content. Provide a string with the whole content here or if it's on a file system use `file("filename")`
-* `certificate_chain` - (Optional) Certificate chain content. Provide a string with the whole content here or if it's on a file system use `file("filename")`. This is optional if the certificate has a chain available separately and not part of the certificate_body
-
-## Additional arguments based on the certificate_type
+* `certificate_type` - (Required) ["IMPORT_CONTENTS"](#import_contents), ["AWS_KMS"](#aws_kms), ["AWS_SECRET"](#aws_secret), ["AZURE_KEY_VAULT_SECRET"](#azure_key_vault_secret), ["GCP_SECRET"](#gcp_secret)
+* `certificate_body` - (Required) Certificate content. Provide a string with the entire content or if located in a file use `file("filename")`
+* `certificate_chain` - (Optional) Certificate chain content. Provide a string with the entire content or if it is located in a file use `file("filename")`. This is optional if the certificate has a separate chain that is not part of the certificate body.
 
 ### IMPORT_CONTENTS
-* `private_key` - (Required for IMPORT_CONTENTS) Certificate content. Provide a string with the whole content here or if it's on a file system use `file("filename")`
+* `private_key` - (Required for IMPORT_CONTENTS) Certificate content. Provide a string with the entire content or if it is located in a file use `file("filename")`
 
 ### AWS_KMS
-* `csp_account_name` - (Required) To use a private key that's stored on GCP secrets manager, provide the csp_account_name (GCP) that stores the secrets key.
-* `region` - (Required) Region where the key/secret is location
-* `private_key_cipher_text` - (Required) KMS encrypted cipher text
+* `csp_account_name` - (Required) To use a private key that is stored in AWS Key Management System (KMS), provide the csp_account_name (AWS) where the private key will be stored.  This is the friendly name defined in Valtix for the onboarded CSP account.
+* `region` - (Required) Region where the private key will be stored
+* `private_key_cipher_text` - (Required) AWS KMS encrypted cipher text
 
 ### AWS_SECRET
-* `csp_account_name` - (Required) To use a private key that's stored on GCP secrets manager, provide the csp_account_name (GCP) that stores the secrets key
-* `region` - (Required) Region where the key/secret is location
-* `aws_secret_name` - (Required) Secrets manager key name that has the private key
-
-### GCP_SECRET
-* `csp_account_name` - (Required) To use a private key that's stored on GCP secrets manager, provide the csp_account_name (GCP) that stores the secrets key
-* `secret_name` - (Required) Secrets manager key name that has the private key
-* `secret_version` - (Optional) Secrets manager key version
+* `csp_account_name` - (Required) To use a private key stored in AWS Secrets Manager, provide the csp_account_name (AWS) where the private key will be stored.  This is the friendly name defined in Valtix for the onboarded CSP account.
+* `region` - (Required) Region where the private key will be stored
+* `aws_secret_name` - (Required) AWS Secrets Manager key name that contains the private key
 
 ### AZURE_KEY_VAULT_SECRET
-* `csp_account_name` - (Required) To use a private key that's stored on GCP secrets manager, provide the csp_account_name (GCP) that stores the secrets key
-* `region` - (Required) Region where the key/secret is location
-* `azure_key_vault_name` - (Required) Azure key vault name
-* `azure_key_vault_secret_name` - (Required) Azure secret name
+* `csp_account_name` - (Required) To use a private key stored in Azure Key Vault, provide the csp_account_name (Azure) where the private key will be stored.  This is the friendly name defined in Valtix for the onboarded CSP account.
+* `region` - (Required) Region where the private key will be stored
+* `azure_key_vault_name` - (Required) Azure Key Vault name where the private key will be stored
+* `azure_key_vault_secret_name` - (Required) Azure Key Vault secret name that contains the private key
+
+### GCP_SECRET
+* `csp_account_name` - (Required) To use a private key stored in GCP Secrets Manager, provide the csp_account_name (GCP) where the private key will be stored.  This is the friendly name defined in Valtix for the onboarded CSP account.
+* `secret_name` - (Required) GCP Secrets Manager key name that contains the private key
+* `secret_version` - (Optional) GCP Secrets Manager key version
 
 ## Attribute Reference
 * `name` - Name of the certificate that can be referenced in other resources (e.g. valtix_profile_decryption)
