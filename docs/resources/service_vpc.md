@@ -12,6 +12,7 @@ resource "valtix_service_vpc" "service_vpc" {
   cidr               = "10.0.0.0/16"
   availability_zones = ["us-east-1a", "us-east-1b"]
   transit_gateway_id = "tgw-12345678912345678"
+  use_nat_gateway    = true
 }
 ```
 ~> **Note on AWS Transit Gateway (TGW)**
@@ -39,6 +40,7 @@ resource "valtix_service_vpc" "service_vpc" {
 * `availability_zones` - (Required) List of Availability Zones for the Region/Location to associate with the Service VPC/VNet. Valtix Gateways deployed in this Service VPC/VNet will have instances deployed in all associated Availability Zones.
 * `transit_gateway_id` - (Required for AWS) Transit Gateway ID for the Service VPC to attach to
 * `azure_resource_group` - (Required for Azure) Resource Group Name in which the Service VNet and its resources are created
+* `use_nat_gateway` - (Optional for AWS) true/false. Configure NAT gateway for egress traffic
 
 ## Attribute Reference
 * `id` - Terraform resource ID of the Services VPC/VNet
