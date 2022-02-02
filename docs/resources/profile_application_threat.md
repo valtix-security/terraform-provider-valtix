@@ -1,5 +1,5 @@
 # Resource: valtix_profile_application_threat
-Create Web Application Firewall (WAF) profile
+Create Web Application Firewall (WAF) Profile
 
 ## Example Usage
 
@@ -64,47 +64,42 @@ resource "valtix_profile_application_threat" "waf_manual" {
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the profile
-* `description` - (Optional) Description of the profile
-* `auto_update_crs` - (Optional) Auto Update the CRS Ruleset version. Valid values are *true* or *false*.  Default (if unspecified) is *true*.
-* `delay_by_days_crs` - (Optional) Number of days to delay updating the CRS Application Threats Ruleset version after it has been published by Valtix. Valid values are integers from 0 to 30.  A value of *0* means immediate update (0 days).  The default value is *7* (7 days). Valtix publishes new Rulesets as soon as updates are available from the Vendor and complete testing by Valtix.
-* `crs_ruleset_version` - (Optional) CRS (Core Rule Set) version. Find the values from the UI. The rulesets are published everyday. Unless you want to use a specific version, Valtix recommends to use auto_update as described above
-
-  If this argument is specified, Auto Update of CRS ruleset is disabled and the profile will only use this version for CRS ruleset.
-* `auto_update_trustwave` - (Optional) Auto update the Trustwave Rule Set version daily with a delay specified by `delay_by_days_trustwave` parameter. The valid values are true/false and it is true by default..
-* `delay_by_days_trustwave` - (Optional) How many days before we use a Trustwave Rule Set version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
-* `trustwave_ruleset_version` - (Optional) Trustwave Rule Set version. Check Valtix Dashboard (UI) for a valid list of versions or contact Valtix support
-  If this argument is specified, Auto Update of Trustwave Rule Set is disabled and the profile will only use this version for Trustwave Rule Set.
-* `paranoia_level` - (Required) An integer between 1 and 4. Higher number leads to more false positives but also helps in detecting more attacks. Recommended value is 1
-* `request_anamoly` - (Optional) Request anomaly score used in the mod_security anomaly scoring system. Default value is 3
-* `response_anamoly` - (Optional) Response anomaly score used in the mod_security anomaly scoring system. Default value is 3
-* `pcap` - (Optional) true/false. Capture pcap when attacks are detected
-* `api_logging` - (Optional) true/false. Log API requests
-* `request_inspection_profile` - (Optional) List of Request attacks from the Core Rule Set
-* `response_inspection_profile` - (Optional) List of Response attacks from the Core Rule Set
-* `advanced_application_profile` - (Optional) Advanced attacks from the trustwave rule set
-* `action` - (Optional) Default "BLOCK" (Deny Log). Can be "DETECT" (Allow Log).
+* `name` - (Required) Name of the Profile
+* `description` - (Optional) Description of the Profile
+* `auto_update_crs` - (Optional) Auto Update of the CRS Ruleset version with a delay specified by `delay_by_days_crs` argument. Applicable values are `true` or `false`.  If not specified, the default value is `true`.
+* `delay_by_days_crs` - (Optional) Number of days to delay updating the CRS Ruleset version after it has been published by Valtix. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `7` (7 days). New Rulesets as published as soon as updates are available from the Vendor and validation testing is completed by Valtix.
+* `crs_ruleset_version` - (Optional) CRS Ruleset version. Applicable values can be found from within the UI. The Rulesets are published frequently. Unless a specific version is desired, Valtix recommends using Auto Update as described above. If this argument is specified, Auto Update of CRS Ruleset is disabled and the Profile will use the specified CRS Ruleset version.
+* `auto_update_trustwave` - (Optional) Auto update the Trustwave Ruleset version with a delay specified by `delay_by_days_trustwave` argument. Applicable values are `true` or `false`.  If not specified, the default value is `true`.
+* `delay_by_days_trustwave` - (Optional) Number of days to delay updating the Trustwave Ruleset version after it has been published by Valtix. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `7` (7 days). New Rulesets as published as soon as updates are available from the Vendor and validation testing is completed by Valtix.
+* `trustwave_ruleset_version` - (Optional) Trustwave Ruleset version. Applicable values can be found from within the UI. The Rulesets are published frequently. Unless a specific version is desired, Valtix recommends using Auto Update as described above. If this argument is specified, Auto Update of Trustwave Ruleset is disabled and the Profile will use the specified Trustwave Ruleset version.
+* `paranoia_level` - (Required) An integer between `1` and `4`. Higher number leads to more false positives, but also helps in detecting more attacks. Recommended value is `1`.
+* `request_anamoly` - (Optional) Request anomaly score used in the Mod Security anomaly scoring system. If not specified, the efault value is `3`.
+* `response_anamoly` - (Optional) Response anomaly score used in the Mod Security anomaly scoring system. If not specified, the default value is `3`.
+* `pcap` - (Optional) Captures a PCAP when attacks are detected.  Applicable values: `true` or `false`. If not specified, the default value is `false`.
+* `api_logging` - (Optional) Logs API requests and generates a HAR file.  Applicable values: `true` or `false`. If not specified, the default value is `false`.
+* `request_inspection_profile` - (Optional) List of Request attacks detected by the CRS Ruleset
+* `response_inspection_profile` - (Optional) List of Response attacks detected by the CRS Ruleset
+* `advanced_application_profile` - (Optional) Advanced attacks detected by the Trustwave Ruleset
+* `action` - (Optional) Action to take when a Web Application (WAF) Application Threat is detected. Applicable values: `Allow Log` (allow and log the event), `Deny Log` (deny and log the event).  If not specified, then the action assumed is `Deny Log`.
 * `rule_event_filter` - (Optional) Rate Limit / Sample a set of rules. Structure is [defined below](#rule-event-filter)
 * `event_suppressor` - (Optional) Suppress a given set of rule ids for traffic from certain sources. Structure is [defined below](#event-suppressor)
 * `profile_event_filter` - (Optional) Similar to the rule_event_filter but applies to the whole profile instead of specific rule(s). Structure is [defined below](#profile-event-filter)
 
 ## Rule Event Filter
-* `rule_ids` - (Optional) List of rule ids to filter
-* `type` - (Optional) "RATE" or "SAMPLE". When "RATE" is selected, number_of_events and time must be provided. action is applied once the provided rule_ids match the given count in the given time.
+* `rule_ids` - (Optional) List of Rule IDs to filter
+* `type` - (Optional) `RATE` or `SAMPLE`. If `RATE` is selected, the `number_of_events` and `time` must be specified. The action is taken once the provided Rule IDs match the number of events within specified time period.  If `SAMPLE` is selected, the `number_of_events` must be specified.  The action is taken once the provided Rule IDs match the number of events.
+* `number_of_events` - (Optional) Number of times the attack must match a Rule ID before the action is applied
+* `time` - (Optional) Used when the `type` is set to `RATE` where the number of times the attack must match a Rule ID within a specified time period (in seconds) before the action is applied.
 
-  If the type is "SAMPLE", the action is applied once the count of the events matches
-* `number_of_events` - (Optional) Number of times the rule id attack must match before the action is applied
-* `time` - (Optional) Used when the type is "RATE", the number_of_events must match in the given time (in seconds)
-
-## Event Suppressor
-* `source_ips` - (Optional) List of source ips or CIDRs
-* `rule_ids` - (Optional) List of rule ids to filter
+## Rule Suppressor
+* `source_ips` - (Optional) List of source IPs or CIDRs
+* `rule_ids` - (Optional) List of Rule IDs to filter
 
 ## Profile Event Filter
-* `rule_ids` - (Optional) List of rule ids to filter
-* `type` - (Optional) "RATE" or "SAMPLE". When "RATE" is selected, number_of_events and time must be provided. action is applied once the provided rule_ids match the given count in the given time.
-
-  If the type is "SAMPLE", the action is applied once the count of the events matches
+* `rule_ids` - (Optional) List of Rule IDs to filter
+* `type` - (Optional) `RATE` or `SAMPLE`. If `RATE` is selected, the `number_of_events` and `time` must be specified. The action is taken once the provided Rule IDs match the number of events within specified time period.  If `SAMPLE` is selected, the `number_of_events` must be specified.  The action is taken once the provided Rule IDs match the number of events.
+* `number_of_events` - (Optional) Number of times the attack must match a Rule ID before the action is applied
+* `time` - (Optional) Used when the `type` is set to `RATE` where the number of times the attack must match a Rule ID within a specified time period (in seconds) before the action is applied.
 
 ## Attribute Reference
 * `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)

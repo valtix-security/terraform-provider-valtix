@@ -1,5 +1,5 @@
 # Resource: valtix_profile_anti_virus
-Create Anti Virus Profile
+Create Antivirus Profile
 
 ## Example Usage
 
@@ -23,18 +23,13 @@ resource "valtix_profile_anti_virus" "av_manual" {
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the Anti Virus profile
-* `description` - (Optional) Description of the Anti Virus profile
-* `auto_update` - (Optional) Auto update the Talos ClamAV Ruleset version daily with a delay specified by `delay_by_days` parameter. The valid values are true/false and it is true by default..
-* `delay_by_days` - (Optional) How many days before we use a Talos ClamAV Ruleset version after it has been published by Valtix. The default for this argument is 7 days, meaning that after the Jan 1st ruleset is published by Valtix, it is applied to the profile, and hence all the gateways using the profile, on Jan 8th. Valtix publishes new rulesets every day except when our internal testing fails.
-* `talos_ruleset_version` - (Optional) Talos ClamAV Ruleset version. Find the values from the UI. The rulesets are published everyday. Unless you want to use a specific version, Valtix recommends to use auto_update as described above
-
-  If this argument is specified, Auto Update of Talos ClamAV Ruleset is disabled and the profile will only use this version for Talos ClamAV Ruleset.
-
-* `action` - (Required) Default action for all the attacks. Valid values:
-    * **ALERT** (logs in AV events)
-    * **DROP** (drop the traffic and log the events)
-    * **SILENTDROP** (drop the traffic and no log of events)
+* `name` - (Required) Name of the Profile
+* `description` - (Optional) Description of the Profile
+* `auto_update` - (Optional) Auto update the Talos ClamAV Ruleset version with a delay specified by `delay_by_days` argument. Applicable values are `true` or `false`.  If not specified, the default value is `true`.
+* `delay_by_days` - (Optional) Number of days to delay updating the Talos ClamAV Ruleset version after it has been published by Valtix. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `7` (7 days). New Rulesets as published as soon as updates are available from the Vendor and validation testing is completed by Valtix.
+* `talos_ruleset_version` - (Optional) Talos ClamAV Ruleset version. Applicable values can be found from within the UI. The Rulesets are published frequently. Unless a specific version is desired, Valtix recommends using Auto Update as described above. If this argument is specified, Auto Update of Talos ClamAV Ruleset is disabled and the Profile will use the specified Talos ClamAV Ruleset version.
+* `action` - (Optional) Action to take when a Web Application (WAF) Application Threat is detected. Applicable values: `Allow Log` (allow and log the event), `Deny Log` (deny and log the event).  If not specified, then the action assumed is `Deny Log`.
+* `action` - (Optional) Action to take when a Antivirus Network Threat is detected. Applicable values: `Allow Log` (allow and log the event), `Deny Log` (deny and log the event). Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event). If not specified, then the action assumed is `Allow Log`.
 
 ## Attribute Reference
 * `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
