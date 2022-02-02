@@ -72,7 +72,7 @@ resource "valtix_cloud_account" "aws1" {
 * `aws_iam_role` - (AWS - Required) Cross IAM role ARN that Valtix assumes to manage your cloud account
 * `aws_account_number` - (AWS - Required) AWS account number
 * `aws_iam_role_external_id` - (AWS - Required) External Id for trust relationship
-* `aws_inventory_iam_role` - (AWS - Optional) IAM role ARN to monitor inventory across multi-region
+* `aws_inventory_iam_role` - (AWS - Optional) IAM Role ARN used by CloudWatch Event Rule to post inventory events to the Valtix Controller
 * `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times), look at [Inventory Monitoring](#inventory-monitoring) for details
 
 ### Azure Arguments
