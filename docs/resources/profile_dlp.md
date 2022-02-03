@@ -15,7 +15,7 @@ resource "valtix_profile_dlp" "dlp1" {
       "Bank of America Routing Numbers - California"
     ]
     count  = 2
-    action = "DROP"
+    action = "Deny Log"
   }
 }
 ```

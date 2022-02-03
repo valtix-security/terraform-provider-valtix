@@ -12,24 +12,24 @@ resource "valtix_profile_urlfilter" "url1" {
       vendor     = "BRIGHTCLOUD"
       categories = ["Search Engines", "Reference and Research"]
     }
-    policy = "ALLOW_LOG"
+    policy = "Allow Log"
   }
   url_filter_list {
     vendor_category_list {
       vendor     = "BRIGHTCLOUD"
       categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
     }
-    policy        = "DENY"
+    policy        = "Deny Log"
     return_status = 400
   }
   url_filter_list {
     url_list       = ["www.website3.com", "www.website4.com"]
-    policy         = "DENY"
+    policy         = "Deny Log"
     filter_methods = ["POST"]
     return_status  = 400
   }
   default_url_filter {
-    policy        = "DENY_NOLOG"
+    policy        = "Deny No Log"
     return_status = 500
   }
 }

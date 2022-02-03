@@ -26,7 +26,7 @@ resource "valtix_profile_application_threat" "waf_manual" {
   crs_ruleset_version       = "3.0.2-01272021"
   trustwave_ruleset_version = "3.0.2-01272021"
   paranoia_level            = 3
-  action                    = "BLOCK"
+  action                    = "Deny Log"
   request_inspection_profile = [
     "Request - Protocol Enforcement",
     "Request - Protocol Attack"

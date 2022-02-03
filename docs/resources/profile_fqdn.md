@@ -12,7 +12,7 @@ resource "valtix_profile_fqdn" "fqdn1" {
       vendor     = "BRIGHTCLOUD"
       categories = ["Search Engines", "Reference and Research"]
     }
-    policy               = "ALLOW_LOG"
+    policy               = "Allow Log"
     decryption_exception = false
   }
   fqdn_filter_list {
@@ -21,12 +21,12 @@ resource "valtix_profile_fqdn" "fqdn1" {
       vendor     = "BRIGHTCLOUD"
       categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
     }
-    policy               = "DENY"
+    policy               = "Deny Log"
     decryption_exception = false
   }
 
   default_fqdn_filter {
-    policy               = "DENY_NOLOG"
+    policy               = "Deny No Log"
     decryption_exception = false
   }
 }
