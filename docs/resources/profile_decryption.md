@@ -1,6 +1,5 @@
 # Resource: valtix_profile_decryption
-
-Create a decryption profile that can be used in a service.
+Resouce for creating and managing a Decryption Profile.
 
 ## Example Usage
 ```hcl

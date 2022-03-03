@@ -1,5 +1,5 @@
 # Resource: valtix_profile_urlfilter
-Create FQDN filtering profile
+Resource for creating and managing an FQDN Filtering Profile
 
 ## Example Usage
 ```hcl

@@ -1,5 +1,5 @@
 # valtix_profile_l7dos
-Create L7DoS Profile
+Resource for creating and managing an L7DoS Profile
 
 ## Example Usage
 ```hcl

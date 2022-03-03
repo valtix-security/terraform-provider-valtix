@@ -1,5 +1,5 @@
 # Resource: valtix_profile_malicious_ip
-Create Malicious IPs Profile
+Resouce for creeating and managing a Malicious IPs Profile
 
 ## Example Usage
 

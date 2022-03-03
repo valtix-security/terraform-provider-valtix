@@ -1,5 +1,5 @@
 # Resource: valtix_profile_network_intrusion
-Create Network Intrusion (IPS) Profile
+Resource for creating and managing a Network Intrusion (IPS) Profile
 
 ## Example Usage
 

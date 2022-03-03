@@ -1,5 +1,5 @@
 # Resource: valtix_profile_dlp
-Data loss prevention profile
+Resource for creating and managing a Data Loss Prevention (DLP) Profile
 
 ## Example Usage
 ```hcl

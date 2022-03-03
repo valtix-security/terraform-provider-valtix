@@ -1,5 +1,5 @@
 # Resource: valtix_profile_anti_virus
-Create Anti Virus Profile
+Resource for creating and managing an Anti Virus (AV) Profile
 
 ## Example Usage
 
