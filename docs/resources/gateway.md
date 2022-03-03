@@ -165,13 +165,13 @@ resource "valtix_gateway" "gcp-gw" {
 * `gateway_image` - (Required) Example `2.11-05`. This is the Valtix image version to be deployed for this Gateway. Please consult with Valtix support for recommended version.
 * `mode` - (Required) "EDGE" or "HUB". Look into product documentation for different deployment modes
 * `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
-* `gateway_state` - (Optional) Specifies the state of the Valix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTVIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
+* `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `policy_rule_set_id` - (Required) Rule set id of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
 * `ssh_key_pair` - (AWS - Required) SSH key pair name that's already in your AWS account
 * `ssh_public_key` - (Azure - Required) Contents of SSH public key
 * `gcp_service_account_email` - (GCP - Required) This is the GCP Gateway service account email, that provides permissions for the Valtix Gateway to integrate with other GCP project resources such as Secrets Manager and storage buckets. 
 * `aws_iam_role_firewall` - (AWS - Required) This is the IAM role that's assigned to the Valtix firewall instances.
-* `azure_user_identity_id` - (Azure - Optional) User assgined identity This is the IAM role that's assigned to the Valtix firewall instances.
+* `azure_user_identity_id` - (Azure - Optional) User assigned identity This is the IAM role that's assigned to the Valtix firewall instances.
 * `azure_resource_group` - (Azure - Required) Azure resource group name used for all Valtix Gateway resources
 * `region` - (Required) Region where the Valtix Gateway is deployed.
 * `vpc_id` - (Required) VPC ID where the Valtix Gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via Transit Gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to **id** attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
@@ -186,7 +186,7 @@ resource "valtix_gateway" "gcp-gw" {
 * `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
 * `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
 * `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure. 
-* `instance_details` - (Required) This block can be repeated multiple times for deploying Gateway instances in multiple zones. Look below for the [structure](#instance-details) of this block. Atleast 1 block must be provided.
+* `instance_details` - (Required) This block can be repeated multiple times for deploying Gateway instances in multiple zones. Look below for the [structure](#instance-details) of this block. At least 1 block must be provided.
 
 ## Instance Details
 This section is not required for AWS/Azure HUB mode as instance details are obtained from service VPC referenced in vpc_id attribute

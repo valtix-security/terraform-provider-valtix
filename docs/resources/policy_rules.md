@@ -34,12 +34,12 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
 ## Rule
 * `name` - (Required) Rule name.
 * `description` - (Optional) Rule detailed description.
-* `state` - (Required) "ENABLED" or "DISABLED". Set the rule's state to enabled or disabled.
+* `state` - (Required) `ENABLED` or `DISABLED`. Set the rule's state to enabled or disabled.
 * `type` - (Required) **ReverseProxy**, **ForwardProxy**, **Forwarding**
 * `source` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.src1.address_id*
 * `destination` - (Optional) address_id of the valtix_address_object. Defaults to "any". *e.g. valtix_address_object.dst1.address_id*
 * `service` - (Required) Service id of the valtix_service_object. The service object's service_type must match the rule type
-* `action` - (Required) "ALLOW_LOG" (log the event), "ALLOW" (do not log the event), "DENY" (log the event), "DENY_NOLOG" (do not log the event).  Events are viewed in the Valtix UI (Investigate -> Flow Analytics).
+* `action` - (Required) `ALLOW_LOG` (log the event), `ALLOW` (do not log the event), `DENY` (log the event), `DENY_NOLOG` (do not log the event).  Events are viewed in the Valtix UI (Investigate -> Flow Analytics).
 * `network_intrusion_profile` - (Optional) profile_id of the valtix_profile_network_intrusion. *e.g. valtix_profile_network_intrusion.ips1.profile_id*
 * `dlp_profile` - (Optional) profile_id of the valtix_profile_dlp. *e.g. valtix_profile_dlp.dlp1.profile_id*
 * `web_protection_profile` - (Optional) profile_id of the valtix_profile_web_protection. *e.g. valtix_profile_web_protection.waf1.profile_id*

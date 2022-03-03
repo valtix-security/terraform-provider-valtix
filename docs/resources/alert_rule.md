@@ -17,7 +17,7 @@ resource "valtix_alert_rule" "rule1" {
   type          = "Type_SystemLogs"
   sub_type      = "SubType_SystemLogsGateway"
   severity      = "Info"
-  is_active     = true
+  is_active     = "true"
 }
 ```
 
@@ -28,7 +28,7 @@ resource "valtix_alert_rule" "rule2" {
   type          = "Type_SystemLogs"
   sub_type      = "SubType_SystemLogsAccount"
   severity      = "Info"
-  is_active     = true
+  is_active     = "true"
 }
 ```
 
@@ -39,16 +39,15 @@ resource "valtix_alert_rule" "rule3" {
   type          = "Type_Inventory"
   sub_type      = "SubType_InventoryGuardRails"
   severity      = "Info"
-  is_active     = true
+  is_active     = "true"
 }
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the alert profile
+* `name` - (Required) Name of the Alert Profile
 * `description` - Description
-* `alert_profile` - (Required) Alert profile id
-* `type` - (Required) One of "Type_Inventory", "Type_SystemLogs",
-* `sub_type` - (Required) For Type_Inventory, valid sub_type is "SubType_InventoryGuardRails",
-    For Type_SystemLogs, valid sub_type is "SubType_SystemLogsGateway" or "SubType_SystemLogsAccount"
-* `severity` - (Required) One of "Info", "Medium", "High". For SystemLogs "Critical" and "Warning" are other severity types
-* `is_active` - (Required) true or false
+* `alert_profile` - (Required) Alert Profile ID
+* `type` - (Required) One of `Type_Inventory`, `Type_SystemLogs`,
+* `sub_type` - (Required) For Type_Inventory, valid sub_type is `SubType_InventoryGuardRails`. For Type_SystemLogs, valid sub_type is `SubType_SystemLogsGateway` or `SubType_SystemLogsAccount`
+* `severity` - (Required) One of `Info`, `Medium`, `High`. For SystemLogs `Critical` and `Warning` are other severity types.
+* `is_active` - (Required) `true` or `false`

@@ -1,5 +1,5 @@
 # Resource: valtix_profile_application_threat
-Resource for creaeting and managing a Web Application Firewall (WAF) Profile
+Resource for creating and managing a Web Application Firewall (WAF) Profile
 
 ## Example Usage
 

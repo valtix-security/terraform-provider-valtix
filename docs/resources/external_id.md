@@ -12,4 +12,4 @@ resource "valtix_external_id" "ext_id" {
 * `name` - (Required) Name of the External ID
 
 ## Attribute Reference
-* `external_id` - External id that must be used in the trust settings of the cross account IAM role
+* `external_id` - External ID that must be used in the trust settings of the cross account IAM role
