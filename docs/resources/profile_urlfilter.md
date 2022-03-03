@@ -1,5 +1,5 @@
 # Resource: valtix_profile_urlfilter
-Create URL Filtering Profile
+Resource for creating and managing a URL Filtering Profile
 
 ## Example Usage
 ```hcl
