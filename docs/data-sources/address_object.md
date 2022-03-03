@@ -40,4 +40,4 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
 * `name` - (Required) Name of the Address Object
 
 ## Attributes Reference
-* `address_id` - Set to the Terraform Address Object of the found resource
+* `address_id` - Set to the Terraform Address Object ID of the found resource
