@@ -1,5 +1,5 @@
 # Resource: valtix_profile_packet_capture
-Storage location to store the pcap files
+Resource for creating and managing a Packet Capture Profile
 
 ## Example Usage
 
@@ -36,10 +36,10 @@ resource "valtix_profile_packet_capture" "gcppcap1" {
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the IPS profile
-* `description` - (Optional) Description of the IPS profile
+* `name` - (Required) Name of the Packet Capture Profile
+* `description` - (Optional) Description of the Packet Capture Profile
 * `csp_account` - (Required) Cloud account name added to the Controller (valtix_cloud_account.name)
-* `storage_upload_path` - (Required AWS and GCP) Storage bucket name
+* `storage_upload_path` - (Required - AWS and GCP) Storage bucket name
 * `azure_storage_accnt_name` - (Required - Azure) Storage account name
 * `azure_blob_container_name` - (Required - Azure) Storage container name
 * `azure_storage_access_key` - (Optional - Azure) Storage account access key, if required
