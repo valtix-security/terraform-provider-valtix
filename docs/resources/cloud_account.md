@@ -1,5 +1,5 @@
 # Resource: valtix_cloud_account
-Cloud Account resource defines the credentials of the cloud provider that can be accessed by the Valtix Controller.
+Resource for creating and managing Cloud Accounts and Subscriptions on-boarded into Valtix.  The Cloud Account defines the credentials used for the Valtix Controller to discover asset inventory and traffic, and orchestrate and manage the deployment of Valtix Gateways.
 
 ## Example Usage
 
@@ -69,7 +69,7 @@ resource "valtix_cloud_account" "aws1" {
 
 ### AWS Arguments
 * `aws_credentials_type` - (AWS - Required) must be `AWS_IAM_ROLE`
-* `aws_iam_role` - (AWS - Required) IAM role ARN used to deployment and manage Valtix in your cloud account
+* `aws_iam_role` - (AWS - Required) IAM role ARN used to deploy and manage Valtix in your cloud account
 * `aws_account_number` - (AWS - Required) AWS account number
 * `aws_iam_role_external_id` - (AWS - Required) External Id for trust relationship
 * `aws_inventory_iam_role` - (AWS - Optional) IAM Role ARN used by CloudWatch Event Rule to post inventory events to the Valtix Controller

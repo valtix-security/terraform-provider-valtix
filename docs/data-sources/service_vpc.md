@@ -23,7 +23,7 @@ resource "valtix_gateway" "aws-hub-gw1" {
   aws_iam_role_firewall = "iam_role_name_for_firewall"
   region                = "us-east-1"
   vpc_id                = data.valtix_service_vpc.service_vpc.id
-  aws_gateway_lb        = "true"
+  aws_gateway_lb        = true
 }
 ```
 

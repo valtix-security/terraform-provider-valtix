@@ -2,7 +2,7 @@
 Terraform currently provides both a standalone valtix_policy_rules resource and a valtix_policy_rule_set resource with rules defined in-line. At this time you cannot use a valtix_policy_rule_set with in-line rules in conjunction with any valtix_policy_rules resource. Doing so will cause a conflict of rule settings and will overwrite rules. It is recommended to use valtix_policy_rules to define all the firewall policies.
 
 # Resource: valtix_policy_rules
-Policy Rules is a list of firewall rules that are specified for a Policy Rule Set. 
+Resource for creating and managing the Policy Rules that are used to define the segmentation policy and advanced security protection of a Policy Ruleset.
 
 ## Example Usage
 ```hcl

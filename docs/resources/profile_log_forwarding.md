@@ -1,5 +1,5 @@
 # valtix_profile_log_forwarding
-Create Log Forwarding Profile
+Resource for creating and managing a Log Forwarding Profile
 
 ## Example Usage
 
@@ -12,8 +12,8 @@ resource "valtix_profile_log_forwarding" "syslog1" {
   syslog_port             = "90"
   network_threat_severity = "Alert"
   web_attack_severity     = "Alert"
-  syslog_flow_logs        = "true"
-  syslog_https_logs       = "true"
+  syslog_flow_logs        = true
+  syslog_https_logs       = true
 }
 ```
 

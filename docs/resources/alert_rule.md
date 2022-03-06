@@ -1,5 +1,5 @@
 # valtix_alert_rule
-Define the rules for the alerts and the destination alert profile where the alerts are sent
+Resource for creating and managing the Rules that defines the scope of Valtix Alerts to send to a 3rd-party SIEM (Pagerduty, Slack, ServiceNow).
 
 ## Example Usage
 ```hcl
@@ -17,7 +17,7 @@ resource "valtix_alert_rule" "rule1" {
   type          = "Type_SystemLogs"
   sub_type      = "SubType_SystemLogsGateway"
   severity      = "Info"
-  is_active     = "true"
+  is_active     = true
 }
 ```
 
@@ -28,7 +28,7 @@ resource "valtix_alert_rule" "rule2" {
   type          = "Type_SystemLogs"
   sub_type      = "SubType_SystemLogsAccount"
   severity      = "Info"
-  is_active     = "true"
+  is_active     = true
 }
 ```
 
@@ -39,7 +39,7 @@ resource "valtix_alert_rule" "rule3" {
   type          = "Type_Inventory"
   sub_type      = "SubType_InventoryGuardRails"
   severity      = "Info"
-  is_active     = "true"
+  is_active     = true
 }
 ```
 

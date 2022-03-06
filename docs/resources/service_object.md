@@ -1,7 +1,5 @@
-# valtix_service_object
-Service objects represent the backend application and how it's serviced to the external users. The Valtix Gateway acts as a proxy to this service and all the end users' access to the application passes through the Gateway. The service defines a listener port and a backend target IP/FQDN and port number to which the end users' requests are forwarded. If the traffic is TLS encrypted and there is a desire to decrypt the traffic to inspect using advanced security, a Decryption Profile with a Certificate must be provided.  The transport to the backend can be a HTTP, HTTPS, TCP or TLS session. Please look into the documentation for the details of each of backend transport types.
-
-The Service Object is used in a Policy Ruleset Rule to define how the traffic will be processed by the Rule.
+# Resource: valtix_service_object
+Resource for creating and managing a Service Object.  A Service Object is used in a Policy Ruleset Rule to define how the traffic will be processed by the Rule.
 
 ~> **Note on valtix_service_object ReverseProxy resource**
 If multiple services (backends) need to listen on the same port (e.g, port 443), then an SNI

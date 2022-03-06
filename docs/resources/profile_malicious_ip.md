@@ -16,7 +16,7 @@ resource "valtix_profile_malicious_ip" "mips_auto" {
 resource "valtix_profile_malicious_ip" "mips_manual" {
   name                  = "mips_manual"
   description           = "description"
-  ip_reputation_enabled = "true"
+  ip_reputation_enabled = true
   vendor_rule_set_name  = "1.0.0-01272021"
 }
 ```

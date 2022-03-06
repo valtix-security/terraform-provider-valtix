@@ -57,7 +57,7 @@ resource "valtix_gateway" "aws-hub-gw1" {
   aws_iam_role_firewall = "iam_role_name_for_firewall"
   region                = "us-east-1"
   vpc_id                = valtix_service_vpc.service_vpc.id
-  aws_gateway_lb        = "true"
+  aws_gateway_lb        = true
 }
 ```
 
@@ -186,7 +186,7 @@ resource "valtix_gateway" "gcp-gw" {
 * `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
 * `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
 * `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure. 
-* `instance_details` - (Required) This block can be repeated multiple times for deploying Gateway instances in multiple zones. Look below for the [structure](#instance-details) of this block. At least 1 block must be provided.
+* `instance_details` - (Required - EDGE Mode) This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  Look below for the [structure](#instance-details) of this block.  In EDGE mode, at least 1 block must be provided.
 
 ## Instance Details
 This section is not required for AWS/Azure HUB mode as instance details are obtained from service VPC referenced in vpc_id attribute
@@ -202,7 +202,7 @@ Gateway settings define a list of settings that applies to the given Gateway
 ```hcl
 settings {
   name  = "gateway.aws.ebs.encryption.key.default"
-  value = "true"
+  value = true
 }
 ```
 

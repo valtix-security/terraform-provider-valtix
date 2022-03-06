@@ -1,5 +1,5 @@
-# valtix_service_vpc
-Resource for creating and managing the Valtix Service VPC/VNet.  A Valtix Service VPC/VNet resource is used in AWS and Azure deployments to create a Service VPC/VNet as the destination for a Valtix Gateway deployment.  For a Valtix Gateway deployed in AWS or Azure using HUB mode, a Service VPC must be deployed as a pre-requisite.  Gateway instances will be deployed in all Availability Zones associated with the Services VPC.
+# Resource: valtix_service_vpc
+Resource for creating and managing a Valtix Service VPC/VNet.  A Valtix Service VPC/VNet resource is used in AWS and Azure deployments to create a Service VPC/VNet as the destination for a Valtix Gateway deployment.  For a Valtix Gateway deployed in AWS or Azure using HUB mode, a Service VPC must be deployed as a pre-requisite.  Gateway instances will be deployed in all Availability Zones associated with the Services VPC.
 
 ## Example Usage
 
@@ -12,7 +12,7 @@ resource "valtix_service_vpc" "service_vpc" {
   cidr               = "10.0.0.0/16"
   availability_zones = ["us-east-1a", "us-east-1b"]
   transit_gateway_id = "tgw-12345678912345678"
-  use_nat_gateway    = "true"
+  use_nat_gateway    = true
 }
 ```
 ~> **Note on AWS Transit Gateway (TGW)**

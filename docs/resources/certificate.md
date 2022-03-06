@@ -1,5 +1,5 @@
 # Resource: valtix_certificate
-Manages certificates that are presented to the end user when they access Valtix Gateway
+Resource for creating and managing Certificates used in Decryption Profiles
 
 ## Example Usage
 

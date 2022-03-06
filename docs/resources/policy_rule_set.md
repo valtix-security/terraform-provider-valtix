@@ -3,7 +3,7 @@ Terraform currently provides both a standalone *valtix_policy_rules* resource an
 Use *valtix_policy_rule_set* resource to just define the (empty) policy rule set only
 
 # Resource: valtix_policy_rule_set
-Resource for creation and managing a Policy Ruleset.  A Policy Ruleset is a list of Policy Rules that define the segmentation and security policy for protecting traffic.  The Policy Ruleset can be applied to multiple Gateways to accommodate a dynamic multi-cloud policy.
+Resource for creating and managing a Policy Ruleset.  A Policy Ruleset is a list of Policy Rules that define the segmentation and security policy for protecting traffic.  The Policy Ruleset can be applied to multiple Gateways to accommodate a dynamic multi-cloud policy.
 
 ## Example Usage
 

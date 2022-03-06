@@ -1,5 +1,5 @@
 # valtix_alert_profile
-Configure an Alert Profile that defines the destination where the alerts are sent (Pagerduty, Slack, ServiceNow)
+Resource for creating and managing an Alert Profile that defines the 3rd-party SIEM (Pagerduty, Slack, ServiceNow) and configuration required to send Valtix Alerts.  The Alert Profile is used in an Alert Rule.
 
 ## Example Usage
 
