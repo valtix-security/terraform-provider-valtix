@@ -1,5 +1,5 @@
-# valtix_service_vpc
-Valtix Service VPC/VNet is used for AWS and Azure deployments to create a  Service VPC/VNet as the destination for a Valtix Gateway deployment.  For a Valtix Gateway deployed in AWS using HUB mode, a Service VPC must be deployed as a pre-requisite.  Gateway instances will be deployed in all Availability Zones associated with the Services VPC.
+# Resource: valtix_service_vpc
+Resource for creating and managing a Valtix Service VPC/VNet.  A Valtix Service VPC/VNet resource is used in AWS and Azure deployments to create a Service VPC/VNet as the destination for a Valtix Gateway deployment.  For a Valtix Gateway deployed in AWS or Azure using HUB mode, a Service VPC must be deployed as a pre-requisite.  Gateway instances will be deployed in all Availability Zones associated with the Services VPC.
 
 ## Example Usage
 
@@ -40,7 +40,7 @@ resource "valtix_service_vpc" "service_vpc" {
 * `availability_zones` - (Required) List of Availability Zones for the Region/Location to associate with the Service VPC/VNet. Valtix Gateways deployed in this Service VPC/VNet will have instances deployed in all associated Availability Zones.
 * `transit_gateway_id` - (Required for AWS) Transit Gateway ID for the Service VPC to attach to
 * `azure_resource_group` - (Required for Azure) Resource Group Name in which the Service VNet and its resources are created
-* `use_nat_gateway` - (Optional for AWS) true/false. If true, enables egress communication through NAT gateway in each AZ (Default false)
+* `use_nat_gateway` - (Optional for AWS) `true` or `false`. If `true`, enables egress communication through NAT gateway in each AZ (Default `false`).
 
 ## Attribute Reference
 * `id` - Terraform resource ID of the Services VPC/VNet

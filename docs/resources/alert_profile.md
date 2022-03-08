@@ -1,6 +1,5 @@
 # valtix_alert_profile
-Configure a profile that defines the destination where the alerts are sent (Pagerduty, Slack, ServiceNow)
-Manages certificates that are presented to the end user when they access valtix Gateway proxy
+Resource for creating and managing an Alert Profile that defines the 3rd-party SIEM (Pagerduty, Slack, ServiceNow) and configuration required to send Valtix Alerts.  The Alert Profile is used in an Alert Rule.
 
 ## Example Usage
 
@@ -35,7 +34,7 @@ resource "valtix_alert_profile" "sn1" {
 ## Argument Reference
 * `name` - (Required) Name of the alert profile
 * `description` - Description
-* `type` - (Required) One of "SlackWebHook", "PagerDutyEventApi", "ServiceNowWebHook"
+* `type` - (Required) One of `SlackWebHook`, `PagerDutyEventApi`, or `ServiceNowWebHook`
 * `integration_key` - (Required for ServiceNow and Pagerduty) Key
 * `integration_url` - (Required for ServiceNow and Slack) Webhook URL or ServiceNow Url
 

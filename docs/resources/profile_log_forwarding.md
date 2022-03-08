@@ -1,5 +1,5 @@
 # valtix_profile_log_forwarding
-Create Log Forwarding Profile
+Resource for creating and managing a Log Forwarding Profile
 
 ## Example Usage
 
@@ -53,32 +53,32 @@ resource "valtix_profile_log_forwarding" "gcplog1" {
 
 ## Argument Reference
 * `name` - (Required) Name of the decryption profile
-* `siem_vendor` - (Required) One of **SPLUNK**, **DATADOG**, **GCPLOGGING_FROM_GATEWAY**, **REMOTE_SYSLOG**
+* `siem_vendor` - (Required) One of `SPLUNK`, `DATADOG`, `GCPLOGGING_FROM_GATEWAY`, or `REMOTE_SYSLOG`
 
 ## Additional arguments based on `siem_vendor`
 
 ### SPLUNK
-* `endpoint` - (Required ) https URL.
+* `endpoint` - (Required ) HTTPS URL
     * For splunk, the most common endpoint is `https://ip-or-fqdn:8088/services/collector`
-* `auth_token` - (Required ) https auth token
-* `splunk_index` - (Required) splunk index name to store the events
+* `auth_token` - (Required ) HTTPS auth token
+* `splunk_index` - (Required) Splunk index name to store the events
 
 ### DATADOG
-* `endpoint` - (Required ) https URL.
-* `auth_token` - (Required) https auth token
+* `endpoint` - (Required ) HTTPS URL
+* `auth_token` - (Required) HTTPS auth token
 
 ### GCPLOGGING_FROM_GATEWAY
-* `log_name` - [Optional] gcp log name to store the logs. If not specified, the default name is "valtix-gateway-logs"
+* `log_name` - [Optional] GCP log name to store the logs. If not specified, the default name is "valtix-gateway-logs"
 
 ### SYSLOG
-* `syslog_server_ip` - (Required) syslog server ip
-* `syslog_port` - (Required) syslog server port
-* `network_threat_severity` - (Required) syslog server port
-* `syslog_flow_logs` - (Optional) true/false. forward flow logs to syslog
-* `syslog_firewall_events` - (Optional) true/false. forward firewall events to syslog
-* `syslog_https_logs` - (Optional) true/false. forward tls logs to syslog
-* `network_threat_severity` - (Optional) One of "Alert", "Emergency", "Critical", "Error", "Warning", "Notice", "Info", "Debug". Forward network threat events (ips) with the given severity only
-* `web_attack_severity` - (Optional) One of "Alert", "Emergency", "Critical", "Error", "Warning", "Notice", "Info", "Debug". Forward web attacks with the given severity only
+* `syslog_server_ip` - (Required) Syslog Server IP
+* `syslog_port` - (Required) Syslog Server port
+* `network_threat_severity` - (Required) Syslog Server port
+* `syslog_flow_logs` - (Optional) `true` or `false`. Forward flow logs to Syslog.
+* `syslog_firewall_events` - (Optional) `true` or `false`. Forward firewall events to Syslog.
+* `syslog_https_logs` - (Optional) `true` or `false`. Forward TLS logs to Syslog.
+* `network_threat_severity` - (Optional) One of `Alert`, `Emergency`, `Critical`, `Error`, `Warning`, `Notice`, `Info`, or `Debug`. Forward Network Threat events (IPS) with the given severity only.
+* `web_attack_severity` - (Optional) One of `Alert`, `Emergency`, `Critical`, `Error`, `Warning`, `Notice`, `Info`, `Debug`. Forward Web Attacks with the given severity only.
 
 ## Attribute Reference
 * `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_gateway*)
