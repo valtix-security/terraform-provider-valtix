@@ -1,6 +1,8 @@
 # Resource: valtix_address_object
 Resource for creating and managing Address Objects that can be used as a Source or Destination (Src/Dest) in a Policy Ruleset Rule, or as a Target Backend Address (Reverse Proxy Target) in a Reverse Proxy Service Object.
 
+The Address Object is used in a Policy Ruleset Rule to define the segmentation policy.
+
 ## Example Usage
 
 ### STATIC (Source Destination) Example

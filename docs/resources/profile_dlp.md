@@ -1,5 +1,5 @@
 # Resource: valtix_profile_dlp
-Data loss prevention profile
+Resource for creating and managing a Data Loss Prevention (DLP) Profile
 
 ## Example Usage
 ```hcl
@@ -15,7 +15,7 @@ resource "valtix_profile_dlp" "dlp1" {
       "Bank of America Routing Numbers - California"
     ]
     count  = 2
-    action = "DROP"
+    action = "Deny Log"
   }
 }
 ```
@@ -30,10 +30,7 @@ resource "valtix_profile_dlp" "dlp1" {
 * `patterns` - (Optional) List of custom Perl Compatible Regular Expression (PCRE) patterns 
 * `static_patterns` - (Optional) List of pre-defined patterns
 * `count` - (Required) Number of times the pattern must be seen before a match is determined
-* `action` - (Required) Action to take when a match is detected. Events are viewed in the Valtix UI (Investigate -> Flow Analytics -> Network Threats). Valid values:
-    * **ALERT** (Allow Log - log the event)
-    * **DROP** (Deny Log - log the event)
-    * **PASS** (Deny No Log - do not log the event)
+* `action` - (Required) Action to take when a Data Loss Prevention (DLP) Network Threat is detected. Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
 
 ## Attribute Reference
 * `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)

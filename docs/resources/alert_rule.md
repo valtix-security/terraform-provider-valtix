@@ -1,5 +1,5 @@
 # valtix_alert_rule
-Define the rules for the alerts and the destination alert profile where the alerts are sent
+Resource for creating and managing the Rules that defines the scope of Valtix Alerts to send to a 3rd-party SIEM (Pagerduty, Slack, ServiceNow).
 
 ## Example Usage
 ```hcl
@@ -44,11 +44,10 @@ resource "valtix_alert_rule" "rule3" {
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the alert profile
+* `name` - (Required) Name of the Alert Profile
 * `description` - Description
-* `alert_profile` - (Required) Alert profile id
-* `type` - (Required) One of "Type_Inventory", "Type_SystemLogs",
-* `sub_type` - (Required) For Type_Inventory, valid sub_type is "SubType_InventoryGuardRails",
-    For Type_SystemLogs, valid sub_type is "SubType_SystemLogsGateway" or "SubType_SystemLogsAccount"
-* `severity` - (Required) One of "Info", "Medium", "High". For SystemLogs "Critical" and "Warning" are other severity types
-* `is_active` - (Required) true or false
+* `alert_profile` - (Required) Alert Profile ID
+* `type` - (Required) One of `Type_Inventory`, `Type_SystemLogs`,
+* `sub_type` - (Required) For Type_Inventory, valid sub_type is `SubType_InventoryGuardRails`. For Type_SystemLogs, valid sub_type is `SubType_SystemLogsGateway` or `SubType_SystemLogsAccount`
+* `severity` - (Required) One of `Info`, `Medium`, `High`. For SystemLogs `Critical` and `Warning` are other severity types.
+* `is_active` - (Required) `true` or `false`

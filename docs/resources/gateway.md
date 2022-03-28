@@ -1,21 +1,24 @@
 # Resource: valtix_gateway
-Create a valtix gateway  
+Resource for creating and managing Valtix Gateways
 
-Please note that with the exclusion of description and gateway_image, any other argument changes are prevented at this time as it would result in a service interruption to the Valtix gateway. In order to change these arguments, you must destroy and then create the valtix_gateway resource.
-
+~> **Note on valtix_gateway resource creation**
 [valtix_cloud_account](../valtix_cloud_account), [valtix_policy_rule_set](../valtix_policy_rule_set)
 must be defined before valtix_gateway can be created
 
+~> **Note on valtix_gateway resource management**
+Except for the arguments of `description`, `gateway_image` and `gateway_state`, changes to any other arguments are prevented.  Any of these argument changes require replacing the Gateway, which would result in a service disruption.  In order to change these arguments, you must do one of the following:  1) Set the `gateway_state` to `INACTIVE`, apply the change, then set the `gateway_state` to `ACTIVE` or 2) Destroy the `valtix_gateway` resource, apply the change, and (re)create the `valtix_gateway` resource.
+
 ## Example Usage
 
-### AWS Gateway (Edge Mode, for INGRESS only)
+### AWS Gateway (EDGE Mode, for INGRESS only)
 ```hcl
 resource "valtix_gateway" "aws-gw1" {
   name                    = "aws-gw1"
   description             = "AWS Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
   instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = "2.3-04"
+  gateway_image           = "2.11-05"
+  gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
   policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
@@ -45,7 +48,8 @@ resource "valtix_gateway" "aws-hub-gw1" {
   description           = "AWS Gateway 1"
   csp_account_name      = valtix_cloud_account.aws_act.name
   instance_type         = "AWS_M5_2XLARGE"
-  gateway_image         = "2.3.04"
+  gateway_image         = "2.11-05"
+  gateway_state         = "ACTIVE"
   mode                  = "HUB"
   security_type         = "EGRESS"
   policy_rule_set_id    = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
@@ -53,11 +57,11 @@ resource "valtix_gateway" "aws-hub-gw1" {
   aws_iam_role_firewall = "iam_role_name_for_firewall"
   region                = "us-east-1"
   vpc_id                = valtix_service_vpc.service_vpc.id
-  aws_gateway_lb        = "true"
+  aws_gateway_lb        = true
 }
 ```
 
-For HUB mode INGRESS gateway set the **security_type = INGRESS** and remove "**aws_gateway_lb**" argument
+For HUB mode INGRESS Gateway set the `security_type = INGRESS` and remove `aws_gateway_lb` argument
 
 ### Azure Gateway (EDGE Mode)
 ```hcl
@@ -67,6 +71,7 @@ resource "valtix_gateway" azure_gw1 {
   instance_type           = "AZURE_F8S_V2"
   azure_resource_group    = "rg1"
   gateway_image           = var.gateway_image
+  gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
@@ -97,6 +102,7 @@ resource "valtix_gateway" "azure_gw1" {
   instance_type        = "AZURE_F8S_V2"
   azure_resource_group = "rg1"
   gateway_image        = var.gateway_image
+  gateway_state        = "ACTIVE"
   mode                 = "HUB"
   security_type        = "INGRESS"
   ssh_public_key       = file(var.ssh_public_key_file)
@@ -107,7 +113,7 @@ resource "valtix_gateway" "azure_gw1" {
 }
 ```
 
-For EGRESS and East-West gateway set the **security_type = EGRESS**
+For Egress and East-West Gateway set the `security_type = EGRESS`
 
 ### GCP Gateway
 ```hcl
@@ -116,7 +122,8 @@ resource "valtix_gateway" "gcp-gw" {
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = "2.3-01"
+  gateway_image             = "2.11-05"
+  gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
@@ -148,57 +155,58 @@ resource "valtix_gateway" "gcp-gw" {
 
 ## Argument Reference
 
-* `name` - (Required) Name of the Valtix gateway.
-* `description` - (Optional) Description of the Valtix gateway
-* `csp_account_name` - (Required) The CSP account where the gateway will be deployed.
+* `name` - (Required) Name of the Valtix Gateway.
+* `description` - (Optional) Description of the Valtix Gateway
+* `csp_account_name` - (Required) The CSP account where the Gateway will be deployed.
 * `instance_type` - (Required) Must be one of:
     * **GCP_E2_8**
     * **AWS_M5_2XLARGE**
     * **AZURE_D8S_V3**
-* `gateway_image` - (Required) Example "2.3-01". This is the Valtix image version to be deployed for this gateway. Please consult with Valtix support for recommended version.
+* `gateway_image` - (Required) Example `2.11-05`. This is the Valtix image version to be deployed for this Gateway. Please consult with Valtix support for recommended version.
 * `mode` - (Required) "EDGE" or "HUB". Look into product documentation for different deployment modes
-* `security_type` - (Optional) "INGRESS" or "EGRESS". Default "INGRESS"
+* `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
+* `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `policy_rule_set_id` - (Required) Rule set id of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
 * `ssh_key_pair` - (AWS - Required) SSH key pair name that's already in your AWS account
 * `ssh_public_key` - (Azure - Required) Contents of SSH public key
-* `gcp_service_account_email` - (GCP - Required) This is the GCP gateway service account email, that provides permissions for the Valtix gateway to integrate with other GCP project resources such as Secrets Manager and storage buckets. 
+* `gcp_service_account_email` - (GCP - Required) This is the GCP Gateway service account email, that provides permissions for the Valtix Gateway to integrate with other GCP project resources such as Secrets Manager and storage buckets. 
 * `aws_iam_role_firewall` - (AWS - Required) This is the IAM role that's assigned to the Valtix firewall instances.
-* `azure_user_identity_id` - (Azure - Optional) User assgined identity This is the IAM role that's assigned to the Valtix firewall instances.
-* `azure_resource_group` - (Azure - Required) Azure resource group name used for all Valtix gateway resources
-* `region` - (Required) Region where the Valtix gateway is deployed.
-* `vpc_id` - (Required) VPC ID where the Valtix gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via transit gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to **id** attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
-* `aws_gateway_lb` - (Optional only for AWS HUB mode) "true" or "false". If attribute is "true", this will deploy AWS Gateway using AWS Gateway Load Balancer. This is only for EGRESS gateway that will support both East-West and Egress traffic.
+* `azure_user_identity_id` - (Azure - Optional) User assigned identity This is the IAM role that's assigned to the Valtix firewall instances.
+* `azure_resource_group` - (Azure - Required) Azure resource group name used for all Valtix Gateway resources
+* `region` - (Required) Region where the Valtix Gateway is deployed.
+* `vpc_id` - (Required) VPC ID where the Valtix Gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via Transit Gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to **id** attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
+* `aws_gateway_lb` - (Optional only for AWS HUB mode) `true` or `false`. If attribute is `true`, this will deploy AWS Gateway using AWS Gateway Load Balancer. This is only for EGRESS Gateway that will support both East-West and Egress traffic.
 * `mgmt_vpc_id` - (GCP - Required) GCP VPC ID where the management interface of the Valtix Gateway is attached.
 * `mgmt_security_group` - (Required except for AWS HUB mode) Security group ID for management traffic or GCP network tag to be used to define GCP firewall rules for Valtix firewall instances to communicate with the Valtix controller. This must allow all outbound access from Valtix management interface
 * `datapath_security_group` - (Required except for AWS HUB mode) Security group ID for the datapath traffic (application traffic) or GCP network tag to be used to define GCP firewall rules for application traffic to pass through the Valtix Gateway. This must allow traffic to the ports that are defined as services on the Valtix controller
-* `min_instances` - (Optional) minimum number of instances per zone (default 1)
-* `max_instances` - (Optional) maximum number of instances per zone (default 1)
-* `health_check_port` - (Optional) port number that NLB uses to monitor the instances (default 65534). A rule must be configured on the datapath_security_group to allow traffic to this port.
-* `log_profile` - (Optional) log profile id *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
-* `packet_capture_profile` - (Optional) packet profile id *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
-* `diagnostics_profile` - (Optional) diagnostics profile id *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
+* `min_instances` - (Optional) Minimum number of instances per zone (default 1)
+* `max_instances` - (Optional) Maximum number of instances per zone (default 1)
+* `health_check_port` - (Optional) Port number that NLB uses to monitor the instances (default 65534). A rule must be configured on the datapath_security_group to allow traffic to this port.
+* `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
+* `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
+* `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
 * `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure. 
-* `instance_details` - (Required) This block can be repeated multiple times for deploying gateway instances in multiple zones. Look below for the [structure](#instance-details) of this block. Atleast 1 block must be provided.
+* `instance_details` - (Required - EDGE Mode) This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  Look below for the [structure](#instance-details) of this block.  In EDGE mode, at least 1 block must be provided.
 
 ## Instance Details
 This section is not required for AWS/Azure HUB mode as instance details are obtained from service VPC referenced in vpc_id attribute
 
-* `availability_zone` - (Required) specifies the availability zone where the Valtix gateway instance(s) are deployed
-* `mgmt_subnet` - (Required) specifies the VPC subnet ID used for management traffic where the Valtix gateway instance(s) are deployed for this availability zone.
-* `datapath_subnet` - (Required) specifies the VPC subnet ID used for data traffic where the Valtix gateway instance(s) are deployed for this availability zone.
+* `availability_zone` - (Required) Specifies the availability zone where the Valtix Gateway instance(s) are deployed
+* `mgmt_subnet` - (Required) Specifies the VPC subnet ID used for management traffic where the Valtix Gateway instance(s) are deployed for this availability zone.
+* `datapath_subnet` - (Required) Specifies the VPC subnet ID used for data traffic where the Valtix Gateway instance(s) are deployed for this availability zone.
 
-## Gateway settings
-Gateway settings define a list of settings that applies to the given gateway
+## Gateway Settings
+Gateway settings define a list of settings that applies to the given Gateway
 
-### To enable EBS encryption for the gateway instances using default KMS key
+### To enable EBS encryption for the Gateway instances using default KMS key
 ```hcl
 settings {
   name  = "gateway.aws.ebs.encryption.key.default"
-  value = "true"
+  value = true
 }
 ```
 
-### To enable EBS encryption for the gateway instances using specified KMS key
+### To enable EBS encryption for the Gateway instances using specified KMS key
 ```hcl
 settings {
   name  = "gateway.aws.ebs.encryption.key.customer_key"
@@ -206,7 +214,7 @@ settings {
 }
 ```
 
-### To add a list of custom tags to the gateway instances
+### To add a list of custom tags to the Gateway instances
 ```hcl
 settings {
   name  = "custom_tags"

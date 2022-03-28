@@ -1,5 +1,7 @@
-# valtix_spoke_vpc
-Manage Spoke VPC/Vnet. In AWS, the spoke VPC is attached to the transit gateway and appropriate routing is setup in transit gateway route tables, so the traffic reaches the service VPC. (Customer has to set the default route in the spoke VPC routing tables to point to the Transit Gateway)
+# Resource: valtix_spoke_vpc
+Resource for creating and managing Spoke VPC protection.
+
+In AWS, the Spoke VPC is attached to the Transit Gateway and appropriate routing is setup in Transit Gateway route tables, so the traffic reaches the Valtix Service VPC. (Customer has to set the default route in the Spoke VPC routing tables to point to the Transit Gateway).
 
 In Azure, VNet peering is setup between the Service VNet and the Spoke VNet
 
@@ -33,7 +35,7 @@ resource "valtix_spoke_vpc" "valtix_spoke" {
 
 ## Argument Reference
 
-* `service_vpc_id` - (Required) Service VPC/VNet id
-* `spoke_vpc_id` - (Required) Spoke VPC/VNet id
+* `service_vpc_id` - (Required) Service VPC/VNet ID
+* `spoke_vpc_id` - (Required) Spoke VPC/VNet ID
 * `spoke_vpc_csp_account_name` - (Optional - AWS) CSP Account Name (added on Valtix) where the Spoke VPC exists (if different from the csp account name in which Service VPC is created)
-* `spoke_vpc_region` - (Optional - AWS) Region where the spoke vpc exists (if different from the csp account name in which Service VPC is created)
+* `spoke_vpc_region` - (Optional - AWS) Region where the spoke vpc exists (if different from the CSP account name in which Service VPC is created)

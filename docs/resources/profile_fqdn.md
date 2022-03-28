@@ -1,5 +1,5 @@
 # Resource: valtix_profile_urlfilter
-Create FQDN filtering profile
+Resource for creating and managing an FQDN Filtering Profile
 
 ## Example Usage
 ```hcl
@@ -12,7 +12,7 @@ resource "valtix_profile_fqdn" "fqdn1" {
       vendor     = "BRIGHTCLOUD"
       categories = ["Search Engines", "Reference and Research"]
     }
-    policy               = "ALLOW_LOG"
+    policy               = "Allow Log"
     decryption_exception = false
   }
   fqdn_filter_list {
@@ -21,12 +21,12 @@ resource "valtix_profile_fqdn" "fqdn1" {
       vendor     = "BRIGHTCLOUD"
       categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
     }
-    policy               = "DENY"
+    policy               = "Deny Log"
     decryption_exception = false
   }
 
   default_fqdn_filter {
-    policy               = "DENY_NOLOG"
+    policy               = "Deny No Log"
     decryption_exception = false
   }
 }
@@ -36,14 +36,14 @@ resource "valtix_profile_fqdn" "fqdn1" {
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
 * `no_fqdn_deny` - (Optional) Deny traffic when no FQDN found in packet. Applicable values: *true* or *false*.  Default value: *false*.
-* `fqdn_filter_list` - (Required) One or more *fqdn_filter* resources, where each resource is a row in the FQDN filter list (maximum of 64 rows). Structure [defined below](#fqdn-filter-list).
-* `default_fqdn_filter` - (Optional) Default FQDN filter behavior.  This should be the last resource. Any FQDN that does not match the explicit resources. Structure [defined below](#fqdn-filter-list).
+* `fqdn_filter_list` - (Required) One or more `fqdn_list` resources, where each resource is a row in the FQDN Filter List (maximum of 32 resources). Structure [defined below](#fqdn-filter-list).
+* `default_fqdn_filter` - (Optional) Default FQDN filter behavior for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource.  This should be the last resource specified in the list of resources. Structure [defined below](#fqdn-filter-list).
 
 ## FQDN Filter List
-* `fqdn_list` - (Required) List of strings (maximum of 8 per row): FQDNs or Perl Compatible Regular Expression (PCRE) patterns.  Structure [defined below](#fqdn-list).
-* `vendor_category_list` - (Optional) List of pre-defined Vendor Categories.  Structure [defined below](#vendor-category-list). 
-* `policy` - (Required) Action to take when an FQDN matches an entry in the *fqnd_list* or *vendor_category_list*.  Applicable values are: "ALLOW_LOG" (log the event), "ALLOW" (do not log the event), "DENY" (log the event), "DENY_NOLOG" (do not log the event).  Events are viewed in the Valtix UI (Investigate -> Flow Analytics -> FQDN Filtering).
-* `decryption_exception` - (Optional) When used in conjunction with a proxy Rule (ForwardProxy, ReverseProxy), instructs the proxy engine to  bypass decryption. Applicable values: *true* or *false*.  Default value: *true*.
+* `fqdn_list` - (Required) List of strings (maximum of 64 strings): Applicable values: FQDNs or Perl Compatible Regular Expression (PCRE) patterns.  Structure [defined below](#fqdn-list).
+* `vendor_category_list` - (Optional) List of pre-defined Vendor Categories (maximum 128 categories).  Structure [defined below](#vendor-category-list). 
+* `policy` - (Required) Action to take when an FQDN matches an entry in the `fqnd_list` or `vendor_category_list`.  Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
+* `decryption_exception` - (Optional) When used in conjunction with a proxy Rule (ForwardProxy, ReverseProxy), instructs the proxy engine to bypass decryption. Applicable values: `true` or `false`.  If not specified, the default value is `true`.
 
 ## FQDN List
 ```
