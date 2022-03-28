@@ -124,7 +124,6 @@ resource "valtix_gateway" "gcp-gw" {
   instance_type             = "GCP_E2_8"
   gateway_image             = "2.11-05"
   gateway_state             = "ACTIVE"
-  mode                      = "EDGE"
   security_type             = "INGRESS"
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
@@ -136,7 +135,6 @@ resource "valtix_gateway" "gcp-gw" {
   mgmt_security_group       = "valtix-mgmt"
   datapath_security_group   = "valtix-datapath"
   log_profile               = valtix_profile_log_forwarding.splunk1.profile_id
-
   instance_details {
     availability_zone = "us-west1-a"
     mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
@@ -144,7 +142,6 @@ resource "valtix_gateway" "gcp-gw" {
     # mgmt_subnet     = data.google_compute_subnetwork.mgmt_subnet1.self_link
     # datapath_subnet = data.google_compute_subnetwork.datapath_subnet1.self_link
   }
-
   instance_details {
     availability_zone = "us-west1-b"
     mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
@@ -163,7 +160,7 @@ resource "valtix_gateway" "gcp-gw" {
     * **AWS_M5_2XLARGE**
     * **AZURE_D8S_V3**
 * `gateway_image` - (Required) Example `2.11-05`. This is the Valtix image version to be deployed for this Gateway. Please consult with Valtix support for recommended version.
-* `mode` - (Required) "EDGE" or "HUB". Look into product documentation for different deployment modes
+* `mode` - (AWS, Azure - Required) "EDGE" or "HUB". Look into product documentation for different deployment modes.  This argument is not supported for GCP and must not be used.
 * `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
 * `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `policy_rule_set_id` - (Required) Rule set id of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*

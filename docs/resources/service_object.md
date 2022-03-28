@@ -2,16 +2,16 @@
 Resource for creating and managing a Service Object.  A Service Object is used in a Policy Ruleset Rule to define how the traffic will be processed by the Rule.
 
 ~> **Note on valtix_service_object ReverseProxy resource**
-If multiple services (backends) need to listen on the same port (e.g, port 443), then an SNI
-must be provided to differentiate the requests.
+If multiple applications are accessed using the same port (e.g., port 443), then an SNI must be specified to differentiate the requests associated with each application.
 
 ## Example Usage
 
-### ReverseProxy: Listen on port 80 and transport to port 80 on backend
+### ReverseProxy Examples
+#### Listen on TCP/80 and proxy to HTTP/80 to the backend
 ```hcl
-resource "valtix_service_object" "app1-svc" {
+resource "valtix_service_object" "app1-svc-http" {
   name           = "app1-svc-http"
-  description    = "app1 service: listen on 80 and target to 80"
+  description    = "app1 service: listen on TCP/80 and proxy to HTTP/80"
   service_type   = "ReverseProxy"
   protocol       = "TCP"
   transport_mode = "HTTP"
@@ -23,11 +23,11 @@ resource "valtix_service_object" "app1-svc" {
 }
 ```
 
-### ReverseProxy: Listen on port 443 TLS and transport to port 443 HTTPS on backend
+#### Listen on TCP/443 TLS and proxy to HTTPS/443 to the backend
 ```hcl
 resource "valtix_service_object" "app1-svc-https" {
   name           = "app1-svc-https"
-  description    = "app1 service: listen on 443 and target to 443"
+  description    = "app1 service: listen on TCP/443 and proxy to HTTPS/443"
   service_type   = "ReverseProxy"
   protocol       = "TCP"
   transport_mode = "HTTPS"
@@ -40,11 +40,12 @@ resource "valtix_service_object" "app1-svc-https" {
 }
 ```
 
-### ReverseProxy: Listen on port 443 TLS on a SNI and transport to port 443 HTTPS on backend **
+#### Listen on TCP/443 TLS with an SNI and proxy to HTTPS/443 on the backend
 ```hcl
+# Target to Address Object 1 using a list of SNIs
 resource "valtix_service_object" "app1-svc-https" {
   name           = "app1-svc-https"
-  description    = "app1 service: listen on 443 and target to 443"
+  description    = "app1 service: listen on TCP/443 and proxy to HTTPS/443"
   service_type   = "ReverseProxy"
   protocol       = "TCP"
   transport_mode = "HTTPS"
@@ -52,16 +53,15 @@ resource "valtix_service_object" "app1-svc-https" {
     destination_ports = "443"
     backend_ports     = "443"
   }
-  sni                   = ["www.app1.com", "subodmain1.app1.com"]
+  sni                   = ["www.app1.com", "subdomain1.app1.com"]
   backend_address_group = valtix_address_object.app1-ag.address_id
   tls_profile           = valtix_profile_decryption.decryption_profile_1.profile_id
 }
 
-# Target to address object 2 with a different SNI.
-
+# Target to Address Object 2 with a different list of SNIs
 resource "valtix_service_object" "app2-svc-https" {
   name           = "app1-svc-https"
-  description    = "app1 service: listen on 443 and target to 443"
+  description    = "app1 service: listen on TCP/443 and target to HTTPS/443"
   service_type   = "ReverseProxy"
   protocol       = "TCP"
   transport_mode = "HTTPS"
@@ -69,17 +69,18 @@ resource "valtix_service_object" "app2-svc-https" {
     destination_ports = "443"
     backend_ports     = "443"
   }
-  sni                   = ["www.app2.com", "subodmain1.app2.com"]
+  sni                   = ["www.app2.com", "subdomain1.app2.com"]
   backend_address_group = valtix_address_object.app2-ag.address_id
   tls_profile           = valtix_profile_decryption.decryption_profile_2.profile_id
 }
 ```
+For a complete set of arguments, see [ReverseProxy Arguments](#reverseproxy-arguments)
 
-### Forward Proxy (Egress) Service object
+### ForwardProxy Examples
 ```hcl
 resource "valtix_service_object" "internet-http" {
   name           = "internet-port-80"
-  description    = "allow port 80 to internet"
+  description    = "allow port 80 to Internet"
   service_type   = "ForwardProxy"
   transport_mode = "HTTP"
   port {
@@ -89,7 +90,7 @@ resource "valtix_service_object" "internet-http" {
 
 resource "valtix_service_object" "internet-https" {
   name           = "internet-port-443"
-  description    = "allow port 443 to internet"
+  description    = "allow port 443 to Internet"
   service_type   = "ForwardProxy"
   transport_mode = "HTTPS"
   port {
@@ -99,76 +100,81 @@ resource "valtix_service_object" "internet-https" {
 }
 ```
 
-### Forwarding Service object
+For a complete set of arguments, see [ForwardProxy Arguments](#forwardproxy-arguments)
+
+### Forwarding Example
 ```hcl
 resource "valtix_service_object" "forward-https" {
-  name         = "Forward-HTTPS"
+  name         = "forward-https"
   service_type = "Forwarding"
   port {
     destination_ports = "443"
   }
+  source_nat = true
 }
 ```
 
+For a complete set of arguments, see [Forwarding Arguments](#forwarding-arguments)
+
 ## Argument Reference
 
-## ReverseProxy
-* `name` - (Required) Name of the service object
-* `description` - (Optional) Description of the service object
-* `service_type` - (Required) "ReverseProxy", "ForwardProxy" or "Forwarding"
-* `protocol` - (Optional) "TCP" or "UDP". "TCP" is default. This is the listener protocol.
-* `transport_mode` - (Required) "HTTP", "HTTPS", "TCP", "TLS". The protocol used by the gateway to communicate with the backend.
-* `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port)
-* `sni` - (Optional) List of FQDN strings that's matched by GW to find the destination (target) address group. Used to distinguish multiple TLS applications on a single port
-* `tls_profile` - (Optional) Decryption profile id
-* `l7dos_profile` - (Optional) L7 DOS profile id
+### ReverseProxy Arguments
+* `name` - (Required) Name of the Service Object
+* `description` - (Optional) Description of the Service Object
+* `service_type` - (Required) `ReverseProxy`
+* `protocol` - (Optional) `TCP` or `UDP`. If not specified, the default value is `TCP`.
+* `transport_mode` - (Required) `HTTP`, `HTTPS`, `WEBSOCKET_S`, `TCP`, `TLS`. The protocol used by the Gateway to communicate with the backend application defined using a Reverse Proxy Target Address Object (`backend_address_group`).
+* `port` - (Required) This argument can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port)
+* `sni` - (Optional) List of FQDN strings that are evaluated by the Gateway to determine a Rule match.  The match will issue the corresponding Certificate defined by the `tls_profile` and establish a backend connection to the application defined by the `backend_address_group`. This argument is used to distinguish multiple TLS applications that use the same port.
+* `tls_profile` - (Optional) Decryption Profile ID
+* `l7dos_profile` - (Optional) L7 DOS Profile ID
 
-## ReverseProxy Port
-port can be specified multiple times to define a list of ports that the service can listen.
-
+### ReverseProxy Port Arguments
+This block can be specified multiple times to define a list of one or more listener ports.
 ```hcl
 port {
   destination_ports = "443"
   backend_ports     = "443"
 }
 
-# if the listen ports are continuous and target ports are continuous
-
+# If the listen ports are continuous and target ports are continuous
 port {
   destination_ports = "80-100"
   backend_ports     = "8000-8020"
 }
 ```
 
-* `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.g "80" or "80-100")
-* `backend_ports` - (Required) Backend (target) port number as a string or a continuous range of target port numbers (e.g "80" or "80-100"). The range count in destination and backend must match.
+* `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.g, `80` or `80-100`)
+* `backend_ports` - (Required) Backend (target) port number as a string or a continuous range of target port numbers (e.g, `80` or `80-100`). The port specified in `destination_ports` and `backend_ports` must match.
+<br><br>For examples, see [ReverseProxy Examples](#reverseproxy-examples)
 
-## ForwardProxy
-* `name` - (Required) Name of the service object
-* `description` - Description of the service object
-* `service_type` - (Required) "ForwardProxy"
-* `transport_mode` - (Required) "HTTP", "HTTPS"
-* `port` - (Required) This can be specified multiple times if the service can run on multiple ports. Structure is [documented below](#forwardproxy-port)
-* `tls_profile` - (Optional) Decryption profile id.
+### ForwardProxy Arguments
+* `name` - (Required) Name of the Service Object
+* `description` - Description of the Service Object
+* `service_type` - (Required) `ForwardProxy`
+* `transport_mode` - (Required) `HTTP`, `HTTPS`
+* `port` - (Required) This argument can be specified multiple times if the service can run on multiple ports. Structure is [documented below](#forwardproxy-port)
+* `tls_profile` - (Optional) Decryption Profile ID.
 
-## Forwarding
-* `name` - (Required) Name of the service object
-* `description` - Description of the service object
-* `service_type` - (Required) "Forwarding"
-* `protocol` - (Optional) "TCP" or "UDP". "TCP" is default.
-* `port` - (Required) This can be specified multiple times if the service can run on multiple ports. Structure is [documented below](#forwardproxy-port)
-* `source_nat` - (Optional) true or false. Specifies whether source NAT (Network Address Translation) would be performed on the packet flow
-
-## ForwardProxy Port
-port can be specified multiple times to define a list of ports that the service can listen.
-
+### ForwardProxy Port Arguments
+This block can be specified multiple times to define a list of listener ports.
 ```hcl
 port {
   destination_ports = "443"
 }
 ```
 
-* `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.g "80" or "80-100")
+* `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.,g `80` or `80-100`)
+<br><br>For examples, see [ForwardProxy Examples](#forwardproxy-examples)
+
+### Forwarding Arguments
+* `name` - (Required) Name of the service object
+* `description` - Description of the service object
+* `service_type` - (Required) "Forwarding"
+* `protocol` - (Optional) `TCP` or `UDP`. If not specified, the default value is `TCP`.
+* `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#forwardproxy-port)
+* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `false`.
+<br><br>For an example, see [Forwarding Example](#forwarding-example)
 
 ## Attribute Reference
-* `service_id` - ID of the Service Object that can be referenced in other resources (e.g. *valtix_policy_rules*)
+* `service_id` - ID of the Service Object that can be referenced in other resources (e.g., *valtix_policy_rules*)
