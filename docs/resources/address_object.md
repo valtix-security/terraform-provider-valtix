@@ -128,6 +128,17 @@ resource "valtix_address_object" "geoip1_ag" {
 ```
 For a complete set of arguments, see [GEO_IP (Source Destination) Arguments](#geo_ip-source-destination-arguments)
 
+### SAAS_ENDPOINTS (Source Destination) Example
+```hcl
+resource "valtix_address_object" "microsoft-saas-365" {
+        name = "microsoft-saas-365"
+        description = "Microsoft Office 365 Endpoints"
+        type = "SAAS_ENDPOINTS"
+        saas_type = "MICROSOFT_365_AND_OFFICE"
+}
+```
+For a complete set of arguments, see [SAAS_ENDPOINTS (Source Destination) Arguments](#saas_endpoints-source-destination-arguments)
+
 ### GROUP (Source Destination) Example
 ```hcl
 resource "valtix_address_object" "group-ag" {
@@ -238,6 +249,13 @@ For a complete set of arguments, see [GROUP (Source Destination) Arguments](#gro
 * `type` = `GEO_IP` - (Required) Type of the Address Object
 * `value` - (Required) A list of Geo IPs defined by their Country name.  A full list of Country names can be obtained from the [GeoNames Countries](https://www.geonames.org/countries/) site.
 <br><br>For an example, see [GEO_IP (Source Destination) Example](#geo_ip-source-destination-example)
+
+#### SAAS_ENDPOINTS (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `SAAS_ENDPOINTS` - (Required) Type of the Address Object
+* `saas_type` - (Required) Type of SaaS Endpoint. Valid values: `MICROSOFT_SKYPE_AND_TEAMS`, `MICROSOFT_SHAREPOINT_AND_ONEDRIVE`, `MICROSOFT_EXCHANGE`, `MICROSOFT_365_AND_OFFICE`
+<br><br>For an example, see [SAAS_ENDPOINTS (Source Destination) Example](#saas_endpoints-source-destination-example)
 
 #### GROUP (Source Destination) Arguments
 * `name` - (Required) Name of the Address Object

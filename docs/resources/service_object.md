@@ -126,6 +126,7 @@ resource "valtix_service_object" "forward-https" {
 * `sni` - (Optional) List of FQDN strings that's matched by GW to find the destination (target) address group. Used to distinguish multiple TLS applications on a single port
 * `tls_profile` - (Optional) Decryption profile id
 * `l7dos_profile` - (Optional) L7 DOS profile id
+* `client_tls_profile` - (Optional) Decryption profile id. This profile is used to authenticate client certificate in TLS handshake
 
 ## ReverseProxy Port
 port can be specified multiple times to define a list of ports that the service can listen.
