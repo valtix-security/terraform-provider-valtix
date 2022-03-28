@@ -133,10 +133,10 @@ For a complete set of arguments, see [GEO_IP (Source Destination) Arguments](#ge
 ### SAAS_ENDPOINTS (Source Destination) Example
 ```hcl
 resource "valtix_address_object" "microsoft-saas-365" {
-        name = "microsoft-saas-365"
-        description = "Microsoft Office 365 Endpoints"
-        type = "SAAS_ENDPOINTS"
-        saas_type = "MICROSOFT_365_AND_OFFICE"
+  name        = "microsoft-saas-365"
+  description = "Microsoft Office 365 Endpoints"
+  type        = "SAAS_ENDPOINTS"
+  saas_type   = "MICROSOFT_365_AND_OFFICE"
 }
 ```
 For a complete set of arguments, see [SAAS_ENDPOINTS (Source Destination) Arguments](#saas_endpoints-source-destination-arguments)
