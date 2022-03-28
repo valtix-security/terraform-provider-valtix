@@ -115,9 +115,9 @@ resource "valtix_service_object" "forward-https" {
 ## ReverseProxy
 * `name` - (Required) Name of the service object
 * `description` - (Optional) Description of the service object
-* `service_type` - (Required) "ReverseProxy", "ForwardProxy" or "Forwarding"
-* `protocol` - (Optional) "TCP" or "UDP". "TCP" is default. This is the listener protocol.
-* `transport_mode` - (Required) "HTTP", "HTTPS", "TCP", "TLS". The protocol used by the gateway to communicate with the backend.
+* `service_type` - (Required) `ReverseProxy`
+* `protocol` - (Optional) `TCP` or `UDP`. `TCP` is default. This is the listener protocol.
+* `transport_mode` - (Required) `HTTPS`, `TLS`, `WEBSOCKET_S` if tls_profile is set else `HTTP`, `TCP`, `WEBSOCKET`. The protocol used by the gateway to communicate with the backend.
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port)
 * `sni` - (Optional) List of FQDN strings that's matched by GW to find the destination (target) address group. Used to distinguish multiple TLS applications on a single port
 * `tls_profile` - (Optional) Decryption profile id
@@ -147,18 +147,18 @@ port {
 ## ForwardProxy
 * `name` - (Required) Name of the service object
 * `description` - Description of the service object
-* `service_type` - (Required) "ForwardProxy"
-* `transport_mode` - (Required) "HTTP", "HTTPS"
+* `service_type` - (Required) `ForwardProxy`
+* `transport_mode` - (Required) `HTTP`, `HTTPS`
 * `port` - (Required) This can be specified multiple times if the service can run on multiple ports. Structure is [documented below](#forwardproxy-port)
 * `tls_profile` - (Optional) Decryption profile id.
 
 ## Forwarding
 * `name` - (Required) Name of the service object
 * `description` - Description of the service object
-* `service_type` - (Required) "Forwarding"
-* `protocol` - (Optional) "TCP" or "UDP". "TCP" is default.
+* `service_type` - (Required) `Forwarding`
+* `protocol` - (Optional) `TCP` or `UDP`. `TCP` is default.
 * `port` - (Required) This can be specified multiple times if the service can run on multiple ports. Structure is [documented below](#forwardproxy-port)
-* `source_nat` - (Optional) true or false. Specifies whether source NAT (Network Address Translation) would be performed on the packet flow
+* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Network Address Translation) would be performed on the packet flow
 
 ## ForwardProxy Port
 port can be specified multiple times to define a list of ports that the service can listen.
