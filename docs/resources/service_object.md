@@ -167,7 +167,7 @@ port {
 ### Forwarding Arguments
 * `name` - (Required) Name of the service object
 * `description` - Description of the service object
-* `service_type` - (Required) "Forwarding"
+* `service_type` - (Required) `Forwarding`
 * `protocol` - (Optional) `TCP` or `UDP`. If not specified, the default value is `TCP`.
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#forwardproxy-port)
 * `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `false`.
