@@ -116,18 +116,17 @@ resource "valtix_service_object" "forward-https" {
 
 For a complete set of arguments, see [Forwarding Arguments](#forwarding-arguments)
 
-## Argument Reference
-
-### ReverseProxy Arguments
-* `name` - (Required) Name of the Service Object
-* `description` - (Optional) Description of the Service Object
+## ReverseProxy Arguments
+* `name` - (Required) Name of the service object
+* `description` - (Optional) Description of the service object
 * `service_type` - (Required) `ReverseProxy`
-* `protocol` - (Optional) `TCP` or `UDP`. If not specified, the default value is `TCP`.
-* `transport_mode` - (Required) `HTTP`, `HTTPS`, `WEBSOCKET_S`, `TCP`, `TLS`. The protocol used by the Gateway to communicate with the backend application defined using a Reverse Proxy Target Address Object (`backend_address_group`).
-* `port` - (Required) This argument can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port)
+* `protocol` - (Optional) `TCP` or `UDP`. `TCP` is default. This is the listener protocol.
+* `transport_mode` - (Required) If tls_profile is specified, then the valid values are `HTTPS`, `TLS`, `WEBSOCKET_S`. If tls_profile is not specified, then valid values are `HTTP`, `TCP`, `WEBSOCKET`. The protocol used by the Gateway to communicate with the backend application defined using a Reverse Proxy Target Address Object (`backend_address_group`)
+* `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port)
 * `sni` - (Optional) List of FQDN strings that are evaluated by the Gateway to determine a Rule match.  The match will issue the corresponding Certificate defined by the `tls_profile` and establish a backend connection to the application defined by the `backend_address_group`. This argument is used to distinguish multiple TLS applications that use the same port.
-* `tls_profile` - (Optional) Decryption Profile ID
-* `l7dos_profile` - (Optional) L7 DOS Profile ID
+* `tls_profile` - (Optional) Decryption profile ID
+* `l7dos_profile` - (Optional) L7 DOS profile ID
+* `client_tls_profile` - (Optional) Decryption profile ID. This profile is used to authenticate client certificate in TLS handshake
 
 ### ReverseProxy Port Arguments
 This block can be specified multiple times to define a list of one or more listener ports.
@@ -143,7 +142,6 @@ port {
   backend_ports     = "8000-8020"
 }
 ```
-
 * `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.g, `80` or `80-100`)
 * `backend_ports` - (Required) Backend (target) port number as a string or a continuous range of target port numbers (e.g, `80` or `80-100`). The port specified in `destination_ports` and `backend_ports` must match.
 <br><br>For examples, see [ReverseProxy Examples](#reverseproxy-examples)
@@ -163,17 +161,16 @@ port {
   destination_ports = "443"
 }
 ```
-
 * `destination_ports` - (Required) Destination port number as a string or a continuous range of destination port numbers (e.,g `80` or `80-100`)
 <br><br>For examples, see [ForwardProxy Examples](#forwardproxy-examples)
 
 ### Forwarding Arguments
 * `name` - (Required) Name of the service object
 * `description` - Description of the service object
-* `service_type` - (Required) "Forwarding"
+* `service_type` - (Required) `Forwarding`
 * `protocol` - (Optional) `TCP` or `UDP`. If not specified, the default value is `TCP`.
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#forwardproxy-port)
-* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `false`.
+* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `false`.(Even though this is optional, it is recommended to specify a value explicitly, as the default value may change in the future)
 <br><br>For an example, see [Forwarding Example](#forwarding-example)
 
 ## Attribute Reference

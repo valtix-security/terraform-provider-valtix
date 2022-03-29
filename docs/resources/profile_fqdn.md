@@ -35,6 +35,7 @@ resource "valtix_profile_fqdn" "fqdn1" {
 ## Argument Reference
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
+* `no_fqdn_deny` - (Optional) Deny traffic when no FQDN found in packet. Applicable values: *true* or *false*.  Default value: *false*.
 * `fqdn_filter_list` - (Required) One or more `fqdn_list` resources, where each resource is a row in the FQDN Filter List (maximum of 32 resources). Structure [defined below](#fqdn-filter-list).
 * `default_fqdn_filter` - (Optional) Default FQDN filter behavior for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource.  This should be the last resource specified in the list of resources. Structure [defined below](#fqdn-filter-list).
 
