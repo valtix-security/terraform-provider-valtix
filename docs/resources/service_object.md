@@ -121,7 +121,7 @@ For a complete set of arguments, see [Forwarding Arguments](#forwarding-argument
 * `description` - (Optional) Description of the service object
 * `service_type` - (Required) `ReverseProxy`
 * `protocol` - (Optional) `TCP` or `UDP`. `TCP` is default. This is the listener protocol.
-* `transport_mode` - (Required) `HTTPS`, `TLS`, `WEBSOCKET_S` if tls_profile is set else `HTTP`, `TCP`, `WEBSOCKET`. The protocol used by the Gateway to communicate with the backend application defined using a Reverse Proxy Target Address Object (`backend_address_group`)
+* `transport_mode` - (Required) If tls_profile is specified, then the valid values are `HTTPS`, `TLS`, `WEBSOCKET_S`. If tls_profile is *not* specified, then valid values are `HTTP`, `TCP`, `WEBSOCKET`. The protocol used by the Gateway to communicate with the backend application defined using a Reverse Proxy Target Address Object (`backend_address_group`)
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port)
 * `sni` - (Optional) List of FQDN strings that are evaluated by the Gateway to determine a Rule match.  The match will issue the corresponding Certificate defined by the `tls_profile` and establish a backend connection to the application defined by the `backend_address_group`. This argument is used to distinguish multiple TLS applications that use the same port.
 * `tls_profile` - (Optional) Decryption profile ID
@@ -170,7 +170,7 @@ port {
 * `service_type` - (Required) `Forwarding`
 * `protocol` - (Optional) `TCP` or `UDP`. If not specified, the default value is `TCP`.
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#forwardproxy-port)
-* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `false`.
+* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `false`.(Even though this is optional, it is recommended to specify a value explicitly, as the default value may change in the future)
 <br><br>For an example, see [Forwarding Example](#forwarding-example)
 
 ## Attribute Reference
