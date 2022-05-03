@@ -170,7 +170,7 @@ port {
 * `service_type` - (Required) `Forwarding`
 * `protocol` - (Optional) `TCP` or `UDP`. If not specified, the default value is `TCP`.
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#forwardproxy-port)
-* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `false`.(Even though this is optional, it is recommended to specify a value explicitly, as the default value may change in the future)
+* `source_nat` - (Optional) `true` or `false`. Specifies whether source NAT (Source Network Address Translation - SNAT) should be performed on the session.  If not specified, the default value is `true`. (Even though this argument is optional, it is recommended to specify a value explicitly, as the default value may change in the future)
 <br><br>For an example, see [Forwarding Example](#forwarding-example)
 
 ## Attribute Reference
