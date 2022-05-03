@@ -28,6 +28,10 @@ resource "valtix_profile_urlfilter" "url1" {
     filter_methods = ["POST"]
     return_status  = 400
   }
+  uncategorized_url_filter {
+    policy        = "Deny Log"
+    return_status = 500
+  }
   default_url_filter {
     policy        = "Deny No Log"
     return_status = 500
@@ -39,7 +43,8 @@ resource "valtix_profile_urlfilter" "url1" {
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
 * `url_filter_list` - (Required) One or more `url_list` resources, where each resource is a row in the URL Filter List (maximum of 64 resources). Structure [defined below](#url-filter-list).
-* `default_url_filter` - (Optional) Default URL Filter behavior for any URL that does not match the URLs defined in the `url_filter_list` resource.  This should be the last resource specified in the list of resources. Structure [defined below](#url-filter-list).
+* `uncategorized_url_filter` - (Required) Uncategorized URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource and is not represented by any vendor category (whether specified or not).
+* `default_url_filter` - (Required) Default URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource or is not matched by the `uncategorized_url_filter` resource (if specified).  This should be the last resource specified in the list of resources. Structure [defined below](#url-filter-list).
 
 ## URL Filter List
 * `url_list` - (Required) List of strings (maximum of 64 strings). Applicable values: URLs or Perl Compatible Regular Expression (PCRE) patterns. Structure [defined below](#url-list).
@@ -60,6 +65,7 @@ vendor_category_list {
   categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
 }
 ```
+
 ## Vendor Category List (All Categories)
 ```
 vendor_category_list {
