@@ -70,7 +70,7 @@ resource "valtix_gateway" azure_gw1 {
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_F8S_V2"
   azure_resource_group    = "rg1"
-  gateway_image           = var.gateway_image
+  gateway_image           = "2.11-08"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -122,7 +122,7 @@ resource "valtix_gateway" "gcp-gw" {
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = var.gateway_image
+  gateway_image             = "2.11-08"
   gateway_state             = "ACTIVE"
   security_type             = "INGRESS"
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
