@@ -17,7 +17,7 @@ resource "valtix_gateway" "aws-gw1" {
   description             = "AWS Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
   instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = "2.11-05"
+  gateway_image           = "2.11-08"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -41,14 +41,14 @@ resource "valtix_gateway" "aws-gw1" {
 }
 ```
 
-### AWS HUB mode (in a Service VPC and using Transit Gateway)
+### AWS (HUB Mode - Service VPC Managed by Valtix)
 ```hcl
 resource "valtix_gateway" "aws-hub-gw1" {
   name                  = "aws-hub-gw1"
   description           = "AWS Gateway 1"
   csp_account_name      = valtix_cloud_account.aws_act.name
   instance_type         = "AWS_M5_2XLARGE"
-  gateway_image         = "2.11-05"
+  gateway_image         = var.gateway_image
   gateway_state         = "ACTIVE"
   mode                  = "HUB"
   security_type         = "EGRESS"
@@ -113,16 +113,16 @@ resource "valtix_gateway" "azure_gw1" {
 }
 ```
 
-For Egress and East-West Gateway set the `security_type = EGRESS`
+For HUB mode Egress/East-West Gateway set the `security_type = EGRESS`
 
-### GCP Gateway
+### GCP Gateway (EDGE Mode)
 ```hcl
 resource "valtix_gateway" "gcp-gw" {
   name                      = "gcp-gw"
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = "2.11-05"
+  gateway_image             = var.gateway_image
   gateway_state             = "ACTIVE"
   security_type             = "INGRESS"
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
@@ -149,6 +149,24 @@ resource "valtix_gateway" "gcp-gw" {
   }
 }
 ```
+### GCP Gateway (HUB Mode - Service VPC Managed by Valtix)
+```hcl
+resource "valtix_gateway" "gcp-gw1" {
+  name                      = "gcp-gw"
+  description               = "GCP gateway"
+  csp_account_name          = valtix_cloud_account.gcp_act.name
+  instance_type             = "GCP_E2_8"
+  gateway_image             = var.gateway_image
+  gateway_state             = "ACTIVE"
+  security_type             = "EGRESS"
+  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
+  gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
+  region                    = "us-east1"
+  vpc_id                    = valtix_service_vpc.service_vpc.id
+  mode                      = "HUB"
+}
+```
+For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 
 ## Argument Reference
 

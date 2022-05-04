@@ -240,7 +240,7 @@ For a complete set of arguments, see [GROUP (Source Destination) Arguments](#gro
 * `description` - (Optional) Description of the Address Object
 * `type` = `GEO_IP` - (Required) Type of the Address Object
 * `value` - (Required) A list of Geo IPs defined by their Country name.  A full list of Country names can be obtained from the [GeoNames Countries](https://www.geonames.org/countries/) site.
-* `match_xff` - (Optional) `true` or `false`.  Defines whether the IP information available in the X-Forwarded-For HTTP request header should be evaluated. When not specified, the default value is `false`.
+* `match_xff` - (Optional) `true` or `false`.  Defines whether the IP information available in the X-Forwarded-For HTTP request header should be evaluated. When not specified, the default value is `false`. (Even though this argument is optional, it is recommended to specify a value explicitly, as the default value may change in the future).
 <br><br>For an example, see [GEO_IP (Source Destination) Example](#geo_ip-source-destination-example)
 
 #### GROUP (Source Destination) Arguments

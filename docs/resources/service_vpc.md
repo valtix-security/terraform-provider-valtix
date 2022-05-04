@@ -1,15 +1,17 @@
 # Resource: valtix_service_vpc
-Resource for creating and managing a Valtix Service VPC/VNet.  A Valtix Service VPC/VNet resource is used in AWS and Azure deployments to create a Service VPC/VNet as the destination for a Valtix Gateway deployment.  For a Valtix Gateway deployed in AWS or Azure using HUB mode, a Service VPC must be deployed as a pre-requisite.  Gateway instances will be deployed in all Availability Zones associated with the Services VPC.
+Resource for creating and managing a Valtix Service VPC/VNet.
+
+A Valtix Service VPC/VNet resource is used in AWS, Azure and GCP deployments to create a Service VPC/VNet as the destination for a Valtix Gateway deployment. For a Valtix Gateway deployed in AWS, Azure or GCP using HUB mode, a Service VPC created and managed by Valtix must be deployed as a pre-requisite. Gateway instances will be deployed in all Availability Zones associated with the Service VPC.
 
 ## Example Usage
 
 ### AWS Service VPC
 ```hcl
 resource "valtix_service_vpc" "service_vpc" {
-  name               = "service_vpc"
-  csp_account_name   = "aws_account_1"
+  name               = "service-vpc"
+  csp_account_name   = "aws-account-1"
   region             = "us-east-1"
-  cidr               = "10.0.0.0/16"
+  cidr               = "10.0.0.0/23"
   availability_zones = ["us-east-1a", "us-east-1b"]
   transit_gateway_id = "tgw-12345678912345678"
   use_nat_gateway    = true
@@ -23,12 +25,24 @@ If these values are not set properly, traffic will bypass the Service VPC and wi
 ### Azure Service VNet
 ```hcl
 resource "valtix_service_vpc" "service_vpc" {
-  name                 = "service_vpc"
-  csp_account_name     = "azure_account_1"
+  name                 = "service-vpc"
+  csp_account_name     = "azure-account-1"
   region               = "eastus"
-  cidr                 = "10.0.0.0/16"
+  cidr                 = "10.0.0.0/23"
   availability_zones   = ["1", "2"]
   azure_resource_group = "resource-group-1"
+}
+```
+
+### GCP Service VPC
+```hcl
+resource "valtix_service_vpc" "service_vpc" {
+  name                 = "service-vpc"
+  csp_account_name     = "gcp-account-1"
+  region               = "us-east1"
+  cidr                 = "10.0.0.0/23"
+  management_vpc_cidr  = "10.0.2.0/23"
+  availability_zones   = ["us-east1-b", "us-east1-c"]
 }
 ```
 
@@ -40,6 +54,7 @@ resource "valtix_service_vpc" "service_vpc" {
 * `availability_zones` - (Required) List of Availability Zones for the Region/Location to associate with the Service VPC/VNet. Valtix Gateways deployed in this Service VPC/VNet will have instances deployed in all associated Availability Zones.
 * `transit_gateway_id` - (Required for AWS) Transit Gateway ID for the Service VPC to attach to
 * `azure_resource_group` - (Required for Azure) Resource Group Name in which the Service VNet and its resources are created
+* `management_vpc_cidr` - (Required for GCP) The CIDR of the Management VPC that is different than the Service VPC being deployed. Gateways deployed within the Service VPC will have their management interfaces IP address assigned from the Management VPC CIDR.
 * `use_nat_gateway` - (Optional for AWS) `true` or `false`. If `true`, enables egress communication through NAT gateway in each AZ (Default `false`).
 
 ## Attribute Reference
