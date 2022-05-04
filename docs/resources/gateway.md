@@ -177,7 +177,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
     * **GCP_E2_8**
     * **AWS_M5_2XLARGE**
     * **AZURE_D8S_V3**
-* `gateway_image` - (Required) Example `2.11-05`. This is the Valtix image version to be deployed for this Gateway. Please consult with Valtix support for recommended version.
+* `gateway_image` - (Required) Example `2.11-08`. This is the Valtix image version to be deployed for this Gateway. A list of applicable Gateway image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway release or contact Valtix Support.
 * `mode` - (AWS, Azure - Required) "EDGE" or "HUB". Look into product documentation for different deployment modes.  This argument is not supported for GCP and must not be used.
 * `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
 * `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
