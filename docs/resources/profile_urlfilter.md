@@ -28,6 +28,10 @@ resource "valtix_profile_urlfilter" "url1" {
     filter_methods = ["POST"]
     return_status  = 400
   }
+  uncategorized_url_filter {
+    policy        = "Deny Log"
+    return_status = 500
+  }
   default_url_filter {
     policy        = "Deny No Log"
     return_status = 500
@@ -39,7 +43,8 @@ resource "valtix_profile_urlfilter" "url1" {
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
 * `url_filter_list` - (Required) One or more `url_list` resources, where each resource is a row in the URL Filter List (maximum of 64 resources). Structure [defined below](#url-filter-list).
-* `default_url_filter` - (Optional) Default URL Filter behavior for any URL that does not match the URLs defined in the `url_filter_list` resource.  This should be the last resource specified in the list of resources. Structure [defined below](#url-filter-list).
+* `uncategorized_url_filter` - (Required) Uncategorized URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource and is not represented by any vendor category (whether specified or not).  Structure [defined below](#uncategorized-url-filter).
+* `default_url_filter` - (Required) Default URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource or is not matched by the `uncategorized_url_filter` resource (if specified).  This should be the last resource specified in the list of resources. Structure [defined below](#default-url-filter).
 
 ## URL Filter List
 * `url_list` - (Required) List of strings (maximum of 64 strings). Applicable values: URLs or Perl Compatible Regular Expression (PCRE) patterns. Structure [defined below](#url-list).
@@ -60,11 +65,28 @@ vendor_category_list {
   categories = ["Malware Sites", "Bot Nets", "Spyware and Adware"]
 }
 ```
+
 ## Vendor Category List (All Categories)
 ```
 vendor_category_list {
 	vendor      = "BRIGHTCLOUD"
 	categories  = ["Abortion","Abused Drugs","Adult and Pornography","Alcohol and Tobacco","Auctions","Bot Nets","Business and Economy","Cheating","Computer and Internet Info","Computer and Internet Security","Confirmed SPAM Sources","Content Delivery Networks","Cult and Occult","Dating","Dead Sites","Dynamically Generated Content","Educational Institutions","Entertainment and Arts","Fashion and Beauty","Financial Services","Gambling","Games","Government","Gross","Hacking","Hate and Racism","Health and Medicine","Home and Garden","Hunting and Fishing","Illegal","Image and Video Search","Individual Stock Advice and Tools","Internet Communications","Internet Portals","Job Search","Keyloggers and Monitoring","Kids","Legal","Local Information","Malware Sites","Marijuana","Military","Motor Vehicles","Music","News and Media","Nudity","Online Greeting Cards","Open HTTP Proxies","Parked Domains","Pay to Surf","Peer to Peer","Personal sites and Blogs","Personal Storage","Philosophy and Political Advocacy","Phishing and Other Frauds","Private IP Addresses","Proxy Avoidance and Anonymizers","Questionable","Real Estate","Recreation and Hobbies","Reference and Research","Religion","Search Engines","Sex Education","Shareware and Freeware","Shopping","Social Networking","Society","SPAM URLs","Sports","Spyware and Adware","Streaming Media","Swimsuits and Intimate Apparel","Training and Tools","Translation","Travel","Uncategorized","Unconfirmed SPAM Sources","Violence","Weapons","Web Advertisements","Web Hosting","Web-based Email"]
+}
+```
+
+## Uncategorized URL Filter
+```
+uncategorized_url_filter {
+  policy               = "Deny Log"
+  return_status = 500
+}
+```
+
+## Default URL Filter
+```
+default_url_filter {
+  policy               = "Deny No Log"
+  return_status = 500
 }
 ```
 

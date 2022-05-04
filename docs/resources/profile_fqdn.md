@@ -24,7 +24,10 @@ resource "valtix_profile_fqdn" "fqdn1" {
     policy               = "Deny Log"
     decryption_exception = false
   }
-
+  uncategorized_fqdn_filter {
+    policy               = "Deny Log"
+    decryption_exception = false
+  }
   default_fqdn_filter {
     policy               = "Deny No Log"
     decryption_exception = false
@@ -37,7 +40,8 @@ resource "valtix_profile_fqdn" "fqdn1" {
 * `description` - (Optional) Description of the Profile
 * `no_fqdn_deny` - (Optional) Deny traffic when no FQDN found in packet. Applicable values: *true* or *false*.  Default value: *false*.
 * `fqdn_filter_list` - (Required) One or more `fqdn_list` resources, where each resource is a row in the FQDN Filter List (maximum of 32 resources). Structure [defined below](#fqdn-filter-list).
-* `default_fqdn_filter` - (Optional) Default FQDN filter behavior for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource.  This should be the last resource specified in the list of resources. Structure [defined below](#fqdn-filter-list).
+* `uncategorized_fqdn_filter` - (Required) Uncategorized FQDN Filter action for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource and is not represented by any vendor category (whether specified or not). Structure [defined below](#uncategorized-fqdn-filter).
+* `default_fqdn_filter` - (Required) Default FQDN Filter action for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource or is not matched by the `uncategorized_fqdn_filter` resource (if specified).  This should be the last resource specified in the list of resources. Structure [defined below](#default-fqdn-filter).
 
 ## FQDN Filter List
 * `fqdn_list` - (Required) List of strings (maximum of 64 strings): Applicable values: FQDNs or Perl Compatible Regular Expression (PCRE) patterns.  Structure [defined below](#fqdn-list).
@@ -63,6 +67,22 @@ vendor_category_list {
 vendor_category_list {
 	vendor      = "BRIGHTCLOUD"
 	categories  = ["Abortion","Abused Drugs","Adult and Pornography","Alcohol and Tobacco","Auctions","Bot Nets","Business and Economy","Cheating","Computer and Internet Info","Computer and Internet Security","Confirmed SPAM Sources","Content Delivery Networks","Cult and Occult","Dating","Dead Sites","Dynamically Generated Content","Educational Institutions","Entertainment and Arts","Fashion and Beauty","Financial Services","Gambling","Games","Government","Gross","Hacking","Hate and Racism","Health and Medicine","Home and Garden","Hunting and Fishing","Illegal","Image and Video Search","Individual Stock Advice and Tools","Internet Communications","Internet Portals","Job Search","Keyloggers and Monitoring","Kids","Legal","Local Information","Malware Sites","Marijuana","Military","Motor Vehicles","Music","News and Media","Nudity","Online Greeting Cards","Open HTTP Proxies","Parked Domains","Pay to Surf","Peer to Peer","Personal sites and Blogs","Personal Storage","Philosophy and Political Advocacy","Phishing and Other Frauds","Private IP Addresses","Proxy Avoidance and Anonymizers","Questionable","Real Estate","Recreation and Hobbies","Reference and Research","Religion","Search Engines","Sex Education","Shareware and Freeware","Shopping","Social Networking","Society","SPAM URLs","Sports","Spyware and Adware","Streaming Media","Swimsuits and Intimate Apparel","Training and Tools","Translation","Travel","Uncategorized","Unconfirmed SPAM Sources","Violence","Weapons","Web Advertisements","Web Hosting","Web-based Email"]
+}
+```
+
+## Uncategorized FQDN Filter
+```
+uncategorized_fqdn_filter {
+  policy               = "Deny Log"
+  decryption_exception = false
+}
+```
+
+## Default FQDN Filter
+```
+default_fqdn_filter {
+  policy               = "Deny No Log"
+  decryption_exception = false
 }
 ```
 
