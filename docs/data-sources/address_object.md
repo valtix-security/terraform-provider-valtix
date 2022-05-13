@@ -3,11 +3,11 @@ Data source for obtaining the ID of an Address Object that can be used as a Sour
 
 ## Example Usage
 ```hcl
-data "valtix_address_object" "source-ag" {
+data "valtix_address_object" "source_ag" {
   name = "source-ag"
 }
 
-data "valtix_address_object" "destination-ag" {
+data "valtix_address_object" "destination_ag" {
   name = "destination-ag"
 }
 
@@ -18,9 +18,9 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
     description = "listen port 80 to target port 80 on app1"
     type        = "Forwarding"
     action      = "ALLOW_LOG"
-    source      = data.valtix_address_object.source-ag.address_id
-    destination = data.valtix_address_object.destination-ag.address_id
-    service     = valtix_service_object.app1-svc-http.service_id
+    source      = data.valtix_address_object.source_ag.address_id
+    destination = data.valtix_address_object.destination_ag.address_id
+    service     = valtix_service_object.app1_svc_http.service_id
     state       = "ENABLED"
   }
   rule {
@@ -28,9 +28,9 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
     description = "listen port 443 to target port 443 on app1"
     type        = "Forwarding"
     action      = "ALLOW_LOG"
-    source      = data.valtix_address_object.source-ag.address_id
-    destination = data.valtix_address_object.destination-ag.address_id
-    service     = valtix_service_object.app1-svc-https.service_id
+    source      = data.valtix_address_object.source_ag.address_id
+    destination = data.valtix_address_object.destination_ag.address_id
+    service     = valtix_service_object.app1_svc_https.service_id
     state       = "DISABLED"
   }
 }
@@ -40,4 +40,4 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
 * `name` - (Required) Name of the Address Object
 
 ## Attributes Reference
-* `address_id` - Set to the Terraform Address Object ID of the found resource
+* `address_id` - Set to the Unique ID of the Address Object resource
