@@ -142,6 +142,20 @@ resource "valtix_address_object" "group-ag" {
 ```
 For a complete set of arguments, see [GROUP (Source Destination) Arguments](#group-source-destination-arguments)
 
+### DYNAMIC_ASG (Source Destination) Example
+```hcl
+resource "valtix_address_object" "azure_asg" {
+  name                          = "azure-asg"
+  description                   = "Azure Application Security Group"
+  type                          = "DYNAMIC_ASG"
+  csp_account_name              = valtix_cloud_account.azure.name
+  region                        = var.location
+  resource_group                = var.resource_group
+  application_security_group_id = var.asg_id
+}
+```
+For a complete set of arguments, see [DYNAMIC_ASG (Source Destination) Arguments](#dynamic_asg-source-destination-arguments)
+
 ## Argument Reference
 
 #### STATIC (Source Destination) Arguments
@@ -249,6 +263,16 @@ For a complete set of arguments, see [GROUP (Source Destination) Arguments](#gro
 * `type` = `GROUP` - (Required) Type of the Address Object
 * `address_group_ids` - (Required) A list of `address_id` to be grouped together
 <br><br>For an example, see [GROUP (Source Destination) Example](#group-source-destination-example)
+
+#### DYNAMIC_ASG (Source Destination) Arguments
+* `name` - (Required) Name of the Address Object
+* `description` - (Optional) Description of the Address Object
+* `type` = `DYNAMIC_ASG` - (Required) Type of the Address Object(Azure Only)
+* `csp_account_name` - (Required) Name of the Azure CSP account onboarded into Valtix
+* `region` - (Required) Id of Azure Region where application security group is located 
+* `resource_group` - (Required) Name of Azure Resource Group where application security group is located
+* `application_security_group_id` - (Required) Id of azure application security group, for example : /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP>/providers/Microsoft.Network/applicationSecurityGroups/<APPLICATION_SECURITY_GROUP>
+<br><br>For an example, see [DYNAMIC_ASG (Source Destination) Example](#dynamic_asg-source-destination-example)
 
 ### Tag List
 A `tag_list` block representing a Tag key-value pair requires the following arguments:
