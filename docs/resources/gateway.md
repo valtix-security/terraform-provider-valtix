@@ -252,7 +252,7 @@ settings {
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
 
-### To add a list of custom Tags to the Gateway instances
+### To add a map of custom Tags to the Gateway instances
 ```hcl
 tags = {
   tag1 = "value1"
