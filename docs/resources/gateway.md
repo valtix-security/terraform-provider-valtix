@@ -114,7 +114,10 @@ resource "valtix_gateway" "azure_gw1" {
   policy_rule_set_id    = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
   region                = var.region
   vpc_id                = valtix_service_vpc.svpc1.vpc_id
-  dns_server_ip_address = "8.8.8.8"
+  settings {
+    name  = "controller.gateway.dns_server_ip_address"
+    value = "8.8.8.8"
+  }
 }
 ```
 
@@ -196,7 +199,6 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `region` - (Required) Region where the Valtix Gateway is deployed.
 * `vpc_id` - (Required) VPC ID where the Valtix Gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via Transit Gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to **id** attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
 * `aws_gateway_lb` - (Optional only for AWS HUB mode) `true` or `false`. If attribute is `true`, this will deploy AWS Gateway using AWS Gateway Load Balancer. This is only for EGRESS Gateway that will support both East-West and Egress traffic.
-* `dns_server_ip_address` - (Optional only for Azure) A user-specified DNS override setting for the Valtix Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
 * `mgmt_vpc_id` - (GCP - Required) GCP VPC ID where the management interface of the Valtix Gateway is attached.
 * `mgmt_security_group` - (Required except for AWS HUB mode) Security group ID for management traffic or GCP network tag to be used to define GCP firewall rules for Valtix firewall instances to communicate with the Valtix controller. This must allow all outbound access from Valtix management interface
 * `datapath_security_group` - (Required except for AWS HUB mode) Security group ID for the datapath traffic (application traffic) or GCP network tag to be used to define GCP firewall rules for application traffic to pass through the Valtix Gateway. This must allow traffic to the ports that are defined as services on the Valtix controller
@@ -233,6 +235,17 @@ settings {
 settings {
   name  = "gateway.aws.ebs.encryption.key.customer_key"
   value = "<KMS key ID>"
+}
+```
+
+### To override the default DNS server used by the Management interface of an Azure Gateway
+
+~> **Note on DNS server setting**
+The DNS server IP address setting only applies to an Azure Gateway.  It is a user-specified override for the Valtix Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
+```hcl
+settings {
+  name  = "controller.gateway.dns_server_ip_address"
+  value = "8.8.8.8"
 }
 ```
 
