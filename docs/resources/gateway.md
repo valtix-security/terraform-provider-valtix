@@ -250,7 +250,7 @@ settings {
 ```
 
 ## Gateway Tags
-Gateway tags define a list of Tags for the Gateway that will apply to each Gateway instance when instantiated
+Gateway tags define a map of Tags for the Gateway that will apply to each Gateway instance when instantiated
 
 ### To add a list of custom Tags to the Gateway instances
 ```hcl
