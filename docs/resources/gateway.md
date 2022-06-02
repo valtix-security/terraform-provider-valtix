@@ -58,6 +58,10 @@ resource "valtix_gateway" "aws-hub-gw1" {
   region                = "us-east-1"
   vpc_id                = valtix_service_vpc.service_vpc.id
   aws_gateway_lb        = true
+  tags                  = {
+    Environment = "Production"
+    CreatedBy   = "Valtix"
+  }
 }
 ```
 
@@ -97,19 +101,20 @@ resource "valtix_gateway" azure_gw1 {
 ### Azure Gateway (HUB Mode - Service VNet Managed by Valtix)
 ```hcl
 resource "valtix_gateway" "azure_gw1" {
-  name                 = "gw1"
-  csp_account_name     = valtix_cloud_account.azure_act.name
-  instance_type        = "AZURE_F8S_V2"
-  azure_resource_group = "rg1"
-  gateway_image        = var.gateway_image
-  gateway_state        = "ACTIVE"
-  mode                 = "HUB"
-  security_type        = "INGRESS"
-  ssh_public_key       = file(var.ssh_public_key_file)
-  azure_user_name      = "centos"
-  policy_rule_set_id   = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
-  region               = var.region
-  vpc_id               = valtix_service_vpc.svpc1.vpc_id
+  name                  = "gw1"
+  csp_account_name      = valtix_cloud_account.azure_act.name
+  instance_type         = "AZURE_F8S_V2"
+  azure_resource_group  = "rg1"
+  gateway_image         = var.gateway_image
+  gateway_state         = "ACTIVE"
+  mode                  = "HUB"
+  security_type         = "INGRESS"
+  ssh_public_key        = file(var.ssh_public_key_file)
+  azure_user_name       = "centos"
+  policy_rule_set_id    = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  region                = var.region
+  vpc_id                = valtix_service_vpc.svpc1.vpc_id
+  dns_server_ip_address = "8.8.8.8"
 }
 ```
 
@@ -191,6 +196,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `region` - (Required) Region where the Valtix Gateway is deployed.
 * `vpc_id` - (Required) VPC ID where the Valtix Gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via Transit Gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to **id** attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
 * `aws_gateway_lb` - (Optional only for AWS HUB mode) `true` or `false`. If attribute is `true`, this will deploy AWS Gateway using AWS Gateway Load Balancer. This is only for EGRESS Gateway that will support both East-West and Egress traffic.
+* `dns_server_ip_address` - (Optional only for Azure) A user-specified DNS override setting for the Valtix Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
 * `mgmt_vpc_id` - (GCP - Required) GCP VPC ID where the management interface of the Valtix Gateway is attached.
 * `mgmt_security_group` - (Required except for AWS HUB mode) Security group ID for management traffic or GCP network tag to be used to define GCP firewall rules for Valtix firewall instances to communicate with the Valtix controller. This must allow all outbound access from Valtix management interface
 * `datapath_security_group` - (Required except for AWS HUB mode) Security group ID for the datapath traffic (application traffic) or GCP network tag to be used to define GCP firewall rules for application traffic to pass through the Valtix Gateway. This must allow traffic to the ports that are defined as services on the Valtix controller
@@ -200,7 +206,8 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
 * `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
 * `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
-* `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure. 
+* `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure.
+* `tags` - (Optional) User-defined Tags. This is a single block that can used to specify user-defined Tag keys and their value that will be applied to each instantiated Gateway instance. The key is an unquoted name and the value is a quoted string.  Please check [this section](#gateway-tags) for the structure.  Teh Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
 * `instance_details` - (Required - EDGE Mode) This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  Look below for the [structure](#instance-details) of this block.  In EDGE mode, at least 1 block must be provided.
 
 ## Instance Details
@@ -229,11 +236,14 @@ settings {
 }
 ```
 
-### To add a list of custom tags to the Gateway instances
+## Gateway Tags
+Gateway tags define a list of Tags for the Gateway that will apply to each Gateway instance when instantiated
+
+### To add a list of custom Tags to the Gateway instances
 ```hcl
-settings {
-  name  = "custom_tags"
-  value = "[{\"key\":\"customer_key1\",\"value\":\"customer_value1\"},{\"key\":\"customer_key2\",\"value\":\"customer_value2\"}]"
+tags {
+  tag1 = "value1"
+  tag2 = "value2"
 }
 ```
 
