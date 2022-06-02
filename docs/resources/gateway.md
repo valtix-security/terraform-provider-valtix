@@ -207,7 +207,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
 * `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
 * `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure.
-* `tags` - (Optional) User-defined Tags. This is a single block that can used to specify user-defined Tag keys and their value that will be applied to each instantiated Gateway instance. The key is an unquoted name and the value is a quoted string.  Please check [this section](#gateway-tags) for the structure.  Teh Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
+* `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each instantiated Gateway instance. The key is an unquoted name and the value is a quoted string.  Please check [this section](#gateway-tags) for the structure.  The Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
 * `instance_details` - (Required - EDGE Mode) This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  Look below for the [structure](#instance-details) of this block.  In EDGE mode, at least 1 block must be provided.
 
 ## Instance Details
@@ -241,7 +241,7 @@ Gateway tags define a list of Tags for the Gateway that will apply to each Gatew
 
 ### To add a list of custom Tags to the Gateway instances
 ```hcl
-tags {
+tags = {
   tag1 = "value1"
   tag2 = "value2"
 }
