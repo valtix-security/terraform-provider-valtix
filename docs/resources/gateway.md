@@ -114,10 +114,6 @@ resource "valtix_gateway" "azure_gw1" {
   policy_rule_set_id    = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
   region                = var.region
   vpc_id                = valtix_service_vpc.svpc1.vpc_id
-  settings {
-    name  = "controller.gateway.dns_server_ip_address"
-    value = "8.8.8.8"
-  }
 }
 ```
 
