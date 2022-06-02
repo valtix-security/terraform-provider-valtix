@@ -58,10 +58,6 @@ resource "valtix_gateway" "aws-hub-gw1" {
   region                = "us-east-1"
   vpc_id                = valtix_service_vpc.service_vpc.id
   aws_gateway_lb        = true
-  tags                  = {
-    Environment = "Production"
-    CreatedBy   = "Valtix"
-  }
 }
 ```
 
