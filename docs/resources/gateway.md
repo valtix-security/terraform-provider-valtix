@@ -187,7 +187,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `mode` - (AWS, Azure - Required) `EDGE` or `HUB`. Look into product documentation for different deployment modes.  This argument is not supported for GCP and must not be used.
 * `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
 * `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
-* `wait_for_gateway_state` - (Optional) During the deployment of the Valtix gateway, Terraform will wait for the Gateway to reach the state configured in gateway_state before proceeding to other resource creation/modification. Possible states are `ACTIVE` (default) and `INACIVE`.
+* `wait_for_gateway_state` - (Optional) Determines if Terraform should wait for the Gateway state, defined by the `gateway_state` argument, to be achieved before completing.  Applicable values are `true` and `false`.  If not specified, the default value is `true`.
 * `policy_rule_set_id` - (Required) Rule set id of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
 * `ssh_key_pair` - (AWS - Required) SSH key pair name that's already in your AWS account
 * `ssh_public_key` - (Azure - Required) Contents of SSH public key
@@ -233,7 +233,7 @@ This section is only required for AWS/Global Accelerator integration in ingress 
 ```hcl
 gateway_lb_integration {
   type = "AWS_GLOBAL_ACCELERATOR"
-  name = "listener4"
+  name = "listener1"
   awsga_resource_arn = "arn:aws:globalaccelerator::902505820678:accelerator/d0c8cd60-e90c-4bb6-814e-6783716e1149"
   awsga_endpoint_group_arn = "arn:aws:globalaccelerator::902505820678:accelerator/d0c8cd60-e90c-4bb6-814e-6783716e1149/listener/80dab0fc/endpoint-group/d8c9bc581002"
   awsga_resource_name = "ga-for-hub"
