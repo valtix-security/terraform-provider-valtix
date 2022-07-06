@@ -1,9 +1,6 @@
 # Resource: valtix_policy_rules
 Resource for creating and managing the segmentation and security Policy Rules associated with a Policy Rule Set.
 
-~> **Note on valtix_policy_rules and valtix_policy_rule_set**
-Terraform currently provides both a standalone valtix_policy_rules resource and a valtix_policy_rule_set resource with Rules defined in-line. At this time you cannot use a valtix_policy_rule_set with in-line Rules in conjunction with any valtix_policy_rules resource. Doing so will cause a conflict of Rule settings and will overwrite the Rules. It is recommended to use this resource (valtix_policy_rules) to define all Rules affiliated with each Policy Rule Set.
-
 ## Example Usage
 
 ### Ingress Policy Rules
