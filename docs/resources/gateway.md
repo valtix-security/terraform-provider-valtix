@@ -19,7 +19,6 @@ resource "valtix_gateway" "aws-gw1" {
   instance_type           = "AWS_M5_2XLARGE"
   gateway_image           = "2.11-08"
   gateway_state           = "ACTIVE"
-  wait_for_gateway_state  = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
   policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
@@ -51,7 +50,6 @@ resource "valtix_gateway" "aws-hub-gw1" {
   instance_type          = "AWS_M5_2XLARGE"
   gateway_image          = var.gateway_image
   gateway_state          = "ACTIVE"
-  wait_for_gateway_state = "ACTIVE"
   mode                   = "HUB"
   security_type          = "EGRESS"
   policy_rule_set_id     = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
@@ -74,7 +72,6 @@ resource "valtix_gateway" azure_gw1 {
   azure_resource_group    = "rg1"
   gateway_image           = "2.11-08"
   gateway_state           = "ACTIVE"
-  wait_for_gateway_state  = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
@@ -106,7 +103,6 @@ resource "valtix_gateway" "azure_gw1" {
   azure_resource_group    = "rg1"
   gateway_image           = var.gateway_image
   gateway_state           = "ACTIVE"
-  wait_for_gateway_state  = "ACTIVE"
   mode                    = "HUB"
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
@@ -128,7 +124,7 @@ resource "valtix_gateway" "gcp-gw" {
   instance_type             = "GCP_E2_8"
   gateway_image             = "2.11-08"
   gateway_state             = "ACTIVE"
-  wait_for_gateway_state    = "ACTIVE"
+  mode                      = "EDGE"
   security_type             = "INGRESS"
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
@@ -154,6 +150,7 @@ resource "valtix_gateway" "gcp-gw" {
   }
 }
 ```
+
 ### GCP Gateway (HUB Mode - Service VPC Managed by Valtix)
 ```hcl
 resource "valtix_gateway" "gcp-gw1" {
@@ -163,15 +160,15 @@ resource "valtix_gateway" "gcp-gw1" {
   instance_type             = "GCP_E2_8"
   gateway_image             = var.gateway_image
   gateway_state             = "ACTIVE"
-  wait_for_gateway_state    = "ACTIVE"
+  mode                      = "HUB"
   security_type             = "EGRESS"
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-east1"
   vpc_id                    = valtix_service_vpc.service_vpc.id
-  mode                      = "HUB"
 }
 ```
+
 For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 
 ## Argument Reference
@@ -184,7 +181,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
     * **AWS_M5_2XLARGE**
     * **AZURE_D8S_V3**
 * `gateway_image` - (Required) Example `2.11-08`. This is the Valtix image version to be deployed for this Gateway. A list of applicable Gateway image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway release or contact Valtix Support.
-* `mode` - (AWS, Azure - Required) `EDGE` or `HUB`. Look into product documentation for different deployment modes.  This argument is not supported for GCP and must not be used.
+* `mode` - (AWS, Azure, GCP - Required) `EDGE` or `HUB`. Look into product documentation for different deployment modes.  This argument is not supported for OCI and must not be used.
 * `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
 * `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `wait_for_gateway_state` - (Optional) Determines if Terraform should wait for the Gateway state, defined by the `gateway_state` argument, to be achieved before completing.  Applicable values are `true` and `false`.  If not specified, the default value is `true`.
