@@ -5,25 +5,44 @@ The Address Object is used in a Policy Ruleset Rule to define the segmentation p
 
 ## Example Usage
 
-### STATIC (Source Destination) Example
+### STATIC (Source Destination) Examples
 ```hcl
-resource "valtix_address_object" "app1-ag" {
-  name        = "app1"
+resource "valtix_address_object" "ip_cidr_ag" {
+  name        = "ip-cidr"
   description = "Static IP/CIDR"
   type        = "STATIC"
   value       = ["10.0.0.0/16", "192.168.0.0/16", "172.16.1.15"]
 }
 ```
+
+```hcl
+resource "valtix_address_object" "fqdn_ag" {
+  name        = "fqdn"
+  description = "Static FQDN"
+  type        = "STATIC"
+  value       = ["fqdn1.example.com", "fqdn2.example.com", "fqdn3.example.com"]
+}
+```
 For a complete set of arguments, see [STATIC (Source Destination) Arguments](#static-source-destination-arguments)
 
 
-### STATIC (Reverse Proxy Target) Example
+### STATIC (Reverse Proxy Target) Examples
 ```hcl
-resource "valtix_address_object" "app1-ag" {
+resource "valtix_address_object" "app1_ag" {
   name            = "app1"
-  description     = "Static IP/FQDN (backend)"
+  description     = "Static IP (backend)"
   type            = "STATIC"
   value           = ["10.10.10.10"]
+  backend_address = true
+}
+```
+
+```hcl
+resource "valtix_address_object" "app2_ag" {
+  name            = "app2"
+  description     = "Static FQDN (backend)"
+  type            = "STATIC"
+  value           = ["app2.example.com"]
   backend_address = true
 }
 ```
@@ -31,8 +50,8 @@ For a complete set of arguments, see [STATIC (Reverse Proxy Target) Arguments](#
 
 ### DYNAMIC_APPLICATIONS (Reverse Proxy Target) Example
 ```hcl
-resource "valtix_address_object" "apps1-ag" {
-    name        = "apps1"
+resource "valtix_address_object" "app3-ag" {
+    name        = "app3"
     description = "Dynamic Applications (backend)"
     type        = "DYNAMIC_APPLICATIONS"
     tag_list {
@@ -162,8 +181,8 @@ For a complete set of arguments, see [DYNAMIC_ASG (Source Destination) Arguments
 * `name` - (Required) Name of the Address Object
 * `description` - (Optional) Description of the Address Object
 * `type` = `STATIC` - (Required) Type of the Address Object
-* `value` - (Required) A list of IPs/CIDRs
-<br><br>For an example, see [STATIC (Source Destination) Example](#static-source-destination-example)
+* `value` - (Required) A list of IPs, CIDRs or FQDNs. The total number of FQDNs is limited to 200 where each FQDN can resolve to at most 400 IPs.
+<br><br>For an example, see [STATIC (Source Destination) Example](#static-source-destination-examples)
 
 #### STATIC (Reverse Proxy Target) Arguments
 
@@ -172,7 +191,7 @@ For a complete set of arguments, see [DYNAMIC_ASG (Source Destination) Arguments
 * `type` = `STATIC` - (Required) Type of the Address Object
 * `value` - (Required) A list of one or more IPs/FQDNs
 * `backend_address` - (Required) This argument must be set to `true`
-<br><br>For an example, see [STATIC (Reverse Proxy Target) Example](#static-reverse-proxy-target-example)
+<br><br>For an example, see [STATIC (Reverse Proxy Target) Example](#static-reverse-proxy-target-examples)
 
 #### DYNAMIC_APPLICATIONS (Reverse Proxy Target) Arguments
 * `name` - (Required) Name of the Address Object
