@@ -39,14 +39,6 @@ resource "valtix_gateway" "aws-gw1" {
     mgmt_subnet       = "subnet-123456788"
     datapath_subnet   = "subnet-123456789"
   }
-  gateway_lb_integration {
-    type = "AWS_GLOBAL_ACCELERATOR"
-    name = "listener4"
-    awsga_resource_arn = "arn:aws:globalaccelerator::902505820678:accelerator/d0c8cd60-e90c-4bb6-814e-6783716e1149"
-    awsga_endpoint_group_arn = "arn:aws:globalaccelerator::902505820678:accelerator/d0c8cd60-e90c-4bb6-814e-6783716e1149/listener/80dab0fc/endpoint-group/d8c9bc581002"
-    awsga_resource_name = "ga-for-hub"
-    awsga_resource_fqdn = "a8ba3455f59690717.awsglobalaccelerator.com"
-  }
 }
 ```
 
@@ -218,7 +210,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure.
 * `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each instantiated Gateway instance. The key is an unquoted name and the value is a quoted string.  Please check [this section](#gateway-tags) for the structure.  The Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
 * `instance_details` - (Required - EDGE Mode) This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  Look below for the [structure](#instance-details) of this block.  In EDGE mode, at least 1 block must be provided.
-* `gateway_lb_integration` - (AWS - Optional) This block is required when integrating the Valtix Gateway with the AWS Global Accelerator. The block can be repeated multiple times for integrating multiple Global Accelerators. See below for the [structure](#global-accelerator) of this block.
+* `gateway_lb_integration` - (AWS - Optional) This block is required when integrating the Valtix Gateway with the AWS Global Accelerator. The block can be repeated multiple times for integrating with multiple Global Accelerators. See below for the [structure](#global-accelerator) of this block.
 
 ## Instance Details
 This section is not required for AWS/Azure HUB mode as instance details are obtained from service VPC referenced in vpc_id attribute
@@ -231,11 +223,23 @@ This section is not required for AWS/Azure HUB mode as instance details are obta
 This section is only required for AWS/Global Accelerator integration in ingress protection mode
 
 * `type` - (Required) Set to `AWS_GLOBAL_ACCELERATOR`
-* `name` - (Optional) Name for the Global Accelerator
-* `awsga_resource_arn` - (Required) The ARN for the Global Accelerator
-* `awsga_endpoint_group_arn` - (Required) The ARN for the Global Accelerator endpoint group
-* `awsga_resource_name` - (Optional) Name for the Global Accelerator
-* `awsga_resource_fqdn` - (Required) The FQDN of the Global Accelerator
+* `name` - (Optional) The Valtix name of the Global Accelerator
+* `awsga_resource_arn` - (Required) The AWS ARN for the Global Accelerator
+* `awsga_endpoint_group_arn` - (Required) The AWS ARN for the Global Accelerator Endpoint Group
+* `awsga_resource_name` - (Optional) The AWS name of the Global Accelerator
+* `awsga_resource_fqdn` - (Required) The AWS FQDN of the Global Accelerator
+
+### To integrate with an AWS Global Accelerator
+```hcl
+gateway_lb_integration {
+  type = "AWS_GLOBAL_ACCELERATOR"
+  name = "listener4"
+  awsga_resource_arn = "arn:aws:globalaccelerator::902505820678:accelerator/d0c8cd60-e90c-4bb6-814e-6783716e1149"
+  awsga_endpoint_group_arn = "arn:aws:globalaccelerator::902505820678:accelerator/d0c8cd60-e90c-4bb6-814e-6783716e1149/listener/80dab0fc/endpoint-group/d8c9bc581002"
+  awsga_resource_name = "ga-for-hub"
+  awsga_resource_fqdn = "a8ba3455f59690717.awsglobalaccelerator.com"
+}
+```
 
 ## Gateway Settings
 Gateway settings define a list of settings that applies to the given Gateway
@@ -264,6 +268,14 @@ The DNS server IP address setting only applies to an Azure Gateway.  It is a use
 settings {
   name  = "controller.gateway.dns_server_ip_address"
   value = "8.8.8.8"
+}
+```
+
+### To deploy the AWS Gateway into private subnets with no public IPs assigned to the interfaces
+```hcl
+settings {
+  name = "controller.gateway.assign_public_ip"
+  value = false
 }
 ```
 
