@@ -18,7 +18,7 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
     name        = "rule1"
     description = "listen port 80 to target port 80 on app1"
     type        = "ReverseProxy"
-    action      = "ALLOW_LOG"
+    action      = "Allow Log"
     service     = valtix_service_object.app1-svc-http.service_id
     state       = "ENABLED"
   }
@@ -26,7 +26,7 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
     name        = "rule2"
     description = "listen port 443 to target port 443 on app1"
     type        = "ReverseProxy"
-    action      = "ALLOW_LOG"
+    action      = "Allow Log"
     service     = valtix_service_object.app1-svc-https.service_id
     state       = "DISABLED"
   }
@@ -55,7 +55,7 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 	rule_set_id = valtix_policy_rule_set.egress_ew_policy.rule_set_id
 	rule {
 		name        = "private-to-private"
-		action      = "ALLOW_LOG"
+		action      = "Allow Log"
 		state       = "ENABLED"
 		service     = valtix_service_object.tcp_all_ports.service_id
 		source      = data.valtix_address_object.any_private_rfc1918_ag.address_id
@@ -64,7 +64,7 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 	}
 	rule {
 		name        = "private-to-internet"
-		action      = "ALLOW_LOG"
+		action      = "Allow Log"
 		state       = "ENABLED"
 		service     = valtix_service_object.tcp_all_ports.service_id
 		source      = data.valtix_address_object.any_private_rfc1918_ag.address_id
@@ -73,7 +73,7 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 	}
 	rule {
 		name        = "any-to-any"
-		action      = "DENY_LOG"
+		action      = "Deny Log"
 		state       = "ENABLED"
 		service     = valtix_service_object.tcp_all_ports.service_id
 		source      = data.valtix_address_object.any_ag.address_id
@@ -95,7 +95,7 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 * `source` - (Optional) Unique ID (address_id) of the Address Object (valtix_address_object). If not specified, the default value is the ID of the `any` Address Object.  To obtain the ID of the pre-defined Address Objects (`any`, `internet`, `any-private-rfc1918`), use the Address Object Data Source (see example usage above). (e.g., *valtix_address_object.any_ag.address_id*).
 * `destination` - (Optional) Unique ID (address_id) of the Address Object (valtix_address_object). If not specified, the default value is the ID of the `any` Address Object.  To obtain the ID of the pre-defined Address Objects (`any`, `internet`, `any-private-rfc1918`), use the Address Object Data Source (see example usage above). (e.g., *valtix_address_object.internet_ag.address_id*).
 * `service` - (Required) Unique ID (service_id) of the Service Object (valtix_service_object). The Service Object `service_type` argument must match the Rule `type` argument. (e.g., *valtix_service_object.tcp_all_ports.service_id*).
-* `action` - (Required) `ALLOW_LOG` (log the event), `ALLOW` (do not log the event), `DENY` (log the event), `DENY_NOLOG` (do not log the event).  Specifies whether to allow or deny the traffic, and whether the event should be logged or not.  Events are viewed in the Valtix UI (Investigate -> Flow Analytics).
+* `action` - (Required) `Allow Log` (log the event), `Allow No Log` (do not log the event), `Deny Log` (log the event), `Deny No Log` (do not log the event).  Specifies whether to allow or deny the traffic, and whether the event should be logged or not.  Events are viewed in the Valtix UI (Investigate -> Flow Analytics). Action names were changed in release 22.06 of the Valtix provider. The old action names `ALLOW` `ALLOW_LOG` `DENY` `DENY_LOG` will still function, but Terraform will interpret these old action names as configuration changes until the Terraform is updated with the new values.
 * `network_intrusion_profile` - (Optional) Unique ID (profile_id) of the IDS/IPS Profile (valtix_profile_network_intrusion). (e.g., *valtix_profile_network_intrusion.ips1.profile_id*).
 * `dlp_profile` - (Optional) Unique ID (profile_id) of the DLP Profile (valtix_profile_dlp). (e.g., *valtix_profile_dlp.dlp1.profile_id*).
 * `web_protection_profile` - (Optional) Unique ID (profile_id) of the WAF Profile (valtix_profile_web_protection). (e.g., *valtix_profile_web_protection.waf1.profile_id*).
