@@ -2,11 +2,8 @@
 Resource for creating and managing Valtix Gateways
 
 ~> **Note on valtix_gateway resource creation**
-[valtix_cloud_account](../valtix_cloud_account), [valtix_policy_rule_set](../valtix_policy_rule_set)
-must be defined before valtix_gateway can be created
-
-~> **Note on valtix_gateway resource management**
-Except for the arguments of `description`, `gateway_image`, `gateway_state` and `wait_for_gateway_state`, changes to any other arguments are prevented.  Any of these argument changes require replacing the Gateway, which would result in a service disruption.  In order to change these arguments, you must do one of the following:  1) Set the `gateway_state` to `INACTIVE`, apply the change, then set the `gateway_state` to `ACTIVE` or 2) Destroy the `valtix_gateway` resource, apply the change, and (re)create the `valtix_gateway` resource.
+The [`valtix_cloud_account`](../valtix_cloud_account) and [`valtix_policy_rule_set`](../valtix_policy_rule_set)
+resources must be created before the `valtix_gateway` resource can be created
 
 ## Example Usage
 
@@ -249,32 +246,36 @@ settings {
 }
 ```
 
-### To enable EBS encryption for the Gateway instances using specified KMS key
+### To enable EBS Encryption for the Gateway instances using specified KMS key
 ```hcl
 settings {
   name  = "gateway.aws.ebs.encryption.key.customer_key"
   value = "<KMS key ID>"
 }
 ```
+~> **Note on EBS Encryption setting**
+The EBS Encryption settings only apply to Gateways deployed in AWS.  There is no need to use these settings to enable EBS Encryption for a Gateway deployed in Azure or GCP.  For AWS, EBS Encryption is disabled by default and the Gateway settings are needed to enable.  In Azure and GCP, EBS Encryption is enabled by default using a CSP key and cannot be disabled.
 
-### To override the default DNS server used by the Management interface of an Azure Gateway
-
-~> **Note on DNS server setting**
-The DNS server IP address setting only applies to an Azure Gateway.  It is a user-specified override for the Valtix Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
+### To override the default DNS Server IP Address used by the Management interface of an Azure Gateway
 ```hcl
 settings {
   name  = "controller.gateway.dns_server_ip_address"
   value = "8.8.8.8"
 }
 ```
+~> **Note on DNS Server IP Address setting**
+The DNS Server IP address setting only applies to Gateways deployed in Azure.  It is a user-specified override for the Valtix Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
 
-### To deploy the AWS Gateway into private subnets with no public IPs assigned to the interfaces
+### To deploy the AWS Gateway instances into private subnets with no public IPs assigned to the interfaces
 ```hcl
 settings {
   name = "controller.gateway.assign_public_ip"
   value = false
 }
 ```
+
+~> **Note on Assign Public IP setting**
+The Assign Public IP setting only applies to Gateways deployed in AWS using Edge Mode deployment.  Gateways in AWS deployed using Hub Mode deployment are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway.
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
