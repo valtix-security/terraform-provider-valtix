@@ -14,7 +14,7 @@ resource "valtix_gateway" "aws-gw1" {
   description             = "AWS Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
   instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = "2.11-08"
+  gateway_image           = "22.06-04"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -67,7 +67,7 @@ resource "valtix_gateway" azure_gw1 {
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_F8S_V2"
   azure_resource_group    = "rg1"
-  gateway_image           = "2.11-08"
+  gateway_image           = "22.06-04"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -119,7 +119,7 @@ resource "valtix_gateway" "gcp-gw" {
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = "2.11-08"
+  gateway_image             = "22.06-04"
   gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
@@ -289,7 +289,7 @@ tags = {
 ```
 
 ## Attribute Reference
-* `gateway_gwlb_endpoints` - AWS Gateway Load Balancer endpoints created in each of the AZs. It's in the following format
+* `gateway_gwlb_endpoints` - AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
 
     ```hcl
     gateway_gwlb_endpoints {
@@ -304,4 +304,4 @@ tags = {
     }
     ```
 
-* `gateway_endpoint` - For the Ingress Gateway, shows the NLB DNS/IP of the Valtix Gateway. This must be used as an endpoint for your application and Valtix proxies the traffic received on this endpoint to the target application configured
+* `gateway_endpoint` - The NLB endpoint (FQDN, IP Address) of a Valtix Ingress Gateway. This must be used as the target for the client communicating with any application protected by the Valtix Ingress Gateway.  This information is most often used in a DNS A (IP Address) or CNAME (FQDN) record to resolve the application FQDN to the Valtix Ingress Gateway endpoint.  Valtix will receive traffic from the client on this endpoint and proxy the traffic to the appropriate backend application based on the configured policy.
