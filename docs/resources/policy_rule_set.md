@@ -15,7 +15,7 @@ resource "valtix_policy_rule_set" "ingress_policy_rule_set" {
 ```hcl
 resource "valtix_policy_rule_set" "ingress_policy_rule_set" {
   name               = "ingress_rule_set"
-  type               = "group"
+  type               = "GROUP"
   child_rule_set_ids = [1,2,4,3]
 }
 ```
@@ -23,8 +23,8 @@ resource "valtix_policy_rule_set" "ingress_policy_rule_set" {
 ## Argument Reference
 * `name` - (Required) Name of the Policy Rule Set
 * `description` - (Optional) Description of the Policy Rule Set
-* `type` - (Optional) Specifies whether the Policy Rule Set is a Group Policy Rule Set.  The only applicable value is `group`.  If not specified, the Policy Rule Set operates as a Standalone (non-Group) Policy Rule Set.
-* `child_rule_set_ids` - (Required) Specifies the set of one or more Standalone (non-group) Policy Rule Set IDs as an ordered list.  This argument is required ONLY when `type = group`.  When `type` is not specified, the Policy Rule Set is Standalone (non-Group) and this argument does not apply.
+* `type` - (Optional) Specifies whether the Policy Rule Set is a Group Policy Rule Set.  The only applicable value is `GROUP`.  If not specified, the Policy Rule Set operates as a Standalone (non-Group) Policy Rule Set.
+* `child_rule_set_ids` - (Required) Specifies the set of one or more Standalone (non-Group) Policy Rule Set IDs as an ordered list.  This argument is required ONLY when `type = GROUP`.  When `type` is not specified, the Policy Rule Set is Standalone (non-Group) and this argument does not apply.
 
 ## Attribute Reference
 * `rule_set_id` - ID of the Policy Rule Set that can be referenced in other resources (e.g., *valtix_policy_rules*, *valtix_policy_rule_set*)
