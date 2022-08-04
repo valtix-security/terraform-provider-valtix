@@ -6,17 +6,21 @@ Resource for creating and managing a Policy Rule Set.  A Policy Rule Set is a li
 
 ### Standalone Policy Rule Set
 ```hcl
-resource "valtix_policy_rule_set" "ingress_policy_rule_set" {
-  name = "ingress_rule_set"
+resource "valtix_policy_rule_set" "ingress_policy_standalone" {
+  name = "ingress_rule_set_standalone"
 }
 ```
 
 ### Group Policy Rule Set
 ```hcl
-resource "valtix_policy_rule_set" "ingress_policy_rule_set" {
-  name               = "ingress_rule_set"
+resource "valtix_policy_rule_set" "ingress_policy_group" {
+  name               = "ingress_rule_set_group"
   type               = "GROUP"
-  child_rule_set_ids = [1,2,4,3]
+  child_rule_set_ids = [
+    valtix_policy_rule_set.ingress_policy1.rule_set_id,
+    valtix_policy_rule_set.ingress_policy3.rule_set_id,
+    valtix_policy_rule_set.ingress_policy2.rule_set_id
+  ]
 }
 ```
 
