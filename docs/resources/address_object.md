@@ -297,7 +297,7 @@ For a complete set of arguments, see [DYNAMIC_ASG (Source Destination) Arguments
 A `tag_list` block representing a Tag key-value pair requires the following arguments:
 * `tag_key` - (Required) The Tag Key specified in a Tag key-value pair
 * `tag_value` - (Required) The Tag Value specified in a Tag key-value pair
-* `resource_type`- (Optional) The Resource type to restrict the scope of the Tag key-value pair. If not supplied, will default to `RESOURCE_INSTANCE`. Valid values: `RESOURCE_INSTANCE`, `RESOURCE_SUBNET`, `RESOURCE_VPC`.
+* `resource_type`- (Optional) The Resource type to restrict the scope of the Tag Key-Value pair. Applicable values: `RESOURCE_INSTANCE`, `RESOURCE_VPC`, `RESOURCE_SUBNET`, `RESOURCE_LOAD_BALANCER`, `RESOURCE_SECURITY_GROUP`, `RESOURCE_ASG`. If not supplied, the default value is `RESOURCE_INSTANCE`. 
 
 ## Attribute Reference
 * `address_id` - The ID of the Address Object that can be referenced in other resources (e.g., *valtix_service_object*, `address_group_ids`)
