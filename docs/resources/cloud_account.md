@@ -83,8 +83,9 @@ resource "valtix_cloud_account" "aws1" {
 * `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times).  See [Inventory Monitoring](#inventory-monitoring) for details.
 
 ### GCP Arguments
-* `gcp_credentials_file` - (GCP - Required) Service account credentials key file created for the Valtix controller access.
+* `gcp_credentials_file` - (GCP - Required) Service account credentials key file created for the Valtix Controller access.
 * `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times). See [Inventory Monitoring](#inventory-monitoring) for details.
+* `gcp_project_id` - (Optional) Add the specified project id (name) to the Valtix Controller. If this is not specified, then the project id from the credentials file is used. The argument is required if a service account is used to manage multiple GCP projects.
 
 ## Inventory Monitoring
 * `regions` - List of regions to enable and monitor inventory
