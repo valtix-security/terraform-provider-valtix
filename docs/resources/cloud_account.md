@@ -4,7 +4,7 @@ Resource for creating and managing Cloud Accounts and Subscriptions on-boarded i
 ## Example Usage
 
 ## AWS
-Create a cross account IAM role before running this block. Look at the [AWS Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/aws/overview/) for more details. Use a Valtix generated External ID in the trust Policy of the IAM role, and the same External ID in the AWS Cloud Account Setup. 
+Create a cross account IAM role before running this block. Look at the [AWS Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/aws/overview/) for more details. Use a Valtix generated External ID in the trust Policy of the IAM role, and the same External ID in the AWS Cloud Account Setup.
 
 ```hcl
 resource "valtix_cloud_account" "aws1" {
@@ -32,8 +32,8 @@ resource "valtix_cloud_account" "azure1" {
 }
 ```
 
-## GCP 
-Create a GCP service account for use by the Valtix controller and generate/download the key file before running this block. Look at the [GCP Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/gcp/overview/) for more details.
+## GCP
+Create a GCP Service Account for use by the Valtix controller and generate/download the key file before running this block. Look at the [GCP Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/gcp/overview/) for more details.
 
 ```hcl
 resource "valtix_cloud_account" "gcp1" {
@@ -83,8 +83,9 @@ resource "valtix_cloud_account" "aws1" {
 * `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times).  See [Inventory Monitoring](#inventory-monitoring) for details.
 
 ### GCP Arguments
-* `gcp_credentials_file` - (GCP - Required) Service account credentials key file created for the Valtix controller access.
+* `gcp_credentials_file` - (GCP - Required) Service Account credentials key file created for the Valtix Controller access.
 * `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times). See [Inventory Monitoring](#inventory-monitoring) for details.
+* `gcp_project_id` - (Optional) Add the specified Project ID (name) to the Valtix Controller. If this is not specified, then the Project ID from the credentials file is used. The argument is required if a Service Account is used to manage multiple GCP Projects.
 
 ## Inventory Monitoring
 * `regions` - List of regions to enable and monitor inventory
