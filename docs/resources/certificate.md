@@ -5,8 +5,8 @@ Resource for creating and managing Certificates used in Decryption Profiles
 
 ### Import a certificate and key that's on your local file system
 ```hcl
-resource "valtix_certificate" cert1 {
-  name              = "self_signed_cert_1"
+resource "valtix_certificate" "import-certificate {
+  name              = "import-certificate"
   certificate_type  = "IMPORT_CONTENTS"
   certificate_body  = file("cert.pem")
   private_key       = file("key.pem")
@@ -16,11 +16,11 @@ resource "valtix_certificate" cert1 {
 
 ### Import a certificate from AWS Secrets Manager
 ```hcl
-resource "valtix_certificate" "cert1" {
-  name             = "aws_secret"
+resource "valtix_certificate" "aws-certifiate-secret" {
+  name             = "aws-certificate-secret"
   certificate_type = "AWS_SECRET"
   certificate_body = file("cert.pem")
-  csp_account_name = "csp_account_name_added_to_valtix_controller"
+  csp_account_name = "aws-account"
   region           = "us-east-1"
   aws_secret_name  = "my_key1"
 }
@@ -28,11 +28,11 @@ resource "valtix_certificate" "cert1" {
 
 ### Import a certificate from AWS KMS
 ```hcl
-resource "valtix_certificate" "kms" {
-  name                    = "aws_kms"
+resource "valtix_certificate" "aws-certifiate-kms" {
+  name                    = "aws-certificate-kms"
   certificate_type        = "AWS_KMS"
   certificate_body        = file("cert.pem")
-  csp_account_name        = "csp_account_name_added_to_valtix_controller"
+  csp_account_name        = "aws-account"
   region                  = "us-east-1"
   private_key_cipher_text = file("key.pem")
 }
@@ -40,11 +40,11 @@ resource "valtix_certificate" "kms" {
 
 ### Import a certificate from Azure Key Vault and Secret
 ```hcl
-resource "valtix_certificate" "azure" {
-  name                        = "azure"
+resource "valtix_certificate" "azure-certificate-keyvault" {
+  name                        = "azure-certificate-keyvault"
   certificate_type            = "AZURE_KEY_VAULT_SECRET"
   certificate_body            = file("cert.pem")
-  csp_account_name            = "csp_account_name_added_to_valtix_controller"
+  csp_account_name            = "azure-account"
   region                      = "eastus"
   azure_key_vault_name        = "vault1"
   azure_key_vault_secret_name = "secret1"
@@ -53,12 +53,12 @@ resource "valtix_certificate" "azure" {
 
 ### Import a certificate from GCP Secrets Manager
 ```hcl
-resource "valtix_certificate" "cert1" {
-  name             = "self_signed_cert_1"
+resource "valtix_certificate" "gcp-certificate-secret" {
+  name             = "gcp-certificate-secret"
   certificate_type = "GCP_SECRET"
   certificate_body = file("cert.pem")
-  csp_account_name = "csp_account_name_added_to_valtix_controller"
-  secret_name      = "my_key1"
+  csp_account_name = "gcp-account"
+  secret_name      = "projects/012345678910/secrets/gcp-certificate-secret"
   secret_version   = "12"
 }
 ```
@@ -91,7 +91,7 @@ resource "valtix_certificate" "cert1" {
 
 ### GCP_SECRET
 * `csp_account_name` - (Required) To use a private key stored in GCP Secrets Manager, provide the csp_account_name (GCP) where the private key will be stored.  This is the friendly name defined in Valtix for the on-boarded CSP account.
-* `secret_name` - (Required) GCP Secrets Manager key name that contains the private key
+* `secret_name` - (Required) GCP Secrets Manager key name that contains the private key. The value must be the full path of the key name (e.g., `projects/012345678910/secrets/gcp-certificate-secret`)
 * `secret_version` - (Optional) GCP Secrets Manager key version
 
 ## Attribute Reference
