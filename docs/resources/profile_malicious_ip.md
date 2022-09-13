@@ -8,8 +8,8 @@ Resource for creating and managing a Malicious IP Profile
 resource "valtix_profile_malicious_ip" "mips_auto" {
   name          = "mips_auto"
   description   = "description"
-  auto-update   = true
-  delay-by-days = 0
+  auto_update   = true
+  delay_by_days = 0
   match_xff     = true
 }
 ```
