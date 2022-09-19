@@ -8,7 +8,7 @@ The Address Object is used in a Policy Ruleset Rule to define the segmentation p
 ### STATIC (Source Destination) Examples
 ```hcl
 resource "valtix_address_object" "ip_cidr_ag" {
-  name        = "ip-cidr"
+  name        = "ip_cidr"
   description = "Static IP/CIDR"
   type        = "STATIC"
   value       = ["10.0.0.0/16", "192.168.0.0/16", "172.16.1.15"]
@@ -50,7 +50,7 @@ For a complete set of arguments, see [STATIC (Reverse Proxy Target) Arguments](#
 
 ### DYNAMIC_APPLICATIONS (Reverse Proxy Target) Example
 ```hcl
-resource "valtix_address_object" "app3-ag" {
+resource "valtix_address_object" "app3_ag" {
     name        = "app3"
     description = "Dynamic Applications (backend)"
     type        = "DYNAMIC_APPLICATIONS"
@@ -65,9 +65,9 @@ For a complete set of arguments, see [DYNAMIC_APPLICATIONS (Reverse Proxy Target
 
 ### DYNAMIC_VPC (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "vpc1-ag" {
+resource "valtix_address_object" "vpc1_ag" {
     name             = "vpc1"
-    description      = "Dynamic VPC ID"
+    description      = "Dynamic VPC"
     type             = "DYNAMIC_VPC"
     csp_account_name = valtix_cloud_account.aws1.name
     region           = var.aws_region
@@ -78,9 +78,9 @@ For a complete set of arguments, see [DYNAMIC_VPC (Source Destination) Arguments
 
 ### DYNAMIC_INSTANCE (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "instance1-ag" {
+resource "valtix_address_object" "instance1_ag" {
     name             = "instance1"
-    description      = "Dynamic Instance ID"
+    description      = "Dynamic Instance"
     type             = "DYNAMIC_INSTANCE"
     csp_account_name = valtix_cloud_account.aws1.name
     region           = var.aws_region
@@ -92,9 +92,9 @@ For a complete set of arguments, see [DYNAMIC_INSTANCE (Source Destination) Argu
 
 ### DYNAMIC_SUBNET (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "subnet1-ag" {
+resource "valtix_address_object" "subnet1_ag" {
     name             = "subnet1"
-    description      = "Dynamic Subnet ID"
+    description      = "Dynamic Subnet"
     type             = "DYNAMIC_SUBNET"
     csp_account_name = valtix_cloud_account.aws1.name
     region           = var.aws_region
@@ -106,9 +106,9 @@ For a complete set of arguments, see [DYNAMIC_SUBNET (Source Destination) Argume
 
 ### DYNAMIC_SECURITY_GROUP (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "subnet1-ag" {
-    name              = "subnet1"
-    description       = "Dynamic Subnet ID"
+resource "valtix_address_object" "securitygroup1_ag" {
+    name              = "securitygroup1"
+    description       = "Dynamic Security Group"
     type              = "DYNAMIC_SECURITY_GROUP"
     csp_account_name  = valtix_cloud_account.aws1.name
     region            = var.aws_region
@@ -120,7 +120,7 @@ For a complete set of arguments, see [DYNAMIC_SECURITY_GROUP (Source Destination
 
 ### DYNAMIC_USER_DEFINED_TAG (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "udt1-ag" {
+resource "valtix_address_object" "udt1_ag" {
     name        = "udt1"
     description = "Dynamic User Defined Tag"
     type        = "DYNAMIC_USER_DEFINED_TAG"
@@ -152,7 +152,7 @@ For a complete set of arguments, see [GEO_IP (Source Destination) Arguments](#ge
 
 ### GROUP (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "group-ag" {
+resource "valtix_address_object" "group1_ag" {
   name              = "group1"
   description       = "Address Object Group"
   type              = "GROUP"
@@ -163,8 +163,8 @@ For a complete set of arguments, see [GROUP (Source Destination) Arguments](#gro
 
 ### DYNAMIC_ASG (Source Destination) Example
 ```hcl
-resource "valtix_address_object" "azure_asg" {
-  name                          = "azure-asg"
+resource "valtix_address_object" "azure_asg_ag" {
+  name                          = "azure_asg"
   description                   = "Azure Application Security Group"
   type                          = "DYNAMIC_ASG"
   csp_account_name              = valtix_cloud_account.azure.name
