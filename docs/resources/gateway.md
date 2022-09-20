@@ -289,7 +289,7 @@ tags = {
 ```
 
 ## Attribute Reference
-* `gateway_gwlb_endpoints` - AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
+* `gateway_gwlb_endpoints` - (AWS only) AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
 
     ```hcl
     gateway_gwlb_endpoints {
@@ -303,5 +303,7 @@ tags = {
         subnet_id            = "subnet-0fd61e07f200224f1"
     }
     ```
+
+* `gwlb_service_name` - (AWS only) VPC Endpoint Service name associated with the AWS Gateway Load Balancer.  This name can be used by the AWS Terraform Provider for determining the VPC Endpoint Service ID, which can then be used to assign principals and accept Endpoint connections.
 
 * `gateway_endpoint` - For Gateways of `security_type = INGRESS`, this represents the NLB endpoint (FQDN, IP Address) to be used as the target for the client communicating with any application protected by the Valtix Ingress Gateway.  This information is most often used in a DNS A record (IP Address) or CNAME record (FQDN) to resolve the application FQDN to the Valtix Ingress Gateway endpoint.  Valtix will receive traffic on this endpoint and proxy the traffic to the appropriate backend application based on the configured policy.  For the Ingress Gateway, this attribute is populated for Gateways deployed in all CSPs (AWS, Azure, GCP, OCI).  For Gateways of `security_type = EGRESS`, this represents the NLB endpoint (IP Address) to be used as a target for routing traffic from the Spoke VPC/VNet/VCN to the Valtix Egress / East-West Gateway.  Valtix will receive traffic from clients, and forward or proxy the traffic to the appropriate destination based on the configured policy.  For the Egress / East-West Gateway, this attribute is only populated for non-AWS Gateways (Azure, GCP, OCI).  For the AWS Gateways, traffic is routed to the AWS Transit Gateway (TGW) or Gateway Load Balancer (GWLB) endpoints.
