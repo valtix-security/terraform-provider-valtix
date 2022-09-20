@@ -277,6 +277,17 @@ settings {
 ~> **Note on Assign Public IP setting**
 The Assign Public IP setting only applies to Gateways deployed in AWS using Edge Mode deployment.  Gateways in AWS deployed using Hub Mode deployment are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway.
 
+### To change the AWS Gateway Load Balancer (GWLB) Acceptance Required
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.acceptance_required"
+  value = true
+}
+```
+
+~> **Note on GWLB Acceptance Required**
+The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure principals and control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
+
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
 
