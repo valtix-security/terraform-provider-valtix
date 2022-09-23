@@ -246,15 +246,35 @@ settings {
 }
 ```
 
-### To enable EBS Encryption for the Gateway instances using specified KMS key
+~> **Note on EBS/Disk Encryption setting using default CSP key**
+The EBS Encryption Gateway setting using default KMS key only applies to Gateways deployed in AWS.  There is no need to use this setting to enable Disk Encryption for a Gateway deployed in Azure or GCP.  For AWS, EBS Encryption is disabled by default and the Gateway settings are needed to enable.  In Azure and GCP, Disk Encryption is enabled by default using a CSP key and cannot be disabled.
+
+### To enable EBS Encryption for the Gateway instances using specified KMS key (AWS)
 ```hcl
 settings {
   name  = "gateway.aws.ebs.encryption.key.customer_key"
   value = "<KMS key ID>"
 }
 ```
-~> **Note on EBS Encryption setting**
-The EBS Encryption settings only apply to Gateways deployed in AWS.  There is no need to use these settings to enable EBS Encryption for a Gateway deployed in Azure or GCP.  For AWS, EBS Encryption is disabled by default and the Gateway settings are needed to enable.  In Azure and GCP, EBS Encryption is enabled by default using a CSP key and cannot be disabled.
+
+### To enable Disk Encryption for the Gateway instances using specified KMS key (Azure)
+```hcl
+settings {
+  name  = "gateway.azure.disk.encryption.key.customer_key"
+  value = "<Disk Encryption Set Path>"
+}
+```
+
+### To enable Disk Encryption for the Gateway instances using specified KMS key (GCP)
+```hcl
+settings {
+  name  = "gateway.gcp.disk.encryption.key.customer_key"
+  value = "<Crypto Key Path>"
+}
+```
+
+~> **Note on EBS/Disk Encryption setting using a Customer Managed Encryption Key (CMEK)**
+The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Key (CMEK).  The key specified is created in specific locations related to each CSP.  For AWS, the key is created in the Key Management System (KMS) and referenced by its ID.  For Azure, the key is created in the Disk Encryption Sets and referenced by its full path.  For GCP, the key is created as a Key Management Key Ring and referenced by its relative path. 
 
 ### To override the default DNS Server IP Address used by the Management interface of an Azure Gateway
 ```hcl
@@ -277,6 +297,17 @@ settings {
 ~> **Note on Assign Public IP setting**
 The Assign Public IP setting only applies to Gateways deployed in AWS using Edge Mode deployment.  Gateways in AWS deployed using Hub Mode deployment are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway.
 
+### To change the AWS Gateway Load Balancer (GWLB) Acceptance Required
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.acceptance_required"
+  value = true
+}
+```
+
+~> **Note on GWLB Acceptance Required**
+The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure principals and control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
+
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
 
@@ -289,7 +320,7 @@ tags = {
 ```
 
 ## Attribute Reference
-* `gateway_gwlb_endpoints` - AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
+* `gateway_gwlb_endpoints` - (AWS only) AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
 
     ```hcl
     gateway_gwlb_endpoints {
@@ -303,5 +334,7 @@ tags = {
         subnet_id            = "subnet-0fd61e07f200224f1"
     }
     ```
+
+* `gwlb_service_name` - (AWS only) VPC Endpoint Service name associated with the AWS Gateway Load Balancer.  This name can be used by the AWS Terraform Provider for determining the VPC Endpoint Service ID, which can then be used to assign principals and accept Endpoint connections.
 
 * `gateway_endpoint` - For Gateways of `security_type = INGRESS`, this represents the NLB endpoint (FQDN, IP Address) to be used as the target for the client communicating with any application protected by the Valtix Ingress Gateway.  This information is most often used in a DNS A record (IP Address) or CNAME record (FQDN) to resolve the application FQDN to the Valtix Ingress Gateway endpoint.  Valtix will receive traffic on this endpoint and proxy the traffic to the appropriate backend application based on the configured policy.  For the Ingress Gateway, this attribute is populated for Gateways deployed in all CSPs (AWS, Azure, GCP, OCI).  For Gateways of `security_type = EGRESS`, this represents the NLB endpoint (IP Address) to be used as a target for routing traffic from the Spoke VPC/VNet/VCN to the Valtix Egress / East-West Gateway.  Valtix will receive traffic from clients, and forward or proxy the traffic to the appropriate destination based on the configured policy.  For the Egress / East-West Gateway, this attribute is only populated for non-AWS Gateways (Azure, GCP, OCI).  For the AWS Gateways, traffic is routed to the AWS Transit Gateway (TGW) or Gateway Load Balancer (GWLB) endpoints.
