@@ -1,5 +1,5 @@
 # Resource: valtix_cloud_account
-Resource for creating and managing Cloud Accounts and Subscriptions on-boarded into Valtix.  The Cloud Account defines the credentials used for the Valtix Controller to discover asset inventory and traffic, and orchestrate and manage the deployment of Valtix Gateways.
+Resource for creating and managing Valtix Cloud Accounts consisting of on-boarded AWS Accounts, Azure Subscriptions, GCP Projects and OCI Tenants.  The Valtix Cloud Account defines the credentials used for the Valtix Controller to discover inventory assets and traffic, and orchestrate and manage the deployment of Valtix Gateways.
 
 ## Example Usage
 
@@ -9,6 +9,7 @@ Create a cross account IAM role before running this block. Look at the [AWS Clou
 ```hcl
 resource "valtix_cloud_account" "aws1" {
   name                     = "aws-account1"
+  description              = "AWS Account - 123456789012"
   csp_type                 = "AWS"
   aws_credentials_type     = "AWS_IAM_ROLE"
   aws_iam_role             = "arn:aws:iam::123456789012:role/valtix-controller-role"
@@ -24,6 +25,7 @@ Create an application and secret before running this block. Look at the [Azure C
 ```hcl
 resource "valtix_cloud_account" "azure1" {
   name                  = "azure-account1"
+  description           = "Azure Subscription - 11111111-2222-4bab-aaec-ae38a24dd990"
   csp_type              = "AZURE"
   azure_directory_id    = "11111111-2222-4bab-aaec-ae38a24dd990"
   azure_subscription_id = "11111111-2222-41a6-8dfc-05b1fc703aa7"
@@ -38,6 +40,7 @@ Create a GCP Service Account for use by the Valtix controller and generate/downl
 ```hcl
 resource "valtix_cloud_account" "gcp1" {
   name                 = "gcp-account1"
+  description          = "GCP Project - Production"
   csp_type             = "GCP"
   gcp_credentials_file = file("valtix_controller_key.json")
 }
@@ -65,6 +68,7 @@ resource "valtix_cloud_account" "aws1" {
 
 ## Argument Reference
 * `name` - (Required) Name of the Cloud Account on the Valtix Console. Must contain only alphanumeric, hyphens or underscore characters and not exceed 100 characters
+* `description` - (Optional) Description of the Cloud Account
 * `csp_type` - (Required)  Defines the Cloud Service Provider. Must be `GCP`, `AWS` or `AZURE`
 
 ### AWS Arguments
