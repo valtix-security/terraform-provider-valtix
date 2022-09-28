@@ -274,7 +274,7 @@ settings {
 ```
 
 ~> **Note on EBS/Disk Encryption setting using a Customer Managed Encryption Key (CMEK)**
-The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Key (CMEK).  The key specified is created in specific locations related to each CSP.  For AWS, the key is created in the Key Management System (KMS) and referenced by its ID.  For Azure, the key is created in the Disk Encryption Sets and referenced by its full path.  For GCP, the key is created as a Key Management Key Ring and referenced by its relative path. 
+The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Key (CMEK).  The key specified is created in specific locations related to each CSP.  For AWS, the key is created in the Key Management System (KMS) and referenced by its ID.  For Azure, the key is created in the Disk Encryption Sets and referenced by its full path.  The Azure Access control (IAM) Role for the Valtix Controller (valtix-controller-role) requires an additional permission: `Microsoft.Compute/sshPublicKeys/read`.  This permission has been updated in the Azure PowerShell script used to prepare the Subscription for onboarding into Valtix.  For GCP, the key is created as a Key Management Key Ring and referenced by its relative path.  The Role / Principal for Cloud KMS CryptoKey Encrypter / Decyptor requires a Google Managed Service Account (Service Agent) to be specified: Compute Engine Service Agent (`service-PROJECT_NUMBER@compute-system.iam.gserviceaccount.com`). 
 
 ### To override the default DNS Server IP Address used by the Management interface of an Azure Gateway
 ```hcl
