@@ -47,6 +47,15 @@ resource "valtix_profile_log_forwarding" "gcplogging" {
 }
 ```
 
+### Sumo Logic
+```hcl
+resource "valtix_profile_log_forwarding" "sumo_logic" {
+  name        = "sumo_logic"
+  destination = "SUMO_LOGIC"
+  endpoint    = "https://collectors.sumologic.com/receiver/v1/http/ZaVnC4dhaV39Tn37"
+}
+```
+
 ### AWS S3 Bucket
 ```hcl
 resource "valtix_profile_log_forwarding" "s3bucket" {
@@ -61,7 +70,7 @@ resource "valtix_profile_log_forwarding" "s3bucket" {
 
 ### Common Arguments
 * `name` - (Required) Name of the Log Forwarding profile
-* `destination` - (Required) One of `REMOTE_SYSLOG`, `SPLUNK`, `DATADOG`, `GCPLOGGING_FROM_GATEWAY`, `AWS_S3`
+* `destination` - (Required) One of `REMOTE_SYSLOG`, `SPLUNK`, `DATADOG`, `GCPLOGGING_FROM_GATEWAY`, `SUMO_LOGIC`, `AWS_S3`
 * `siem_vendor` - (Deprecated) One of `REMOTE_SYSLOG`, `SPLUNK`, `DATADOG`, `GCPLOGGING_FROM_GATEWAY`
 
 ### Destination-specific Arguments
@@ -87,6 +96,9 @@ resource "valtix_profile_log_forwarding" "s3bucket" {
 
 ### GCP Logging
 * `log_name` - [Optional] GCP Logging name where the logs will be stored. If not specified, the default name is `valtix-gateway-logs`.
+
+### Sumo Logic
+* `endpoint` - (Required) Collector endpoint URL
 
 ### AWS S3 Bucket
 * `csp_account_name` - (Required) The friendly name of the onboarded AWS account where the S3 Bucket resides
