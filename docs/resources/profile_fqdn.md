@@ -1,7 +1,9 @@
-# Resource: valtix_profile_urlfilter
+# Resource: valtix_profile_fqdn
 Resource for creating and managing an FQDN Filtering Profile
 
 ## Example Usage
+
+### Standalone FQDN Filtering Profile
 ```hcl
 resource "valtix_profile_fqdn" "fqdn1" {
   name        = "fqdn1"
@@ -15,7 +17,6 @@ resource "valtix_profile_fqdn" "fqdn1" {
     policy               = "Allow Log"
     decryption_exception = false
   }
-
   fqdn_filter_list {
     fqdn_list = ["www.website3.com", "www.website4.com"]
     vendor_category_list {
@@ -25,7 +26,6 @@ resource "valtix_profile_fqdn" "fqdn1" {
     policy               = "Deny Log"
     decryption_exception = false
   }
-  
   uncategorized_fqdn_filter {
     policy               = "Deny Log"
     decryption_exception = false
@@ -38,9 +38,31 @@ resource "valtix_profile_fqdn" "fqdn1" {
 }
 ```
 
+### Group FQDN Filtering Profile
+```hcl
+resource "valtix_profile_fqdn" "fqdn_group1" {
+  name           = "fqdn_group1"
+  description    = "FQDN filter group"
+  type           = "GROUP"
+  fqdn_group_ids = [
+    valtix_profile_fqdn.fqdn1.profile_id,
+    valtix_profile_fqdn.fqdn2.profile_id
+  ]
+  uncategorized_fqdn_filter {
+          policy               = "Deny No Log"
+          decryption_exception = false
+  }
+  default_fqdn_filter {
+          policy               = "Deny Log"
+          decryption_exception = false
+  }
+}
+```
+
 ## Argument Reference
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
+* `type` - (Optional) Specifies whether the FQDN Filtering Profile is a Group FQDN Filtering Profile.  The only applicable value is `GROUP`.  If not specified, the FQDN Filtering Profile operates as Standalone (non-Group).
 * `no_fqdn_deny` - (Optional) Deny traffic when no FQDN found in packet. Applicable values: *true* or *false*.  Default value: *false*.
 * `fqdn_filter_list` - (Required) One or more `fqdn_list` resources, where each resource is a row in the FQDN Filter List (maximum of 32 resources). Structure [defined below](#fqdn-filter-list).
 * `uncategorized_fqdn_filter` - (Required) Uncategorized FQDN Filter action for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource and is not represented by any vendor category (whether specified or not). Structure [defined below](#uncategorized-fqdn-filter).
