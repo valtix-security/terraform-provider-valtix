@@ -306,7 +306,7 @@ settings {
 ```
 
 ~> **Note on GWLB Acceptance Required**
-The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure principals and control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
+The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure Principals and/or control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
