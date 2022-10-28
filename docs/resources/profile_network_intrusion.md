@@ -3,36 +3,39 @@ Resource for creating and managing a Network Intrusion (IPS) Profile
 
 ## Example Usage
 
-### With auto updating ruleset and other defaults
+### Auto update Talos Ruleset version
 ```hcl
 resource "valtix_profile_network_intrusion" "ips_auto" {
   name          = "ips_auto"
   description   = "predefined rules tagged as 'connectivity'"
   policy        = "CONNECTIVITY"
   policy_action = "Deny Log"
+  auto_update   = true
+  delay_by_days = 0
 }
 ```
 
-### With manually specified ruleset version
+### Manually specified Talos Ruleset version
 ```hcl
 resource "valtix_profile_network_intrusion" "ips_manual" {
   name                  = "ips_manual"
   description           = "predefined rules tagged as 'connectivity'"
   policy                = "CONNECTIVITY"
   policy_action         = "Deny Log"
-  talos_ruleset_version = "2.9.11.1-01272021"
+  talos_ruleset_version = "2.9.11-11032022"
 }
 ```
 
-### Advanced Example with all the attributes
+### Advanced Talos Ruleset with other optional/advanced arguments
 ```hcl
-resource "valtix_profile_network_intrusion" "ips_manual" {
-  name                  = "ips_manual"
-  description           = "predefined rules tagged as 'connectivity'"
-  policy                = "CONNECTIVITY"
-  action                = "Allow Log"
-  policy_action         = "Deny Log"
-  talos_ruleset_version = "2.9.11-07092021"
+resource "valtix_profile_network_intrusion" "ips_auto_advanced" {
+  name          = "ips_auto_advanced"
+  description   = "predefined rules tagged as 'connectivity'"
+  policy        = "CONNECTIVITY"
+  action        = "Allow Log"
+  policy_action = "Deny Log"
+  auto_update   = true
+  delay_by_days = 0
   categories {
     name   = "app-detect"
     action = "ALERT"
@@ -78,8 +81,11 @@ resource "valtix_profile_network_intrusion" "ips_manual" {
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
 * `auto_update` - (Optional) Auto Update the Talos Network Intrusion Ruleset version. Valid values are `true` or `false`.  Default (if unspecified) is `true`.
-* `delay_by_days` - (Optional) Number of days to delay updating the Talos Network Intrusion Ruleset version after it has been published by Valtix. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `0` (immediately). New Rulesets as published as soon as updates are available from the Vendor and validation testing is completed by Valtix.
-* `talos_ruleset_version` - (Optional) Talos Network Intrusion Ruleset version. Applicable values can be found from within the UI. The Rulesets are published frequently. Unless a specific version is desired, Valtix recommends using Auto Update as described above. If this argument is specified, Auto Update of Talos Network Intrusion Ruleset is disabled and the Profile will use the specified Talos Network Intrusion Ruleset version.
+* `delay_by_days` - (Optional) Number of days to delay applying the Talos Network Intrusion Ruleset version after it has been published by Valtix. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `0` (immediately). New Rulesets as published as soon as updates are available from the Vendor and validation testing is completed by Valtix.
+* `talos_ruleset_version` - (Optional) Talos Network Intrusion Ruleset version. Applicable values can be found from within the UI. The Rulesets are published frequently. Unless a specific version is desired, Valtix recommends using Auto Update. If this argument is specified, Auto Update of Talos Network Intrusion Ruleset is disabled and the Profile will use the specified Talos Network Intrusion Ruleset version.
+* `auto_update_custom` - (Optional) Auto Update the Custom Network Intrusion Ruleset version. Valid values are `true` or `false`.  Default (if unspecified) is `true`.
+* `delay_by_days_custom` - (Optional) Number of days to delay applying the Custom Network Intrusion Ruleset version after it has been imported by the user. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `0` (immediately).
+* `custom_ruleset_version` - (Optional) Custom Network Intrusion Ruleset version. Applicable values can be found from within the UI as specified by the user when defining and importing the Custom Rulesets. Unless a specific version is desired, Valtix recommends using Auto Update. If this argument is specified, Auto Update of Custom Network Intrusion Ruleset is disabled and the Profile will use the specified Custom Network Intrusion Ruleset version.
 * `action` - (Optional) Action to take when a Network Intrusion (IDS/IPS) Network Threat is detected for Rules that fall into the Profile set (the entire set or Rules defined by the configuration of the Profile). Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event). If not specified, then the action assumed is `Rule Default`, the action defined in the Policy Ruleset Rule. This action can be overridden for each Policy, [Category](#categories) and [Class](#classes) of Rules.
 * `policy` - (Required) Pre-defined Talos Network Intrusion Ruleset to use. Applicable values: `CONNECTIVITY`, `BALANCED`, `SECURITY`, `MAX_DETECT`.
 * `policy_action` - (Optional) Action to take when a Network Intrusion (IDS/IPS) Network Threat is detected for Rules that fall into the Policy set. Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event). This action is an override to the Profile action. If not specified, then the action assumed is the action defined for the Profile.

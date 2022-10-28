@@ -3,13 +3,15 @@ Resource for creating and managing a Web Application Firewall (WAF) Profile
 
 ## Example Usage
 
-### With auto updating rulesets and other defaults
+### Auto update CRS Ruleset version
 ```hcl
 resource "valtix_profile_application_threat" "waf_auto" {
-  name           = "waf_auto"
-  description    = "waf basic rules"
-  paranoia_level = 1
-  request_inspection_profile = [
+  name                        = "waf_auto"
+  description                 = "WAF CRS rules (auto)"
+  auto_update_crs             = true
+  delay_by_days_crs           = 0
+  paranoia_level              = 1
+  request_inspection_profile  = [
     "Request - Protocol Enforcement"
   ]
   response_inspection_profile = [
@@ -18,20 +20,38 @@ resource "valtix_profile_application_threat" "waf_auto" {
 }
 ```
 
-### With manually specified rulesets and other optional/advanced attributes
+### Manually specified CRS Ruleset version
 ```hcl
 resource "valtix_profile_application_threat" "waf_manual" {
-  name                      = "waf_manual"
-  description               = "waf profile 1"
-  crs_ruleset_version       = "3.0.2-01272021"
-  trustwave_ruleset_version = "3.0.2-01272021"
-  paranoia_level            = 3
-  action                    = "Deny Log"
-  request_inspection_profile = [
+  name                        = "waf_manual"
+  description                 = "WAF CRS rules (manual)"
+  crs_ruleset_version         = "3.0.2-11032022"
+  paranoia_level              = 1
+  request_inspection_profile  = [
+    "Request - Protocol Enforcement"
+  ]
+  response_inspection_profile = [
+    "Response - General"
+  ]
+}
+```
+
+### Advanced CRS and Trustwave Rulesets with other optional/advanced arguments
+```hcl
+resource "valtix_profile_application_threat" "waf_auto_advanced" {
+  name                         = "waf_auto_advanced"
+  description                  = "WAF CRS and Trustwave Rules (manual)"
+  auto_update_crs              = true
+  delay_by_days_crs            = 0
+  auto_update_trustwave        = true
+  delay_by_days_trustwave      = 0
+  paranoia_level               = 1
+  action                       = "Deny Log"
+  request_inspection_profile   = [
     "Request - Protocol Enforcement",
     "Request - Protocol Attack"
   ]
-  response_inspection_profile = [
+  response_inspection_profile  = [
     "Response - General",
     "Response - SQL"
   ]
@@ -72,6 +92,9 @@ resource "valtix_profile_application_threat" "waf_manual" {
 * `auto_update_trustwave` - (Optional) Auto update the Trustwave Ruleset version with a delay specified by `delay_by_days_trustwave` argument. Applicable values are `true` or `false`.  If not specified, the default value is `true`.
 * `delay_by_days_trustwave` - (Optional) Number of days to delay updating the Trustwave Ruleset version after it has been published by Valtix. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `0` (immediately). New Rulesets as published as soon as updates are available from the Vendor and validation testing is completed by Valtix.
 * `trustwave_ruleset_version` - (Optional) Trustwave Ruleset version. Applicable values can be found from within the UI. The Rulesets are published frequently. Unless a specific version is desired, Valtix recommends using Auto Update as described above. If this argument is specified, Auto Update of Trustwave Ruleset is disabled and the Profile will use the specified Trustwave Ruleset version.
+* `auto_update_custom` - (Optional) Auto Update of the Custom Ruleset version with a delay specified by `delay_by_days_crs` argument. Applicable values are `true` or `false`.  If not specified, the default value is `true`.
+* `delay_by_days_custom` - (Optional) Number of days to delay updating the Custom Ruleset version after it has been imported by the user. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `0` (immediately).
+* `custom_ruleset_version` - (Optional) Custom Ruleset version. Applicable values can be found from within the UI as specified by the user when defining and importing the Custom Rulesets. Unless a specific version is desired, Valtix recommends using Auto Update. If this argument is specified, Auto Update of Custom Ruleset is disabled and the Profile will use the specified CRS Ruleset version.
 * `paranoia_level` - (Required) An integer between `1` and `4`. Higher number leads to more false positives, but also helps in detecting more attacks. Recommended value is `1`.
 * `request_anamoly` - (Optional) Request anomaly score used in the Mod Security anomaly scoring system. If not specified, the efault value is `3`.
 * `response_anamoly` - (Optional) Response anomaly score used in the Mod Security anomaly scoring system. If not specified, the default value is `3`.
