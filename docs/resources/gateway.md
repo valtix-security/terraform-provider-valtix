@@ -297,7 +297,7 @@ settings {
 ~> **Note on Assign Public IP setting**
 The Assign Public IP setting only applies to Gateways deployed in AWS using Edge Mode deployment.  Gateways in AWS deployed using Hub Mode deployment are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway.
 
-### To change the AWS Gateway Load Balancer (GWLB) Acceptance Required
+### To change the AWS GWLB Acceptance Required
 ```hcl
 settings {
   name  = "controller.gateway.aws.gwlb.acceptance_required"
@@ -307,6 +307,28 @@ settings {
 
 ~> **Note on GWLB Acceptance Required**
 The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure Principals and/or control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
+
+### To not create an AWS GWLB Endpoint (GLWBe) into the Datapath Subnet
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.deploy_gwlb_endpoints"
+  value = false
+}
+```
+
+~> **Note on GWLB Endpoint (GWLBe) Creation**
+The GWLB Endpoint (GWLBe) creation default is set to `true` when Valtix orchestrates the GWLB when deploying an Egress Gateway. When not specified or explicitly set to `true`, Valtix orchestrates a GWLBe and connects it to the GWLB.  When set to `false`, Valtix will not orchestrate a GWLBe and will rely on the user to create any GWLBes using the AWS Terraform Provider or AWS Console and connect them to the GWLB.
+
+### To specify GWLB Service Principals
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.service_principals"
+  value = ["*"]
+}
+```
+
+~> **Note on GWLB Service Principals**
+When Valtix deploys an Egress Gateway in AWS it orchestrates the creation of a GWLB and GWLB Service.  The default deployment for the GWLB is to not require acceptance.  If a user prefers to require acceptance, and control the GWLBe connections and acceptance using Service Principals, the GWLB Service Principals setting can be used.  The setting is a list of strings representing Service Principals.  The setting will attach the Service Principals to the GWLB Service.
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
