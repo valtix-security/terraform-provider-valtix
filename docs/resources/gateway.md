@@ -14,7 +14,7 @@ resource "valtix_gateway" "aws-gw1" {
   description             = "AWS Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
   instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = "22.06-04"
+  gateway_image           = "22.06-08"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -65,9 +65,9 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS` and remove `aws_g
 resource "valtix_gateway" azure_gw1 {
   name                    = "gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
-  instance_type           = "AZURE_F8S_V2"
+  instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
-  gateway_image           = "22.06-04"
+  gateway_image           = "22.06-08"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -96,7 +96,7 @@ resource "valtix_gateway" azure_gw1 {
 resource "valtix_gateway" "azure_gw1" {
   name                    = "gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
-  instance_type           = "AZURE_F8S_V2"
+  instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
   gateway_image           = var.gateway_image
   gateway_state           = "ACTIVE"
@@ -119,7 +119,7 @@ resource "valtix_gateway" "gcp-gw" {
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = "22.06-04"
+  gateway_image             = "22.06-08"
   gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
@@ -177,7 +177,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
     * **GCP_E2_8**
     * **AWS_M5_2XLARGE**
     * **AZURE_D8S_V3**
-* `gateway_image` - (Required) Example `2.11-08`. This is the Valtix image version to be deployed for this Gateway. A list of applicable Gateway image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway release or contact Valtix Support.
+* `gateway_image` - (Required) Example `22.06-08`. This is the Valtix image version to be deployed for this Gateway. A list of applicable Gateway image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway release or contact Valtix Support.
 * `mode` - (AWS, Azure, GCP - Required) `EDGE` or `HUB`. Look into product documentation for different deployment modes.  This argument is not supported for OCI and must not be used.
 * `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
 * `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
