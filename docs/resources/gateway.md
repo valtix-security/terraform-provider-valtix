@@ -319,11 +319,22 @@ settings {
 ~> **Note on GWLB Endpoint (GWLBe) Creation**
 The GWLB Endpoint (GWLBe) creation default is set to `true` when Valtix orchestrates the GWLB when deploying an Egress Gateway. When not specified or explicitly set to `true`, Valtix orchestrates a GWLBe and connects it to the GWLB.  When set to `false`, Valtix will not orchestrate a GWLBe and will rely on the user to create any GWLBes using the AWS Terraform Provider or AWS Console and connect them to the GWLB.
 
-### To specify GWLB Service Principals
+### To specify GWLB Service Principals (single Principal)
 ```hcl
 settings {
   name  = "controller.gateway.aws.gwlb.service_principals"
-  value = ["*"]
+  value = "*"
+}
+```
+
+### To specify GWLB Service Principals (multiple Principals)
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.service_principals"
+  value = <<EOT
+    arn:aws:iam::902505820618:root
+    arn:aws:iam::059126560514:root
+  EOT
 }
 ```
 
