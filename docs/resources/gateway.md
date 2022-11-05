@@ -338,6 +338,17 @@ settings {
 }
 ```
 
+### To alter the HTTP Keepalive session timeout (default 5s)
+```hcl
+settings {
+  name ="gateway.proxy.keepalive"
+  value = 5
+}
+```
+
+~> **Note on HTTP Keepalive session timeout**
+When HTTP Keepalive is used (controlled by a header setting on the application server), HTTP sessions will be reused.  In order to reduce the risk of session pool draining, each session will have an inactivity timeout of 5 seconds (default when not specified) after which point the session will be torn down. If a different timeout value is needed (e.g., if the distance between the clients and the application is substantial resulting in longer propagation delays), this setting can be used to change the value.
+
 ~> **Note on GWLB Service Principals**
 When Valtix deploys an Egress Gateway in AWS it orchestrates the creation of a GWLB and GWLB Service.  The default deployment for the GWLB is to not require acceptance.  If a user prefers to require acceptance, and control the GWLBe connections and acceptance using Service Principals, the GWLB Service Principals setting can be used.  The setting is a list of strings representing Service Principals.  The setting will attach the Service Principals to the GWLB Service.
 
