@@ -98,7 +98,8 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 * `dlp_profile` - (Optional) Unique ID (profile_id) of the DLP Profile (valtix_profile_dlp). (e.g., *valtix_profile_dlp.dlp1.profile_id*).
 * `web_protection_profile` - (Optional) Unique ID (profile_id) of the WAF Profile (valtix_profile_web_protection). (e.g., *valtix_profile_web_protection.waf1.profile_id*).
 * `fqdn_filter_profile` - (Optional) Unique ID (profile_id) of the FQDN Filtering Profile (valtix_profile_fqdn_filter). (e.g., *valtix_profile_fqdn_filter.waf1.profile_id*).
-* `anti_virus_profile` - (Optional) Unique ID (profile_id) of the AV Profile (valtix_profile_anti_virus). (e.g., *valtix_profile_anti_virus.waf1.profile_id*).
+* `anti_malware_profile` - (Optional) Unique ID (profile_id) of the AM Profile (valtix_profile_anti_malware). (e.g., *valtix_profile_anti_malware.waf1.profile_id*).
+* `anti_virus_profile` - (Optional - Deprecated) Unique ID (profile_id) of the AV Profile (valtix_profile_anti_virus). (e.g., *valtix_profile_anti_virus.waf1.profile_id*). This argument has been deprecated and will be remain in place for two release cycles at which point it will be removed.
 * `url_filter` - (Optional) Unique ID (profile_id) of the URL Filtering Profile (valtix_profile_url_filter). (e.g., *valtix_profile_url_filter.url1.profile_id*).
 * `malicious_ip_profile` - (Optional) Unique ID (profile_id) of the Malicious IP Profile (valtix_profile_malicious_ip_profile). (e.g., *valtix_profile_malicious_ip_profile.src1.profile_id*).
 * `packet_capture_enabled` - (Optional) `true` or `false`. Specifies the Packet Capture Profile to enable packet capture for each session that is processed by the Rule.  If not specified, the default value is `false`.
