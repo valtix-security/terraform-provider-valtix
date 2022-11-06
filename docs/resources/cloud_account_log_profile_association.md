@@ -1,9 +1,9 @@
-# valtix_csp_log_association
+# valtix_cloud_account_log_profile_association
 Resource for associating a Log Forwarding Profile with a CSP Account for forwarding Discovery Logs
 
-~> **Note on valtix_csp_log_association resource creation**
+~> **Note on valtix_cloud_account_log_profile_association resource creation**
 The [`valtix_cloud_account`](../valtix_cloud_account) and [`valtix_profile_log_forwarding`](../valtix_profile_log_forwarding)
-resources must be created before the `valtix_csp_log_association` resource can be created
+resources must be created before the `valtix_cloud_account_log_profile_association` resource can be created
 
 ## Example Usage
 ```hcl
