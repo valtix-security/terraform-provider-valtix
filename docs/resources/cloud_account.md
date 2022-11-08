@@ -23,7 +23,7 @@ resource "valtix_cloud_account" "aws1" {
 Create an application and secret before running this block. Look at the [Azure Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/azure/overview/) for more details.
 
 ```hcl
-resource "valtix_cloud_account" "azure1" {
+resource "valtix_cloud_account" "azure_account1" {
   name                  = "azure-account1"
   description           = "Azure Subscription - 11111111-2222-4bab-aaec-ae38a24dd990"
   csp_type              = "AZURE"
@@ -38,7 +38,7 @@ resource "valtix_cloud_account" "azure1" {
 Create a GCP Service Account for use by the Valtix controller and generate/download the key file before running this block. Look at the [GCP Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/gcp/overview/) for more details.
 
 ```hcl
-resource "valtix_cloud_account" "gcp1" {
+resource "valtix_cloud_account" "gcp_account1" {
   name                 = "gcp-account1"
   description          = "GCP Project - Production"
   csp_type             = "GCP"
@@ -48,7 +48,7 @@ resource "valtix_cloud_account" "gcp1" {
 
 ## Account with Inventory Monitoring
 ```hcl
-resource "valtix_cloud_account" "aws1" {
+resource "valtix_cloud_account" "aws_account1" {
   name                     = "aws-account1"
   csp_type                 = "AWS"
   aws_credentials_type     = "AWS_IAM_ROLE"
