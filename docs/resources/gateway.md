@@ -67,7 +67,7 @@ For HUB mode INGRESS Gateway specify `security_type = INGRESS` and remove `aws_g
 resource "valtix_gateway" azure_gw1 {
   name                    = "gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
-  instance_type           = "AZURE_F8S_V2"
+  instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
   gateway_image           = "22.10-03"
   gateway_state           = "ACTIVE"
@@ -100,7 +100,7 @@ For EDGE mode EGRESS Gateway specify `security_type = EGRESS`
 resource "valtix_gateway" "azure_gw1" {
   name                    = "gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
-  instance_type           = "AZURE_F8S_V2"
+  instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
   gateway_image           = var.gateway_image
   gateway_state           = "ACTIVE"
@@ -312,7 +312,7 @@ settings {
 ~> **Note on Assign Public IP setting**
 The Assign Public IP setting applies to Gateways deployed in Edge Mode for AWS, Azure and GCP.  Gateways in AWS deployed in Hub Mode are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway. For Hub mode deployment in Azure and GCP, the VNet or VPC is orchestrate without the use of a Virtual NAT or Cloud NAT, and thus the Gateways are deployed as public.
 
-### To change the AWS Gateway Load Balancer (GWLB) Acceptance Required
+### To change the AWS GWLB Acceptance Required
 ```hcl
 settings {
   name  = "controller.gateway.aws.gwlb.acceptance_required"
@@ -321,7 +321,51 @@ settings {
 ```
 
 ~> **Note on GWLB Acceptance Required**
-The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure principals and control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
+The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure Principals and/or control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
+
+### To not create an AWS GWLB Endpoint (GLWBe) into the Datapath Subnet
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.deploy_gwlb_endpoints"
+  value = false
+}
+```
+
+~> **Note on GWLB Endpoint (GWLBe) Creation**
+The GWLB Endpoint (GWLBe) creation default is set to `true` when Valtix orchestrates the GWLB when deploying an Egress Gateway. When not specified or explicitly set to `true`, Valtix orchestrates a GWLBe and connects it to the GWLB.  When set to `false`, Valtix will not orchestrate a GWLBe and will rely on the user to create any GWLBes using the AWS Terraform Provider or AWS Console and connect them to the GWLB.
+
+### To specify GWLB Service Principals (single Principal)
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.service_principals"
+  value = "*"
+}
+```
+
+### To specify GWLB Service Principals (multiple Principals)
+```hcl
+settings {
+  name  = "controller.gateway.aws.gwlb.service_principals"
+  value = <<EOT
+    arn:aws:iam::902505820618:root
+    arn:aws:iam::059126560514:root
+  EOT
+}
+```
+
+### To alter the HTTP Keepalive session timeout (default 5s)
+```hcl
+settings {
+  name ="gateway.proxy.keepalive"
+  value = 5
+}
+```
+
+~> **Note on HTTP Keepalive session timeout**
+When HTTP Keepalive is used (controlled by a header setting on the application server), HTTP sessions will be reused.  In order to reduce the risk of session pool draining, each session will have an inactivity timeout of 5 seconds (default when not specified) after which point the session will be torn down. If a different timeout value is needed (e.g., if the distance between the clients and the application is substantial resulting in longer propagation delays), this setting can be used to change the value.
+
+~> **Note on GWLB Service Principals**
+When Valtix deploys an Egress Gateway in AWS it orchestrates the creation of a GWLB and GWLB Service.  The default deployment for the GWLB is to not require acceptance.  If a user prefers to require acceptance, and control the GWLBe connections and acceptance using Service Principals, the GWLB Service Principals setting can be used.  The setting is a list of strings representing Service Principals.  The setting will attach the Service Principals to the GWLB Service.
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
@@ -350,6 +394,8 @@ tags = {
     }
     ```
 
-* `gwlb_service_name` - (AWS only) VPC Endpoint Service name associated with the AWS Gateway Load Balancer.  This name can be used by the AWS Terraform Provider for determining the VPC Endpoint Service ID, which can then be used to assign principals and accept Endpoint connections.
+* `gwlb_service_name` - (AWS only) VPC Endpoint Service Name associated with the AWS Gateway Load Balancer.  This name can be used by the AWS Terraform Provider for establishing a GWLB Endpoint connection.
+
+* `gwlb_service_id` - (AWS only) VPC Endpoint Service ID associated with the AWS Gateway Load Balancer.  This ID can be used by the AWS Terraform Provider for accepting GWLB Endpoint connections and assigning Principals.
 
 * `gateway_endpoint` - For Gateways of `security_type = INGRESS`, this represents the NLB endpoint (FQDN, IP Address) to be used as the target for the client communicating with any application protected by the Valtix Ingress Gateway.  This information is most often used in a DNS A record (IP Address) or CNAME record (FQDN) to resolve the application FQDN to the Valtix Ingress Gateway endpoint.  Valtix will receive traffic on this endpoint and proxy the traffic to the appropriate backend application based on the configured policy.  For the Ingress Gateway, this attribute is populated for Gateways deployed in all CSPs (AWS, Azure, GCP, OCI).  For Gateways of `security_type = EGRESS`, this represents the NLB endpoint (IP Address) to be used as a target for routing traffic from the Spoke VPC/VNet/VCN to the Valtix Egress / East-West Gateway.  Valtix will receive traffic from clients, and forward or proxy the traffic to the appropriate destination based on the configured policy.  For the Egress / East-West Gateway, this attribute is only populated for non-AWS Gateways (Azure, GCP, OCI).  For the AWS Gateways, traffic is routed to the AWS Transit Gateway (TGW) or Gateway Load Balancer (GWLB) endpoints.
