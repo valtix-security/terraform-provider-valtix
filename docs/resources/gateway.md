@@ -7,14 +7,14 @@ resources must be created before the `valtix_gateway` resource can be created
 
 ## Example Usage
 
-### AWS Gateway (EDGE Mode, for INGRESS only)
+### AWS Gateway (INGRESS Gateway in EDGE Mode)
 ```hcl
 resource "valtix_gateway" "aws-gw1" {
   name                    = "aws-gw1"
   description             = "AWS Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
   instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = "22.06-08"
+  gateway_image           = "22.10-03"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -38,7 +38,9 @@ resource "valtix_gateway" "aws-gw1" {
 }
 ```
 
-### AWS (HUB Mode - Service VPC Managed by Valtix)
+For EDGE mode EGRESS Gateway specify `security_type = EGRESS` and add `aws_gateway_lb = true`
+
+### AWS Gateway (EGRESS Gateway in HUB Mode)
 ```hcl
 resource "valtix_gateway" "aws-hub-gw1" {
   name                   = "aws-hub-gw1"
@@ -58,16 +60,16 @@ resource "valtix_gateway" "aws-hub-gw1" {
 }
 ```
 
-For HUB mode INGRESS Gateway set the `security_type = INGRESS` and remove `aws_gateway_lb` argument
+For HUB mode INGRESS Gateway specify `security_type = INGRESS` and remove `aws_gateway_lb` argument
 
-### Azure Gateway (EDGE Mode)
+### Azure Gateway (INGRESS Gateway in EDGE Mode)
 ```hcl
 resource "valtix_gateway" azure_gw1 {
   name                    = "gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
-  gateway_image           = "22.06-08"
+  gateway_image           = "22.10-03"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -91,7 +93,9 @@ resource "valtix_gateway" azure_gw1 {
 }
 ```
 
-### Azure Gateway (HUB Mode - Service VNet Managed by Valtix)
+For EDGE mode EGRESS Gateway specify `security_type = EGRESS`
+
+### Azure Gateway (INGRESS Gateway in HUB Mode)
 ```hcl
 resource "valtix_gateway" "azure_gw1" {
   name                    = "gw1"
@@ -110,16 +114,16 @@ resource "valtix_gateway" "azure_gw1" {
 }
 ```
 
-For HUB mode Egress/East-West Gateway set the `security_type = EGRESS`
+For HUB mode EGRESS Gateway specify `security_type = EGRESS`
 
-### GCP Gateway (EDGE Mode)
+### GCP Gateway (INGRESS Gateway in EDGE Mode)
 ```hcl
 resource "valtix_gateway" "gcp-gw" {
   name                      = "gcp-gw"
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = "22.06-08"
+  gateway_image             = "22.10-03"
   gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
@@ -148,7 +152,9 @@ resource "valtix_gateway" "gcp-gw" {
 }
 ```
 
-### GCP Gateway (HUB Mode - Service VPC Managed by Valtix)
+For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
+
+### GCP Gateway (EGRESS Gateway in HUB Mode)
 ```hcl
 resource "valtix_gateway" "gcp-gw1" {
   name                      = "gcp-gw"
@@ -170,51 +176,60 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 
 ## Argument Reference
 
-* `name` - (Required) Name of the Valtix Gateway.
-* `description` - (Optional) Description of the Valtix Gateway
-* `csp_account_name` - (Required) The CSP account where the Gateway will be deployed.
-* `instance_type` - (Required) Must be one of:
-    * **GCP_E2_8**
-    * **AWS_M5_2XLARGE**
-    * **AZURE_D8S_V3**
-* `gateway_image` - (Required) Example `22.06-08`. This is the Valtix image version to be deployed for this Gateway. A list of applicable Gateway image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway release or contact Valtix Support.
-* `mode` - (AWS, Azure, GCP - Required) `EDGE` or `HUB`. Look into product documentation for different deployment modes.  This argument is not supported for OCI and must not be used.
-* `security_type` - (Optional) `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`
-* `gateway_state` - (Optional) Specifies the state of the Valtix Gateway.  When set to `ACTIVE`, the Gateway will be active and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
+* `name` - (Required) Name of the Gateway
+* `description` - (Optional) Description of the Gateway
+* `csp_account_name` - (Required) The CSP account where the Gateway will be deployed
+* `instance_type` - (Required) The instance type used when deploying the Gateway.  Applicable CSP-specific values are:
+    * **AWS**
+        * **AWS_M5_2XLARGE** (8 core)
+        * **AWS_M5_XLARGE** (4 core)
+        * **AWS_M5_LARGE** (2 core)
+    * **Azure**
+        * **AZURE_D8S_V3** (8 core)
+        * **AZURE_D4S_V3** (4 core)
+        * **AZURE_D2S_V3** (2 core)
+    * **GCP**
+        * **GCP_E2_8** (8 core)
+        * **GCP_E2_4** (4 core)
+        * **GCP_E2_2** (2 core)
+* `gateway_image` - (Required) Represents the image version to be used for this Gateway. A list of applicable image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway image version or contact [Valtix Support](mailto:support@valtix.com).
+* `mode` - (Required - AWS, Azure, GCP) Applicable values are `EDGE` or `HUB`. Review the Valtix product documentation for information on the different deployment modes.  This argument is not supported for OCI and must not be used.
+* `security_type` - (Optional) Applicable values are `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`.
+* `gateway_state` - (Optional) Specifies the state of the Gateway.  Applicable values are `ACTIVE` and `INACTIVE`.  When set to `ACTIVE`, the Gateway will be enabled and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `wait_for_gateway_state` - (Optional) Determines if Terraform should wait for the Gateway state, defined by the `gateway_state` argument, to be achieved before completing.  Applicable values are `true` and `false`.  If not specified, the default value is `true`.
-* `policy_rule_set_id` - (Required) Rule set id of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
-* `ssh_key_pair` - (AWS - Required) SSH key pair name that's already in your AWS account
-* `ssh_public_key` - (Azure - Required) Contents of SSH public key
-* `gcp_service_account_email` - (GCP - Required) This is the GCP Gateway service account email, that provides permissions for the Valtix Gateway to integrate with other GCP project resources such as Secrets Manager and storage buckets. 
-* `aws_iam_role_firewall` - (AWS - Required) This is the IAM role that's assigned to the Valtix firewall instances.
-* `azure_user_identity_id` - (Azure - Optional) User assigned identity This is the IAM role that's assigned to the Valtix firewall instances.
-* `azure_resource_group` - (Azure - Required) Azure resource group name used for all Valtix Gateway resources
-* `region` - (Required) Region where the Valtix Gateway is deployed.
-* `vpc_id` - (Required) VPC ID where the Valtix Gateway is deployed and is used for data traffic to be inspected. This must be either the VPC where you apps run or the shared services VPC that's peered (or hub via Transit Gateway) to other spoke (app) VPCs.  Please note that for HUB mode, this vpc_id must refer to **id** attribute that is exported using the [valtix_service_vpc](/terraform/valtix_service_vpc/#valtix_service_vpc) resource
-* `aws_gateway_lb` - (AWS - Optional) `true` or `false`. This argument only applies to Gateway deployments in AWS with `mode` set to `HUB` and `security_type` set to `EGRESS`. If the argument is set to `true`, the Gateway will be deployed using an AWS Gateway Load Balancer (GWLB).  If not specified, the default value is `false` and the Gateway will be deployed using an AWS Network Load Balancer, which is a legacy deployment mode prior to AWS offering the GWLB.  (Even though this argument is optional, it is recommended to specify a value explicitly, as the default value may change in the future).
-* `mgmt_vpc_id` - (GCP - Required) GCP VPC ID where the management interface of the Valtix Gateway is attached.
-* `mgmt_security_group` - (Required except for AWS HUB mode) Security group ID for management traffic or GCP network tag to be used to define GCP firewall rules for Valtix firewall instances to communicate with the Valtix controller. This must allow all outbound access from Valtix management interface
-* `datapath_security_group` - (Required except for AWS HUB mode) Security group ID for the datapath traffic (application traffic) or GCP network tag to be used to define GCP firewall rules for application traffic to pass through the Valtix Gateway. This must allow traffic to the ports that are defined as services on the Valtix controller
-* `min_instances` - (Optional) Minimum number of instances per zone (default 1)
-* `max_instances` - (Optional) Maximum number of instances per zone (default 1)
-* `health_check_port` - (Optional) Port number that NLB uses to monitor the instances (default 65534). A rule must be configured on the datapath_security_group to allow traffic to this port.
+* `policy_rule_set_id` - (Required) Rule set ID of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
+* `ssh_key_pair` - (Required - AWS, Azure) Name of the SSH Key Pair created within the AWS Account or Azure Subscription.  The CSP Key Pairs are Regional constructs and must be created in the same Region as specified by the `region` argument where the Gateway will be deployed.
+* `ssh_public_key` - (Required - Azure, GCP) The SSH public key to be assigned to the Gateway instances. Must be *ssh-rsa* only.
+* `gcp_service_account_email` - (Required - GCP) The GCP Service Account Email that defines the permissions for the Gateway to integrate with other GCP Project resources such as Secrets Manager and Storage Buckets. 
+* `aws_iam_role_firewall` - (Required - AWS) The AWS IAM role that defines the permissions for the Gateway to integrate with other AWS Account resources such as Key Pairs, Secrets Manager and Key Management Service (KMS).
+* `azure_user_identity_id` - (Optional - Azure) The Azure User Assigned Identity that defines the permissions for the Gateway to integrate with other Azure Subscription resources such as Key Pairs, Key Vault and Blob Storage.
+* `azure_resource_group` - (Required - Azure) Azure Resource Group name used to associate all created Gateway resources
+* `region` - (Required) Region where the Gateway will be deployed
+* `vpc_id` - (Required) VPC/VNet ID where the Gateway will be deployed.  For HUB mode deployments, the value must refer to the **id** attribute of the [`valtix_service_vpc`](/terraform/valtix_service_vpc/#valtix_service_vpc) resource.
+* `aws_gateway_lb` - (Optional - AWS) `true` or `false`. This argument only applies to Gateway deployments in AWS with `mode` set to `HUB` and `security_type` set to `EGRESS`. If the argument is set to `true`, the Gateway will be deployed using an AWS Gateway Load Balancer (GWLB).  If not specified, the default value is `false` and the Gateway will be deployed using an AWS Network Load Balancer, which is a legacy deployment mode prior to AWS offering the GWLB.  (Even though this argument is optional, it is recommended to specify a value explicitly, as the default value may change in the future).
+* `mgmt_vpc_id` - (Required - GCP) GCP VPC ID where the management interface of the Gateway is attached
+* `mgmt_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the management interface to permit management traffic to egress the Gateway. This must allow all outbound traffic for the Gateway to communicate with the Valtix Controller, Valtix S3 Bucket and for management DNS resolution.
+* `datapath_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the datapath interface to permit datapath traffic to ingress or egress the Gateway. It's recommended to leave this open so that all traffic can be sent and received by the Gateway where the Gateway Policy will control whether traffic is allowed or denied.
+* `min_instances` - (Optional) Minimum number of instances per availability zone.  If not specified, the default value is `1`.
+* `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `1`.
+* `health_check_port` - (Optional) TCP Port number that the Valtix orchestrated load balancers use for health checks to the Gateway instances.  If not specified, the default value is `65534`. A rule must be configured on the `datapath_security_group` to allow traffic to this TCP Port.
 * `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
 * `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
 * `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
-* `settings` - (Optional) Gateway settings. This block can be repeated multiple times. Please check [this section](#gateway-settings) for the structure.
-* `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each instantiated Gateway instance. The key is an unquoted name and the value is a quoted string.  Please check [this section](#gateway-tags) for the structure.  The Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
-* `instance_details` - (Required - EDGE Mode) This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  Look below for the [structure](#instance-details) of this block.  In EDGE mode, at least 1 block must be provided.
-* `gateway_lb_integration` - (AWS - Optional) This block is required when integrating the Valtix Gateway with the AWS Global Accelerator. The block can be repeated multiple times for integrating with multiple Global Accelerators. See below for the [structure](#global-accelerator) of this block.
+* `settings` - (Optional) Gateway Settings block. This block can be repeated multiple times. See [Gateway Settings](#gateway-settings) for the block structure.
+* `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each Gateway instance. The key is an unquoted name and the value is a quoted string.  See [Gateway Tags](#gateway-tags) for the block structure.  The Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
+* `instance_details` - (Required - EDGE Mode) Gateway Instance Details.  This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  See [Instance Details](#instance-details) for the block structure.  In EDGE mode, at least 1 block must be provided.
+* `gateway_lb_integration` - (Optional - AWS) AWS Global Accelerator integration.  This block is used when integrating the Gateway with the AWS Global Accelerator. The block can be repeated multiple times for integrating with multiple Global Accelerators. See [Global Accelerator](#global-accelerator) for the block structure.
 
 ## Instance Details
 This section is not required for AWS/Azure HUB mode as instance details are obtained from service VPC referenced in vpc_id attribute
 
-* `availability_zone` - (Required) Specifies the availability zone where the Valtix Gateway instance(s) are deployed
-* `mgmt_subnet` - (Required) Specifies the VPC subnet ID used for management traffic where the Valtix Gateway instance(s) are deployed for this availability zone.
-* `datapath_subnet` - (Required) Specifies the VPC subnet ID used for data traffic where the Valtix Gateway instance(s) are deployed for this availability zone.
+* `availability_zone` - (Required) Specifies the Availability Zone where the Gateway instance will be deployed
+* `mgmt_subnet` - (Required) Specifies the VPC/VNet Subnet ID used to deploy the Gateway management interface within the specified Availability Zone
+* `datapath_subnet` - (Required) Specifies the VPC/VNet Subnet ID used to deploy the Gateway datapath interface within the specified Availability Zone
 
 ## Global Accelerator
-This section is only required for AWS/Global Accelerator integration in ingress protection mode
+This section is used for AWS Global Accelerator integration. Applies only to an Ingress Gateway deployed in AWS.
 
 * `type` - (Required) Set to `AWS_GLOBAL_ACCELERATOR`
 * `name` - (Optional) The Valtix name of the Global Accelerator
@@ -236,7 +251,7 @@ gateway_lb_integration {
 ```
 
 ## Gateway Settings
-Gateway settings define a list of settings that applies to the given Gateway
+Gateway settings define a list of additional settings to apply to the Gateway
 
 ### To enable EBS encryption for the Gateway instances using default KMS key
 ```hcl
@@ -284,9 +299,9 @@ settings {
 }
 ```
 ~> **Note on DNS Server IP Address setting**
-The DNS Server IP address setting only applies to Gateways deployed in Azure.  It is a user-specified override for the Valtix Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
+The DNS Server IP address setting only applies to Gateways deployed in Azure.  It is a user-specified override for the Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
 
-### To deploy the AWS Gateway instances into private subnets with no public IPs assigned to the interfaces
+### To deploy Gateway instances into private subnets with no public IPs assigned to the interfaces
 ```hcl
 settings {
   name = "controller.gateway.assign_public_ip"
@@ -295,7 +310,7 @@ settings {
 ```
 
 ~> **Note on Assign Public IP setting**
-The Assign Public IP setting only applies to Gateways deployed in AWS using Edge Mode deployment.  Gateways in AWS deployed using Hub Mode deployment are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway.
+The Assign Public IP setting applies to Gateways deployed in Edge Mode for AWS, Azure and GCP.  Gateways in AWS deployed in Hub Mode are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway. For Hub mode deployment in Azure and GCP, the VNet or VPC is orchestrate without the use of a Virtual NAT or Cloud NAT, and thus the Gateways are deployed as public.
 
 ### To change the AWS GWLB Acceptance Required
 ```hcl
