@@ -34,4 +34,5 @@ resource "valtix_profile_malicious_ip" "mips_manual" {
 * `match_xff` - (Optional) `true` or `false`.  Defines whether the IP information available in the X-Forwarded-For HTTP request header should be evaluated. When not specified, the default value is `false`. (Even though this argument is optional, it is recommended to specify a value explicitly, as the default value may change in the future).
 
 ## Attribute Reference
-* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the Malicious IP Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `profile_id` - (Deprecated) Same as the `id` attribute

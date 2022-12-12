@@ -1,7 +1,6 @@
 # Overview
 
-Valtix provider is used to interact with Valtix resources like address objects,
-service objects, gateways using Terraform.
+Valtix provider is used to interact with Valtix resources like Address Objects, Service Objects, Gateways using Terraform.
 
 Use the navigation on the left to read about each of the available resources.
 
@@ -28,7 +27,7 @@ terraform {
   required_providers {
     valtix = {
       source = "valtix-security/valtix"
-      # version = "22.8.1"
+      # version = "22.10.1"
     }
   }
 }

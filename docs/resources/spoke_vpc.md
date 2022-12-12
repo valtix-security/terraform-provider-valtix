@@ -53,9 +53,11 @@ resource "valtix_spoke_vpc" "valtix_spoke" {
 ```
 
 ## Argument Reference
-
 * `service_vpc_id` - (Required) Service VPC/VNet ID
 * `spoke_vpc_id` - (Required) Spoke VPC/VNet ID
 * `spoke_vpc_csp_account_name` - (Optional - AWS, GCP) Valtix CSP Account Name where the Spoke VPC resides (if different from the Valtix CSP Account Name in which the Service VPC resides)
 * `spoke_vpc_region` - (Optional - AWS) Region where the spoke vpc exists (if different from the CSP account name in which Service VPC is created)
-* `transit_gateway_attachment_subnets` - (Optional - AWS) List of Subnet Ids used to attach to the Transit Gateway. By default, a random subnet in each availability zone is selected 
+* `transit_gateway_attachment_subnets` - (Optional - AWS) List of Subnet Ids used to attach to the Transit Gateway. By default, a random subnet in each availability zone is selected
+
+## Attribute Reference
+* `id` - ID of the Spoke VPC resource

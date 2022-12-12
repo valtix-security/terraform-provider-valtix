@@ -5,7 +5,7 @@ Resource for creating and managing Certificates used in Decryption Profiles
 
 ### Import a certificate and key that's on your local file system
 ```hcl
-resource "valtix_certificate" "import_certificate {
+resource "valtix_certificate" "import_certificate" {
   name              = "import_certificate"
   certificate_type  = "IMPORT_CONTENTS"
   certificate_body  = file("cert.pem")
@@ -95,4 +95,4 @@ resource "valtix_certificate" "gcp_certificate_secret" {
 * `secret_version` - (Optional) GCP Secrets Manager key version
 
 ## Attribute Reference
-* `name` - Name of the certificate that can be referenced in other resources (e.g. valtix_profile_decryption)
+* `id` - ID of the Certificate resource that can be referenced in other resources (e.g. valtix_profile_decryption)

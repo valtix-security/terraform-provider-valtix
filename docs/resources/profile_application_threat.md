@@ -1,5 +1,5 @@
 # Resource: valtix_profile_application_threat
-Resource for creating and managing a Web Application Firewall (WAF) Profile
+Resource for creating and managing a Application Threat (WAF) Profile
 
 ## Example Usage
 
@@ -7,7 +7,7 @@ Resource for creating and managing a Web Application Firewall (WAF) Profile
 ```hcl
 resource "valtix_profile_application_threat" "waf_auto" {
   name           = "waf_auto"
-  description    = "waf basic rules"
+  description    = "WAF basic (CRS) rules"
   paranoia_level = 1
   request_inspection_profile = [
     "Request - Protocol Enforcement"
@@ -22,7 +22,7 @@ resource "valtix_profile_application_threat" "waf_auto" {
 ```hcl
 resource "valtix_profile_application_threat" "waf_manual" {
   name                      = "waf_manual"
-  description               = "waf profile 1"
+  description               = "WAF Profile 1"
   crs_ruleset_version       = "3.0.2-01272021"
   trustwave_ruleset_version = "3.0.2-01272021"
   paranoia_level            = 3
@@ -102,4 +102,5 @@ resource "valtix_profile_application_threat" "waf_manual" {
 * `time` - (Optional) Used when the `type` is set to `RATE` where the number of times the attack must match a Rule ID within a specified time period (in seconds) before the action is applied.
 
 ## Attribute Reference
-* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the Application Threat (WAF) Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `profile_id` - (Deprecated) Same as the `id` attribute

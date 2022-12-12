@@ -7,9 +7,9 @@ A Valtix Service VPC/VNet resource is used in AWS, Azure and GCP deployments to 
 
 ### AWS Service VPC
 ```hcl
-resource "valtix_service_vpc" "service_vpc" {
-  name               = "service-vpc"
-  csp_account_name   = "aws-account-1"
+resource "valtix_service_vpc" "aws_service_vpc" {
+  name               = "aws-service-vpc"
+  csp_account_name   = "aws-account1"
   region             = "us-east-1"
   cidr               = "10.0.0.0/23"
   availability_zones = ["us-east-1a", "us-east-1b"]
@@ -24,9 +24,9 @@ If these values are not set properly, traffic will bypass the Service VPC and wi
 
 ### Azure Service VNet
 ```hcl
-resource "valtix_service_vpc" "service_vpc" {
-  name                 = "service-vpc"
-  csp_account_name     = "azure-account-1"
+resource "valtix_service_vpc" "azure_service_vnet" {
+  name                 = "azure-service-vnet"
+  csp_account_name     = "azure-account1"
   region               = "eastus"
   cidr                 = "10.0.0.0/23"
   availability_zones   = ["1", "2"]
@@ -36,9 +36,9 @@ resource "valtix_service_vpc" "service_vpc" {
 
 ### GCP Service VPC
 ```hcl
-resource "valtix_service_vpc" "service_vpc" {
-  name               = "service-vpc"
-  csp_account_name   = "gcp-account-1"
+resource "valtix_service_vpc" "gcp_service_vpc" {
+  name               = "gcp-service-vpc"
+  csp_account_name   = "gcp-account1"
   region             = "us-east1"
   cidr               = "10.0.0.0/24"
   management_cidr    = "10.0.1.0/24"
@@ -58,6 +58,6 @@ resource "valtix_service_vpc" "service_vpc" {
 * `use_nat_gateway` - (Optional for AWS) `true` or `false`. If `true`, enables egress communication through NAT gateway in each AZ (Default `false`).
 
 ## Attribute Reference
-* `id` - Terraform resource ID of the Services VPC/VNet
+* `id` - ID of the Services VPC/VNet resource that can be referenced in other resources (e.g., *valtix_gateway*)
 * `vpc_id` - Cloud specific ID of the Services VPC/VNet
-* `service_vpc_id` - Same as `id` (for backward compatibility)
+* `service_vpc_id` - (Deprecated) Same as the `id` attribute

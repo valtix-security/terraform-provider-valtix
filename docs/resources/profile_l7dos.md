@@ -1,5 +1,5 @@
 # valtix_profile_l7dos
-Resource for creating and managing an L7DoS Profile
+Resource for creating and managing an L7 DOS (L7DOS) Profile
 
 ## Example Usage
 ```hcl
@@ -27,4 +27,5 @@ resource "valtix_profile_l7dos" "l7dos1" {
 * `rate_limited_methods` - (Required) HTTP actions/methods to which the rate limiting is applied. Valid values are `METHOD_GET`, `METHOD_POST`, `METHOD_PUT`, `METHOD_DELETE`, `METHOD_PATCH`, `METHOD_HEAD`, `METHOD_OPTIONS`
 
 ## Attribute Reference
-* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the L7DOS Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `profile_id` - (Deprecated) Same as the `id` attribute

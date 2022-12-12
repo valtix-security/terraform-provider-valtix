@@ -35,4 +35,5 @@ resource "valtix_profile_packet_capture" "azurediag1" {
 * `azure_storage_access_key` - (Optional - Azure) Storage account access key, if required
 
 ## Attribute Reference
-* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_gateway*)
+* `id` - ID of the Diagnostic Profile resource that can be referenced in other resources (e.g., *valtix_gateway*)
+* `profile_id` - (Deprecated) Same as the `id` attribute

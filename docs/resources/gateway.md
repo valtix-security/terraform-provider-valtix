@@ -18,7 +18,7 @@ resource "valtix_gateway" "aws-gw1" {
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
-  policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
+  policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.id
   ssh_key_pair            = "ssh_keypair1"
   aws_iam_role_firewall   = "iam_role_name_for_firewall"
   region                  = "us-east-1"
@@ -51,11 +51,13 @@ resource "valtix_gateway" "aws-hub-gw1" {
   gateway_state          = "ACTIVE"
   mode                   = "HUB"
   security_type          = "EGRESS"
-  policy_rule_set_id     = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  policy_rule_set_id     = valtix_policy_rule_set.egress_policy_rule_set.id
   ssh_key_pair           = "ssh_keypair1"
   aws_iam_role_firewall  = "iam_role_name_for_firewall"
   region                 = "us-east-1"
   vpc_id                 = valtix_service_vpc.service_vpc.id
+  log_profile            = valtix_profile_log_forwarding.datadog.id
+  packet_capture_profile = valtix_profile_packet_capture.awspcap1.id
   aws_gateway_lb         = true
 }
 ```
@@ -75,7 +77,7 @@ resource "valtix_gateway" azure_gw1 {
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
   azure_user_name         = "centos"
-  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.id
   region                  = var.region
   vpc_id                  = "/subscriptions/12345/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1"
   mgmt_security_group     = "/subscriptions/12345/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/mgmt-sg1"
@@ -108,9 +110,9 @@ resource "valtix_gateway" "azure_gw1" {
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
   azure_user_name         = "centos"
-  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.id
   region                  = var.region
-  vpc_id                  = valtix_service_vpc.svpc1.vpc_id
+  vpc_id                  = valtix_service_vpc.svpc1.id
 }
 ```
 
@@ -127,7 +129,7 @@ resource "valtix_gateway" "gcp-gw" {
   gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
-  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
+  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-west1"
   vpc_id                    = "https://www.googleapis.com/compute/v1/projects/gcp-project/global/networks/datapath-vpc"
@@ -136,7 +138,7 @@ resource "valtix_gateway" "gcp-gw" {
   # mgmt_vpc_id             = data.google_compute_network.mgmt_vpc.self_link
   mgmt_security_group       = "valtix-mgmt"
   datapath_security_group   = "valtix-datapath"
-  log_profile               = valtix_profile_log_forwarding.splunk1.profile_id
+  log_profile               = valtix_profile_log_forwarding.splunk.id
   instance_details {
     availability_zone = "us-west1-a"
     mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
@@ -165,7 +167,7 @@ resource "valtix_gateway" "gcp-gw1" {
   gateway_state             = "ACTIVE"
   mode                      = "HUB"
   security_type             = "EGRESS"
-  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
+  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-east1"
   vpc_id                    = valtix_service_vpc.service_vpc.id
@@ -181,17 +183,24 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `csp_account_name` - (Required) The CSP account where the Gateway will be deployed
 * `instance_type` - (Required) The instance type used when deploying the Gateway.  Applicable CSP-specific values are:
     * **AWS**
-        * **AWS_M5_2XLARGE** (8 core)
-        * **AWS_M5_XLARGE** (4 core)
-        * **AWS_M5_LARGE** (2 core)
+        * **M5**
+            * **AWS_M5_2XLARGE** (8 core)
+            * **AWS_M5_XLARGE** (4 core)
+            * **AWS_M5_LARGE** (2 core)
     * **Azure**
-        * **AZURE_D8S_V3** (8 core)
-        * **AZURE_D4S_V3** (4 core)
-        * **AZURE_D2S_V3** (2 core)
+        * **DS_V3**
+            * **AZURE_D8S_V3** (8 core)
+            * **AZURE_D4S_V3** (4 core)
+            * **AZURE_D2S_V3** (2 core)
+        * **DS_V5**
+            * **AZURE_D8S_V5** (8 core)
+            * **AZURE_D4S_V5** (4 core)
+            * **AZURE_D2S_V5** (2 core)
     * **GCP**
-        * **GCP_E2_8** (8 core)
-        * **GCP_E2_4** (4 core)
-        * **GCP_E2_2** (2 core)
+        * **E2**
+            * **GCP_E2_8** (8 core)
+            * **GCP_E2_4** (4 core)
+            * **GCP_E2_2** (2 core)
 * `gateway_image` - (Required) Represents the image version to be used for this Gateway. A list of applicable image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway image version or contact [Valtix Support](mailto:support@valtix.com).
 * `mode` - (Required - AWS, Azure, GCP) Applicable values are `EDGE` or `HUB`. Review the Valtix product documentation for information on the different deployment modes.  This argument is not supported for OCI and must not be used.
 * `security_type` - (Optional) Applicable values are `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`.
@@ -211,7 +220,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `mgmt_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the management interface to permit management traffic to egress the Gateway. This must allow all outbound traffic for the Gateway to communicate with the Valtix Controller, Valtix S3 Bucket and for management DNS resolution.
 * `datapath_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the datapath interface to permit datapath traffic to ingress or egress the Gateway. It's recommended to leave this open so that all traffic can be sent and received by the Gateway where the Gateway Policy will control whether traffic is allowed or denied.
 * `min_instances` - (Optional) Minimum number of instances per availability zone.  If not specified, the default value is `1`.
-* `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `1`.
+* `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `3`.
 * `health_check_port` - (Optional) TCP Port number that the Valtix orchestrated load balancers use for health checks to the Gateway instances.  If not specified, the default value is `65534`. A rule must be configured on the `datapath_security_group` to allow traffic to this TCP Port.
 * `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
 * `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
@@ -335,6 +344,7 @@ tags = {
 ```
 
 ## Attribute Reference
+* `id` - ID of the Gateway resource
 * `gateway_gwlb_endpoints` - (AWS only) AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
 
     ```hcl

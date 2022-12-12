@@ -9,7 +9,7 @@ If multiple applications are accessed using the same port (e.g., port 443), then
 ### ReverseProxy Examples
 #### Listen on TCP/80 and proxy to HTTP/80 to the backend
 ```hcl
-resource "valtix_service_object" "app1-svc-http" {
+resource "valtix_service_object" "app1_svc_http" {
   name           = "app1-svc-http"
   description    = "app1 service: listen on TCP/80 and proxy to HTTP/80"
   service_type   = "ReverseProxy"
@@ -19,13 +19,13 @@ resource "valtix_service_object" "app1-svc-http" {
     destination_ports = "80"
     backend_ports     = "80"
   }
-  backend_address_group = valtix_address_object.app1-ag.address_id
+  backend_address_group = valtix_address_object.app1_ag.id
 }
 ```
 
 #### Listen on TCP/443 TLS and proxy to HTTPS/443 to the backend
 ```hcl
-resource "valtix_service_object" "app1-svc-https" {
+resource "valtix_service_object" "app1_svc_https" {
   name           = "app1-svc-https"
   description    = "app1 service: listen on TCP/443 and proxy to HTTPS/443"
   service_type   = "ReverseProxy"
@@ -35,15 +35,15 @@ resource "valtix_service_object" "app1-svc-https" {
     destination_ports = "443"
     backend_ports     = "443"
   }
-  backend_address_group = valtix_address_object.app1-ag.address_id
-  tls_profile           = valtix_profile_decryption.decryption_profile_1.profile_id
+  backend_address_group = valtix_address_object.app1_ag.id
+  tls_profile           = valtix_profile_decryption.decryption_profile_1.id
 }
 ```
 
 #### Listen on TCP/443 TLS with an SNI and proxy to HTTPS/443 on the backend
 ```hcl
 # Target to Address Object 1 using a list of SNIs
-resource "valtix_service_object" "app1-svc-https" {
+resource "valtix_service_object" "app1_svc_https" {
   name           = "app1-svc-https"
   description    = "app1 service: listen on TCP/443 and proxy to HTTPS/443"
   service_type   = "ReverseProxy"
@@ -54,12 +54,12 @@ resource "valtix_service_object" "app1-svc-https" {
     backend_ports     = "443"
   }
   sni                   = ["www.app1.com", "subdomain1.app1.com"]
-  backend_address_group = valtix_address_object.app1-ag.address_id
-  tls_profile           = valtix_profile_decryption.decryption_profile_1.profile_id
+  backend_address_group = valtix_address_object.app1_ag.id
+  tls_profile           = valtix_profile_decryption.decryption_profile_1.id
 }
 
 # Target to Address Object 2 with a different list of SNIs
-resource "valtix_service_object" "app2-svc-https" {
+resource "valtix_service_object" "app2_svc_https" {
   name           = "app1-svc-https"
   description    = "app1 service: listen on TCP/443 and target to HTTPS/443"
   service_type   = "ReverseProxy"
@@ -70,15 +70,15 @@ resource "valtix_service_object" "app2-svc-https" {
     backend_ports     = "443"
   }
   sni                   = ["www.app2.com", "subdomain1.app2.com"]
-  backend_address_group = valtix_address_object.app2-ag.address_id
-  tls_profile           = valtix_profile_decryption.decryption_profile_2.profile_id
+  backend_address_group = valtix_address_object.app2_ag.id
+  tls_profile           = valtix_profile_decryption.decryption_profile_2.id
 }
 ```
 For a complete set of arguments, see [ReverseProxy Arguments](#reverseproxy-arguments)
 
 ### ForwardProxy Examples
 ```hcl
-resource "valtix_service_object" "internet-http" {
+resource "valtix_service_object" "internet_http" {
   name           = "internet-port-80"
   description    = "allow port 80 to Internet"
   service_type   = "ForwardProxy"
@@ -88,7 +88,7 @@ resource "valtix_service_object" "internet-http" {
   }
 }
 
-resource "valtix_service_object" "internet-https" {
+resource "valtix_service_object" "internet_https" {
   name           = "internet-port-443"
   description    = "allow port 443 to Internet"
   service_type   = "ForwardProxy"
@@ -96,7 +96,7 @@ resource "valtix_service_object" "internet-https" {
   port {
     destination_ports = "443"
   }
-  tls_profile = valtix_profile_decryption.decryption_profile_2.profile_id
+  tls_profile = valtix_profile_decryption.decryption_profile1.id
 }
 ```
 
@@ -104,7 +104,7 @@ For a complete set of arguments, see [ForwardProxy Arguments](#forwardproxy-argu
 
 ### Forwarding Example
 ```hcl
-resource "valtix_service_object" "forward-https" {
+resource "valtix_service_object" "forward_https" {
   name         = "forward-https"
   service_type = "Forwarding"
   port {
@@ -117,16 +117,16 @@ resource "valtix_service_object" "forward-https" {
 For a complete set of arguments, see [Forwarding Arguments](#forwarding-arguments)
 
 ## ReverseProxy Arguments
-* `name` - (Required) Name of the service object
-* `description` - (Optional) Description of the service object
+* `name` - (Required) Name of the Service Object
+* `description` - (Optional) Description of the Service Object
 * `service_type` - (Required) `ReverseProxy`
 * `protocol` - (Optional) `TCP` or `UDP`. `TCP` is default. This is the listener protocol.
 * `transport_mode` - (Required) If tls_profile is specified, then the valid values are `HTTPS`, `TLS`, `WEBSOCKET_S`. If tls_profile is not specified, then valid values are `HTTP`, `TCP`, `WEBSOCKET`. The protocol used by the Gateway to communicate with the backend application defined using a Reverse Proxy Target Address Object (`backend_address_group`)
 * `port` - (Required) This can be specified multiple times if the service runs on multiple ports. Structure is [documented below](#reverseproxy-port).
 * `sni` - (Optional) List of FQDN strings that are evaluated by the Gateway to determine a Rule match.  The match will issue the corresponding Certificate defined by the `tls_profile` and establish a backend connection to the application defined by the `backend_address_group`. This argument is used to distinguish multiple TLS applications that use the same port.
-* `tls_profile` - (Optional) Decryption profile ID
-* `l7dos_profile` - (Optional) L7 DOS profile ID
-* `client_tls_profile` - (Optional) Decryption profile ID. This profile is used to authenticate client certificate in TLS handshake
+* `tls_profile` - (Optional) Decryption Profile ID
+* `l7dos_profile` - (Optional) L7 DOS Profile ID
+* `client_tls_profile` - (Optional) Decryption Profile ID. This Profile is used to authenticate client certificate in TLS handshake
 
 ### ReverseProxy Port Arguments
 This block can be specified multiple times to define a list of one or more listener ports.
@@ -174,4 +174,5 @@ port {
 <br><br>For an example, see [Forwarding Example](#forwarding-example)
 
 ## Attribute Reference
-* `service_id` - ID of the Service Object that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the Service Object resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `service_id` - (Deprecated) Same as the `id` attribute

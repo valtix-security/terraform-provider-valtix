@@ -94,3 +94,6 @@ resource "valtix_cloud_account" "aws1" {
 ## Inventory Monitoring
 * `regions` - List of regions to enable and monitor inventory
 * `refresh_interval` - Interval in minutes where the inventory is refreshed
+
+## Attribute Reference
+* `id` - ID of the Cloud Account resource that can be referenced in other resources
