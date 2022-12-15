@@ -69,12 +69,11 @@ resource "valtix_profile_log_forwarding" "s3bucket" {
 ### MS Sentinel
 ```hcl
 resource "valtix_profile_log_forwarding" "mssentinel" {
-  name        = "mssentinel"
-  destination = "MS_SENTINEL"
-  log_analytics_log_type = "mssentinel_CL"
+  name                       = "mssentinel"
+  destination                = "MS_SENTINEL"
+  log_analytics_log_type     = "mssentinel_CL"
   log_analytics_workspace_id = "bbb7ee6f-6cd4-43e4-a2ab-e32fb70e401f"
-  auth_token  = "<auth token>"
-
+  integration_key            = "<shared-key/primary-key>"
 }
 ```
 
