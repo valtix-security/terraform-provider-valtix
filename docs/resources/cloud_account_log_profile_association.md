@@ -9,7 +9,7 @@ resources must be created before the `valtix_cloud_account_log_profile_associati
 ```hcl
 resource "valtix_cloud_account_log_profile_association" "csp_log_association" {
   csp_account_name = valtix_cloud_account.aws_account1.name
-  log_profile_id   = valtix_profile_log_forwarding.s3bucket.profile_id
+  log_profile_id   = valtix_profile_log_forwarding.s3bucket.id
 }
 ```
 
