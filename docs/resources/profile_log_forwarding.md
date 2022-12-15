@@ -71,8 +71,10 @@ resource "valtix_profile_log_forwarding" "s3bucket" {
 resource "valtix_profile_log_forwarding" "mssentinel" {
   name        = "mssentinel"
   destination = "MS_SENTINEL"
-  endpoint    = "https://http-intake.logs.datadoghq.com/"
+  log_analytics_log_type = "mssentinel_CL"
+  log_analytics_workspace_id = "bbb7ee6f-6cd4-43e4-a2ab-e32fb70e401f"
   auth_token  = "<auth token>"
+
 }
 ```
 
@@ -125,12 +127,13 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 * `endpoint` - (Required) Collector endpoint URL
 
 ### AWS S3 Bucket
-* `csp_account_name` - (Required) The friendly name of the onboarded AWS account where the S3 Bucket resides
-* `bucket_name` - (Required) The globally unique name of the S3 Bucket
+* `csp_account_name` - (Required) Friendly name of the onboarded AWS account where the S3 Bucket resides
+* `bucket_name` - (Required) Globally unique name of the S3 Bucket
 
 ### MS Sentinel
-* `endpoint` - (Required) HTTPS endpoint URL
-* `auth_token` - (Required) HTTPS auth token
+* `log_analytics_log_type` - (Required) Name of the MS Sentinel table used to store the logs 
+* `log_analytics_workspace_id ` - (Required) ID of the MS Sentinel workspace
+* `integration_key` - (Required) Shared key / primary key used to authenticate with MS Sentinel
 
 ## Attribute Reference
 * `id` - ID of the Log Forwarding Profile resource that can be referenced in other resources (e.g., *valtix_gateway*)
