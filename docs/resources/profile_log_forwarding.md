@@ -71,9 +71,9 @@ resource "valtix_profile_log_forwarding" "s3bucket" {
 resource "valtix_profile_log_forwarding" "mssentinel" {
   name                       = "mssentinel"
   destination                = "MS_SENTINEL"
-  log_analytics_log_type     = "mssentinel_CL"
+  log_analytics_log_type     = "mssentinel-valtix-logging"
   log_analytics_workspace_id = "bbb7ee6f-6cd4-43e4-a2ab-e32fb70e401f"
-  integration_key            = "<shared-key/primary-key>"
+  auth_token                 = "<shared-key/primary-key>"
 }
 ```
 
@@ -120,7 +120,7 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 * `auth_token` - (Required) HTTPS auth token
 
 ### GCP Logging
-* `log_name` - [Optional] GCP Logging name where the logs will be stored. If not specified, the default name is `valtix-gateway-logs`.
+* `log_name` - (Optional) GCP Logging name where the logs will be stored. If not specified, the default name is `valtix-gateway-logs`.
 
 ### Sumo Logic
 * `endpoint` - (Required) Collector endpoint URL
@@ -132,7 +132,7 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 ### MS Sentinel
 * `log_analytics_log_type` - (Required) Name of the MS Sentinel table used to store the logs 
 * `log_analytics_workspace_id ` - (Required) ID of the MS Sentinel workspace
-* `integration_key` - (Required) Shared key / primary key used to authenticate with MS Sentinel
+* `auth_token` - (Required) Shared key / primary key used to authenticate with MS Sentinel
 
 ## Attribute Reference
 * `id` - ID of the Log Forwarding Profile resource that can be referenced in other resources (e.g., *valtix_gateway*)
