@@ -1,5 +1,5 @@
-# Resource: valtix_profile_anti_virus
-(Deprecated) Resource for creating and managing an Anti Virus Profile
+# Resource: valtix_profile_anti_virus (deprecated)
+Resource for creating and managing an Anti Virus (AV) Profile (DEPRECATED).  This resource will remain available for two release cycles at which point it will be removed.  The Anti Malware (AM) Profile resource (`valtix_profile_anti_malware`) should be used in its place.
 
 ## Example Usage
 
