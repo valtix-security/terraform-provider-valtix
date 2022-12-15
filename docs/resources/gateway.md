@@ -209,6 +209,8 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `policy_rule_set_id` - (Required) Rule set ID of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.id)*
 * `ssh_key_pair` - (Required - AWS, Azure) Name of the SSH Key Pair created within the AWS Account or Azure Subscription.  The CSP Key Pairs are Regional constructs and must be created in the same Region as specified by the `region` argument where the Gateway will be deployed.
 * `ssh_public_key` - (Required - Azure, GCP) The SSH public key to be assigned to the Gateway instances. Must be *ssh-rsa* only.
+* `azure_user_name` - (Optional - Azure) Name to use as the user when SSH to a Azure Gateway instance.  When not specified, `centos` is used.
+* `gcp_user_name` - (Optional - GCP) Name to use as the user when SSH to a GCP Gateway instance.  When not specified, `centos` is used.
 * `gcp_service_account_email` - (Required - GCP) The GCP Service Account Email that defines the permissions for the Gateway to integrate with other GCP Project resources such as Secrets Manager and Storage Buckets. 
 * `aws_iam_role_firewall` - (Required - AWS) The AWS IAM role that defines the permissions for the Gateway to integrate with other AWS Account resources such as Key Pairs, Secrets Manager and Key Management Service (KMS).
 * `azure_user_identity_id` - (Optional - Azure) The Azure User Assigned Identity that defines the permissions for the Gateway to integrate with other Azure Subscription resources such as Key Pairs, Key Vault and Blob Storage.
@@ -279,6 +281,11 @@ settings {
   name  = "gateway.aws.ebs.encryption.key.customer_key"
   value = "<KMS key ID>"
 }
+
+settings {
+  name  = "gateway.aws.ebs.encryption.key.customer_key"
+  value = "arn:aws:kms:us-east-1:1112223333:key/67b90d29-5083-4166-a111-bfc810340f7d"
+}
 ```
 
 ### To enable Disk Encryption for the Gateway instances using specified KMS key (Azure)
@@ -287,6 +294,11 @@ settings {
   name  = "gateway.azure.disk.encryption.key.customer_key"
   value = "<Disk Encryption Set Path>"
 }
+
+settings {
+  name  = "gateway.azure.disk.encryption.key.customer_key"
+  value = "/subscriptions/1111111-33f9-4f5c-86e4-222222222/resourceGroups/valtix-rg/providers/Microsoft.Compute/diskEncryptionSets/valtixDiskEncryptionSet"
+}
 ```
 
 ### To enable Disk Encryption for the Gateway instances using specified KMS key (GCP)
@@ -294,6 +306,11 @@ settings {
 settings {
   name  = "gateway.gcp.disk.encryption.key.customer_key"
   value = "<Crypto Key Path>"
+}
+
+settings {
+  name  = "gateway.gcp.disk.encryption.key.customer_key"
+  value = "projects/security-icon-111111/locations/us-east1/keyRings/valtix-disk-encryption/cryptoKeys/key1"
 }
 ```
 
