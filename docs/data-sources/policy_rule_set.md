@@ -4,7 +4,7 @@ Data source for obtaining attributes of a Policy Ruleset resource.  A Policy Rul
 ## Example Usage
 ```hcl
 data "valtix_gateway" "aws_egress_gw" {
-  name = "hardik-tf-aws-egress-gw"
+  name = "AWS-Egress-Gateway"
 }
 
 resource "valtix_gateway" "aws-gw1" {

@@ -30,7 +30,7 @@ resource "valtix_gateway" "aws-hub-gw1" {
 ```
 
 ## Argument Reference
-* `csp_account_name` - (Required) Name of the on-boarded CSP Account where the Service VPC/VNet resource exists
+* `csp_account_name` - (Required) Name of the onboarded CSP Account where the Service VPC/VNet resource exists
 * `region` - (Required) Region where the Service VPC/VNet resource exists
 * `vpc_id` - (Required) VPC/VNet ID of the Service VPC/VNet resource
 
