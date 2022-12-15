@@ -1,5 +1,5 @@
 # Resource: valtix_profile_application_threat
-Resource for creating and managing a Web Application Firewall (WAF) Profile
+Resource for creating and managing a Application Threat (WAF) Profile
 
 ## Example Usage
 
@@ -92,9 +92,11 @@ resource "valtix_profile_application_threat" "waf_auto_advanced" {
 * `auto_update_trustwave` - (Optional) Auto update the Trustwave Ruleset version with a delay specified by `delay_by_days_trustwave` argument. Applicable values are `true` or `false`.  If not specified, the default value is `true`.
 * `delay_by_days_trustwave` - (Optional) Number of days to delay updating the Trustwave Ruleset version after it has been published by Valtix. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `0` (immediately). New Rulesets as published as soon as updates are available from the Vendor and validation testing is completed by Valtix.
 * `trustwave_ruleset_version` - (Optional) Trustwave Ruleset version. Applicable values can be found from within the UI. The Rulesets are published frequently. Unless a specific version is desired, Valtix recommends using Auto Update as described above. If this argument is specified, Auto Update of Trustwave Ruleset is disabled and the Profile will use the specified Trustwave Ruleset version.
+* `disable_trustwave_ruleset` - (Optional) Specifies whether the Trustwave Ruleset is enabled or disabled.  Valid values are `true` or `false`.  Default (if not specified) is `false`.  If disabled, the Trustwave Ruleset auto-update will not occur.  At least one Ruleset must be enabled (Trustwave or Custom). Both cannot be disabled at the same time.  The CRS Ruleset cannot be disabled.
 * `auto_update_custom` - (Optional) Auto Update of the Custom Ruleset version with a delay specified by `delay_by_days_crs` argument. Applicable values are `true` or `false`.  If not specified, the default value is `false`.
 * `delay_by_days_custom` - (Optional) Number of days to delay updating the Custom Ruleset version after it has been imported by the user. Applicable values are integers from `0` to `30`.  A value of `0` means immediate update (0 days). The default value is `0` (immediately).
 * `custom_ruleset_version` - (Optional) Custom Ruleset version. Applicable values can be found from within the UI as specified by the user when defining and importing the Custom Rulesets. Unless a specific version is desired, Valtix recommends using Auto Update. If this argument is specified, Auto Update of Custom Ruleset is disabled and the Profile will use the specified Custom Ruleset version.
+* `disable_custom_ruleset` - (Optional) Specifies whether the Custom Ruleset is enabled or disabled.  Valid values are `true` or `false`.  Default (if not specified) is `false`.  If disabled, the Custom Ruleset auto-update will not occur.  At least one Ruleset must be enabled (Trustwave or Custom). Both cannot be disabled at the same time.  The CRS Ruleset cannot be disabled.
 * `paranoia_level` - (Required) An integer between `1` and `4`. Higher number leads to more false positives, but also helps in detecting more attacks. Recommended value is `1`.
 * `request_anamoly` - (Optional) Request anomaly score used in the Mod Security anomaly scoring system. If not specified, the efault value is `3`.
 * `response_anamoly` - (Optional) Response anomaly score used in the Mod Security anomaly scoring system. If not specified, the default value is `3`.
@@ -125,4 +127,5 @@ resource "valtix_profile_application_threat" "waf_auto_advanced" {
 * `time` - (Optional) Used when the `type` is set to `RATE` where the number of times the attack must match a Rule ID within a specified time period (in seconds) before the action is applied.
 
 ## Attribute Reference
-* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the Application Threat (WAF) Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `profile_id` - (Deprecated) Same as the `id` attribute

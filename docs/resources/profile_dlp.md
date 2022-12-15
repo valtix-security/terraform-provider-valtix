@@ -5,7 +5,7 @@ Resource for creating and managing a Data Loss Prevention (DLP) Profile
 ```hcl
 resource "valtix_profile_dlp" "dlp1" {
   name        = "dlp1"
-  description = "dlp1 description"
+  description = "DLP1 description"
   dlp_filter_list {
     description = "Routing Numbers"
     patterns = [
@@ -33,4 +33,5 @@ resource "valtix_profile_dlp" "dlp1" {
 * `action` - (Required) Action to take when a Data Loss Prevention (DLP) Network Threat is detected. Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
 
 ## Attribute Reference
-* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the Data Loss Prevention (DLP) Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `profile_id` - (Deprecated) Same as the `id` attribute

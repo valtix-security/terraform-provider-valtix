@@ -31,4 +31,5 @@ resource "valtix_profile_anti_virus" "av_manual" {
 * `action` - (Optional) Action to take when a Antivirus Network Threat is detected. Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event). If not specified, then the action assumed is `Allow Log`.
 
 ## Attribute Reference
-* `profile_id` - ID of the Profile that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the Anti-Virus Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `profile_id` - (Deprecated) Same as the `id` attribute

@@ -1,6 +1,4 @@
-# Valtix IAM 
-In order for Valtix to inventory cloud resources and deploy Valtix gateways, IAM roles need to be created in the AWS account.  Valtix has a Cloud Formation template to create these roles.  This Terraform module performs the same function for customers to create the IAM roles required to deploy Valtix gateways. This is useful in order to automate the deployment of roles across a large number of AWS accounts. 
+# AWS Valtix IAM
+In order for Valtix to discover inventory and traffic, create Service VPCs and Spoke VPC protection, and deploy Valtix Gateways, the AWS Accounts need to be prepared with a set of IAM Roles and other configurations to grant the Valtix Controller the necessary permissions.  Valtix has an AWS Cloud Formation template that can be used to prepare the Accounts.  Terraform can also be used if the desire is to orchestrate the Accounts preparation and onboarding.  This is useful in order to automate the deployment of IAM Roles across a large number of AWS Accounts.
 
-Please contact a Valtix solutions architect to review the IAM scopes to ensure least privilege in production deployments
-
-The module can be found [here](https://github.com/valtix-security/terraform-aws-setup)
+The module can be found at [Terraform AWS Setup](https://github.com/valtix-security/terraform-aws-setup)

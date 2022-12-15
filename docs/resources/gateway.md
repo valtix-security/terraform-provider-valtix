@@ -18,7 +18,7 @@ resource "valtix_gateway" "aws-gw1" {
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
-  policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
+  policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.id
   ssh_key_pair            = "ssh_keypair1"
   aws_iam_role_firewall   = "iam_role_name_for_firewall"
   region                  = "us-east-1"
@@ -51,11 +51,13 @@ resource "valtix_gateway" "aws-hub-gw1" {
   gateway_state          = "ACTIVE"
   mode                   = "HUB"
   security_type          = "EGRESS"
-  policy_rule_set_id     = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  policy_rule_set_id     = valtix_policy_rule_set.egress_policy_rule_set.id
   ssh_key_pair           = "ssh_keypair1"
   aws_iam_role_firewall  = "iam_role_name_for_firewall"
   region                 = "us-east-1"
   vpc_id                 = valtix_service_vpc.service_vpc.id
+  log_profile            = valtix_profile_log_forwarding.datadog.id
+  packet_capture_profile = valtix_profile_packet_capture.awspcap1.id
   aws_gateway_lb         = true
 }
 ```
@@ -75,7 +77,7 @@ resource "valtix_gateway" azure_gw1 {
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
   azure_user_name         = "centos"
-  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.id
   region                  = var.region
   vpc_id                  = "/subscriptions/12345/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1"
   mgmt_security_group     = "/subscriptions/12345/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/mgmt-sg1"
@@ -108,9 +110,9 @@ resource "valtix_gateway" "azure_gw1" {
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
   azure_user_name         = "centos"
-  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.rule_set_id
+  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.id
   region                  = var.region
-  vpc_id                  = valtix_service_vpc.svpc1.vpc_id
+  vpc_id                  = valtix_service_vpc.svpc1.id
 }
 ```
 
@@ -127,7 +129,7 @@ resource "valtix_gateway" "gcp-gw" {
   gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
-  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
+  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-west1"
   vpc_id                    = "https://www.googleapis.com/compute/v1/projects/gcp-project/global/networks/datapath-vpc"
@@ -136,7 +138,7 @@ resource "valtix_gateway" "gcp-gw" {
   # mgmt_vpc_id             = data.google_compute_network.mgmt_vpc.self_link
   mgmt_security_group       = "valtix-mgmt"
   datapath_security_group   = "valtix-datapath"
-  log_profile               = valtix_profile_log_forwarding.splunk1.profile_id
+  log_profile               = valtix_profile_log_forwarding.splunk.id
   instance_details {
     availability_zone = "us-west1-a"
     mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
@@ -165,7 +167,7 @@ resource "valtix_gateway" "gcp-gw1" {
   gateway_state             = "ACTIVE"
   mode                      = "HUB"
   security_type             = "EGRESS"
-  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.rule_set_id
+  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-east1"
   vpc_id                    = valtix_service_vpc.service_vpc.id
@@ -181,25 +183,34 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `csp_account_name` - (Required) The CSP account where the Gateway will be deployed
 * `instance_type` - (Required) The instance type used when deploying the Gateway.  Applicable CSP-specific values are:
     * **AWS**
-        * **AWS_M5_2XLARGE** (8 core)
-        * **AWS_M5_XLARGE** (4 core)
-        * **AWS_M5_LARGE** (2 core)
+        * **M5**
+            * **AWS_M5_2XLARGE** (8 core)
+            * **AWS_M5_XLARGE** (4 core)
+            * **AWS_M5_LARGE** (2 core)
     * **Azure**
-        * **AZURE_D8S_V3** (8 core)
-        * **AZURE_D4S_V3** (4 core)
-        * **AZURE_D2S_V3** (2 core)
+        * **DS_V3**
+            * **AZURE_D8S_V3** (8 core)
+            * **AZURE_D4S_V3** (4 core)
+            * **AZURE_D2S_V3** (2 core)
+        * **DS_V5**
+            * **AZURE_D8S_V5** (8 core)
+            * **AZURE_D4S_V5** (4 core)
+            * **AZURE_D2S_V5** (2 core)
     * **GCP**
-        * **GCP_E2_8** (8 core)
-        * **GCP_E2_4** (4 core)
-        * **GCP_E2_2** (2 core)
+        * **E2**
+            * **GCP_E2_8** (8 core)
+            * **GCP_E2_4** (4 core)
+            * **GCP_E2_2** (2 core)
 * `gateway_image` - (Required) Represents the image version to be used for this Gateway. A list of applicable image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway image version or contact [Valtix Support](mailto:support@valtix.com).
 * `mode` - (Required - AWS, Azure, GCP) Applicable values are `EDGE` or `HUB`. Review the Valtix product documentation for information on the different deployment modes.  This argument is not supported for OCI and must not be used.
 * `security_type` - (Optional) Applicable values are `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`.
 * `gateway_state` - (Optional) Specifies the state of the Gateway.  Applicable values are `ACTIVE` and `INACTIVE`.  When set to `ACTIVE`, the Gateway will be enabled and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `wait_for_gateway_state` - (Optional) Determines if Terraform should wait for the Gateway state, defined by the `gateway_state` argument, to be achieved before completing.  Applicable values are `true` and `false`.  If not specified, the default value is `true`.
-* `policy_rule_set_id` - (Required) Rule set ID of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
+* `policy_rule_set_id` - (Required) Rule set ID of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.id)*
 * `ssh_key_pair` - (Required - AWS, Azure) Name of the SSH Key Pair created within the AWS Account or Azure Subscription.  The CSP Key Pairs are Regional constructs and must be created in the same Region as specified by the `region` argument where the Gateway will be deployed.
 * `ssh_public_key` - (Required - Azure, GCP) The SSH public key to be assigned to the Gateway instances. Must be *ssh-rsa* only.
+* `azure_user_name` - (Optional - Azure) Name to use as the user when SSH to a Azure Gateway instance.  When not specified, `centos` is used.
+* `gcp_user_name` - (Optional - GCP) Name to use as the user when SSH to a GCP Gateway instance.  When not specified, `centos` is used.
 * `gcp_service_account_email` - (Required - GCP) The GCP Service Account Email that defines the permissions for the Gateway to integrate with other GCP Project resources such as Secrets Manager and Storage Buckets. 
 * `aws_iam_role_firewall` - (Required - AWS) The AWS IAM role that defines the permissions for the Gateway to integrate with other AWS Account resources such as Key Pairs, Secrets Manager and Key Management Service (KMS).
 * `azure_user_identity_id` - (Optional - Azure) The Azure User Assigned Identity that defines the permissions for the Gateway to integrate with other Azure Subscription resources such as Key Pairs, Key Vault and Blob Storage.
@@ -211,11 +222,11 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `mgmt_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the management interface to permit management traffic to egress the Gateway. This must allow all outbound traffic for the Gateway to communicate with the Valtix Controller, Valtix S3 Bucket and for management DNS resolution.
 * `datapath_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the datapath interface to permit datapath traffic to ingress or egress the Gateway. It's recommended to leave this open so that all traffic can be sent and received by the Gateway where the Gateway Policy will control whether traffic is allowed or denied.
 * `min_instances` - (Optional) Minimum number of instances per availability zone.  If not specified, the default value is `1`.
-* `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `1`.
+* `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `3`.
 * `health_check_port` - (Optional) TCP Port number that the Valtix orchestrated load balancers use for health checks to the Gateway instances.  If not specified, the default value is `65534`. A rule must be configured on the `datapath_security_group` to allow traffic to this TCP Port.
-* `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
-* `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
-* `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
+* `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.id)*
+* `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.id)*
+* `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.id)*
 * `settings` - (Optional) Gateway Settings block. This block can be repeated multiple times. See [Gateway Settings](#gateway-settings) for the block structure.
 * `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each Gateway instance. The key is an unquoted name and the value is a quoted string.  See [Gateway Tags](#gateway-tags) for the block structure.  The Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
 * `instance_details` - (Required - EDGE Mode) Gateway Instance Details.  This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  See [Instance Details](#instance-details) for the block structure.  In EDGE mode, at least 1 block must be provided.
@@ -270,6 +281,11 @@ settings {
   name  = "gateway.aws.ebs.encryption.key.customer_key"
   value = "<KMS key ID>"
 }
+
+settings {
+  name  = "gateway.aws.ebs.encryption.key.customer_key"
+  value = "arn:aws:kms:us-east-1:1112223333:key/67b90d29-5083-4166-a111-bfc810340f7d"
+}
 ```
 
 ### To enable Disk Encryption for the Gateway instances using specified KMS key (Azure)
@@ -278,6 +294,11 @@ settings {
   name  = "gateway.azure.disk.encryption.key.customer_key"
   value = "<Disk Encryption Set Path>"
 }
+
+settings {
+  name  = "gateway.azure.disk.encryption.key.customer_key"
+  value = "/subscriptions/1111111-33f9-4f5c-86e4-222222222/resourceGroups/valtix-rg/providers/Microsoft.Compute/diskEncryptionSets/valtixDiskEncryptionSet"
+}
 ```
 
 ### To enable Disk Encryption for the Gateway instances using specified KMS key (GCP)
@@ -285,6 +306,11 @@ settings {
 settings {
   name  = "gateway.gcp.disk.encryption.key.customer_key"
   value = "<Crypto Key Path>"
+}
+
+settings {
+  name  = "gateway.gcp.disk.encryption.key.customer_key"
+  value = "projects/security-icon-111111/locations/us-east1/keyRings/valtix-disk-encryption/cryptoKeys/key1"
 }
 ```
 
@@ -379,6 +405,7 @@ tags = {
 ```
 
 ## Attribute Reference
+* `id` - ID of the Gateway resource
 * `gateway_gwlb_endpoints` - (AWS only) AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
 
     ```hcl

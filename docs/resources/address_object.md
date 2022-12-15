@@ -156,7 +156,7 @@ resource "valtix_address_object" "group1_ag" {
   name              = "group1"
   description       = "Address Object Group"
   type              = "GROUP"
-  address_group_ids = [valtix_address_object.addr1.address_id, valtix_address_object.addr2.address_id]
+  address_group_ids = [valtix_address_object.addr1.id, valtix_address_object.addr2.id]
 }
 ```
 For a complete set of arguments, see [GROUP (Source Destination) Arguments](#group-source-destination-arguments)
@@ -288,9 +288,9 @@ For a complete set of arguments, see [DYNAMIC_ASG (Source Destination) Arguments
 * `description` - (Optional) Description of the Address Object
 * `type` = `DYNAMIC_ASG` - (Required) Type of the Address Object(Azure Only)
 * `csp_account_name` - (Required) Name of the Azure CSP account onboarded into Valtix
-* `region` - (Required) Id of Azure Region where application security group is located 
+* `region` - (Required) ID of Azure Region where application security group is located 
 * `resource_group` - (Required) Name of Azure Resource Group where application security group is located
-* `application_security_group_id` - (Required) Id of azure application security group, for example : /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP>/providers/Microsoft.Network/applicationSecurityGroups/<APPLICATION_SECURITY_GROUP>
+* `application_security_group_id` - (Required) ID of Azure Application Security Group (ASG), for example : /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP>/providers/Microsoft.Network/applicationSecurityGroups/<APPLICATION_SECURITY_GROUP>
 <br><br>For an example, see [DYNAMIC_ASG (Source Destination) Example](#dynamic_asg-source-destination-example)
 
 ### Tag List
@@ -300,4 +300,5 @@ A `tag_list` block representing a Tag key-value pair requires the following argu
 * `resource_type`- (Optional) The Resource type to restrict the scope of the Tag Key-Value pair. Applicable values: `RESOURCE_INSTANCE`, `RESOURCE_VPC`, `RESOURCE_SUBNET`, `RESOURCE_LOAD_BALANCER`, `RESOURCE_SECURITY_GROUP`, `RESOURCE_ASG`. If not supplied, the default value is `RESOURCE_INSTANCE`. 
 
 ## Attribute Reference
-* `address_id` - The ID of the Address Object that can be referenced in other resources (e.g., *valtix_service_object*, `address_group_ids`)
+* `id` - ID of the Address Object resource that can be referenced in other resources (e.g., *valtix_service_object*, `address_group_ids`)
+* `address_id` - (Deprecated) Same as the `id` attribute
