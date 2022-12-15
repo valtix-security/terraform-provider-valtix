@@ -206,7 +206,7 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `security_type` - (Optional) Applicable values are `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`.
 * `gateway_state` - (Optional) Specifies the state of the Gateway.  Applicable values are `ACTIVE` and `INACTIVE`.  When set to `ACTIVE`, the Gateway will be enabled and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `wait_for_gateway_state` - (Optional) Determines if Terraform should wait for the Gateway state, defined by the `gateway_state` argument, to be achieved before completing.  Applicable values are `true` and `false`.  If not specified, the default value is `true`.
-* `policy_rule_set_id` - (Required) Rule set ID of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.rule_set_id)*
+* `policy_rule_set_id` - (Required) Rule set ID of valtix_policy_rule_set. *(e.g. valtix_policy_rule_set.ruleset1.id)*
 * `ssh_key_pair` - (Required - AWS, Azure) Name of the SSH Key Pair created within the AWS Account or Azure Subscription.  The CSP Key Pairs are Regional constructs and must be created in the same Region as specified by the `region` argument where the Gateway will be deployed.
 * `ssh_public_key` - (Required - Azure, GCP) The SSH public key to be assigned to the Gateway instances. Must be *ssh-rsa* only.
 * `gcp_service_account_email` - (Required - GCP) The GCP Service Account Email that defines the permissions for the Gateway to integrate with other GCP Project resources such as Secrets Manager and Storage Buckets. 
@@ -222,9 +222,9 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `min_instances` - (Optional) Minimum number of instances per availability zone.  If not specified, the default value is `1`.
 * `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `3`.
 * `health_check_port` - (Optional) TCP Port number that the Valtix orchestrated load balancers use for health checks to the Gateway instances.  If not specified, the default value is `65534`. A rule must be configured on the `datapath_security_group` to allow traffic to this TCP Port.
-* `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.profile_id)*
-* `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.profile_id)*
-* `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.profile_id)*
+* `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.id)*
+* `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.id)*
+* `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.id)*
 * `settings` - (Optional) Gateway Settings block. This block can be repeated multiple times. See [Gateway Settings](#gateway-settings) for the block structure.
 * `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each Gateway instance. The key is an unquoted name and the value is a quoted string.  See [Gateway Tags](#gateway-tags) for the block structure.  The Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
 * `instance_details` - (Required - EDGE Mode) Gateway Instance Details.  This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  See [Instance Details](#instance-details) for the block structure.  In EDGE mode, at least 1 block must be provided.
