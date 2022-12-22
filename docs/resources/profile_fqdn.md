@@ -26,7 +26,7 @@ resource "valtix_profile_fqdn" "fqdn1" {
   fqdn_filter_list {
     fqdn_list = [
       "www\\.website3\\.com",
-      "www.website4\\.com"
+      "www\\.website4\\.com"
     ]
     vendor_category_list {
       vendor     = "BRIGHTCLOUD"
@@ -79,7 +79,7 @@ resource "valtix_profile_fqdn" "fqdn_group1" {
 * `no_fqdn_deny` - (Optional) Deny traffic when no FQDN is found in the packet. Applicable values: `true` or `false`.  Default value: `false`.
 * `group_member_ids` - (Required - Group). Ordered list of FQDN Filtering Profile (Standalone) IDs that make up the components of the FQDN Filtering Profile (Group).  This argument only applies when `type` is set to `GROUP`.  The list can contain zero or more IDs and is limited to a maximum of 30 IDs.  The resulting aggregated FQDN Filter List is limited to a total of 250.
 * `fqdn_child_ids` - (Deprecated) Same as the `group_member_ids` argument
-* `fqdn_filter_list` - (Required) One or more `fqdn_list` blocks, where each block is a row in the FQDN Filter List (maximum of 254 blocks). Structure [defined below](#fqdn-filter-list).
+* `fqdn_filter_list` - (Required) One or more blocks, where each block is a row in the FQDN Filtering Profile (maximum of 254 blocks). Structure [defined below](#fqdn-filter-list).
 * `uncategorized_fqdn_filter` - (Required) Uncategorized FQDN Filter action for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource and is not represented by any vendor category (whether specified or not). This argument is required no matter the `type` specified, but only applies when the Profile operates as Standalone. When operating as part of a Group, the Group setting will apply. Structure [defined below](#uncategorized-fqdn-filter).
 * `default_fqdn_filter` - (Required) Default FQDN Filter action for any FQDN that does not match the FQDNs defined in the `fqdn_filter_list` resource or is not matched by the `uncategorized_fqdn_filter` resource (if specified).  This should be the last resource specified in the list of resources. This argument is required no matter the `type` specified, but only applies when the Profile operates as Standalone. When operating as part of a Group, the Group setting will apply. Structure [defined below](#default-fqdn-filter).
 
@@ -190,7 +190,6 @@ vendor_category_list {
     "Training and Tools",
     "Translation",
     "Travel",
-    "Uncategorized",
     "Unconfirmed SPAM Sources",
     "Violence",
     "Weapons",

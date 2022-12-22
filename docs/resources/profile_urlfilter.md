@@ -8,36 +8,17 @@ resource "valtix_profile_urlfilter" "url1" {
   description = "URL filter list"
   url_filter_list {
     url_list = [
-      "www\\.website1\\.com",
-      ".*\\.website2\\.com"
+      "https://.*\\.website1\\.com/.*",
+      "https://.*\\.website2\\.com/.*"
     ]
-    vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = [
-        "Search Engines",
-        "Reference and Research"
-      ]
-    }
     policy = "Allow Log"
-  }
-
-  url_filter_list {
-    vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = [
-        "Malware Sites",
-        "Bot Nets",
-        "Spyware and Adware"
-      ]
-    }
-    policy        = "Deny Log"
-    return_status = 400
+    filter_methods = ["GET"]
   }
   
   url_filter_list {
     url_list       = [
-      "www\\.website3\\.com",
-      "www\\.website4\\.com"
+      "https://.*\\.website1\\.com/.*",
+      "https://.*\\.website2\\.com/.*" 
     ]
     policy         = "Deny Log"
     filter_methods = ["POST"]
@@ -60,13 +41,13 @@ resource "valtix_profile_urlfilter" "url1" {
 ## Argument Reference
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
-* `url_filter_list` - (Required) One or more `url_list` resources, where each resource is a row in the URL Filter List (maximum of 64 resources). Structure [defined below](#url-filter-list).
+* `url_filter_list` - (Required) One or more blocks, where each block is a row in the URL Filtering Profile (maximum of 64 blocks). Structure [defined below](#url-filter-list).
 * `uncategorized_url_filter` - (Required) Uncategorized URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource and is not represented by any vendor category (whether specified or not).  Structure [defined below](#uncategorized-url-filter).
 * `default_url_filter` - (Required) Default URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource or is not matched by the `uncategorized_url_filter` resource (if specified).  This should be the last resource specified in the list of resources. Structure [defined below](#default-url-filter).
 * `deny_response` - (Optional) Specifies the HTTP response message to return back to the client when the URL is denied. This response is in addition to the `return_status` response code that is specified for each URL Filter List (`url_filter_list`) block.
 
 ## URL Filter List
-* `fqdn_list` - (Required) List of strings (maximum of 60 strings per list). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#url-list).
+* `url_list` - (Required) List of strings (maximum of 60 strings per list). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#url-list).
 * `vendor_category_list` - (Optional) List of pre-defined Vendor Categories (maximum of 128 categories per list).  Structure [defined below](#vendor-category-list). 
 * `filter_methods` - (Optional) List of URL methods (`ALL`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`). If not specified, the default value is `ALL`.
 * `policy` - (Required) Action to take when a URL matches an entry in the `url_list` or `vendor_category_list`.  Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
@@ -75,8 +56,8 @@ resource "valtix_profile_urlfilter" "url1" {
 ## URL List
 ```hcl
 url_list = [
-  "www\\.website1\\.com",
-  ".*\\.website2\\.com"
+  "https://.*\\.website1\\.com/.*",
+  "https://.*\\.website2\\.com/.*"
 ]
 ```
 
@@ -173,7 +154,6 @@ vendor_category_list {
     "Training and Tools",
     "Translation",
     "Travel",
-    "Uncategorized",
     "Unconfirmed SPAM Sources",
     "Violence",
     "Weapons",
