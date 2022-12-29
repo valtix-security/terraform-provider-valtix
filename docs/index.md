@@ -1,24 +1,26 @@
 # Overview
 
-Valtix provider is used to interact with Valtix resources like Address Objects, Service Objects, Gateways using Terraform.
+Valtix provider is used to create and manage Valtix resources such as Service VPCs/VNets, Gateways, Policy Rulesets, Address Objects, Service Objects, etc.
 
 Use the navigation on the left to read about each of the available resources.
 
 ## Authentication using Valtix API Key
 
-To create Valtix resources using provider you need to authenticate with the Valtix controller using an API key generated on the Valtix controller. The key can be generated only by the super-admin user and the permissions for the key can be assigned when generating the key
+To create Valtix resources using the Provider you need to authenticate with the Valtix Controller using an API Key generated within the Valtix Portal. The key can be generated only by a user with Role set to `admin_super` or `admin_rw`.  The Role assigned to the key will be specified when creating the key.
 
 ## Generate Key
 
-1. Login to the Valtix controller with your user name and password
-1. Navigate to **Settings** and click on the **API Keys** in the side bar
+1. Login to the Valtix Portal with your username and password
+1. Navigate to **ADMINISTRATION**.
+1. Under **MANAGEMENT** click **API Keys**
 1. Click **Create API Key** button
-1. Provide a description for the key
-1. If you are a super-admin or admin you can assign the permissions for the key. For terraform use, select **admin_rw** as it is used to create resources
+1. Provide a **Name**
+1. Assign the **Role** as `admin_rw` (required since Terraform will create resources)
+1. Specify the **API Key Lifetime (days)** (max of 365 days) if you prefer the key to expire in less than 365 days
 1. Click **Save**
-1. Once the key is successfully created, click **Download** to download the key file.
+1. Once the key is created, click **Download** to download the key file
 1. *NOTE: API Key and Secret are not used for terraform*
-1. Use the downloaded key file while initializing the Valtix provider
+1. Use the downloaded key file while initializing the Valtix Provider
 
 ## Using Key
 
@@ -27,7 +29,7 @@ terraform {
   required_providers {
     valtix = {
       source = "valtix-security/valtix"
-      # version = "22.10.1"
+      # version = "22.12.1"
     }
   }
 }
@@ -37,4 +39,4 @@ provider "valtix" {
 }
 ```
 
-Contact Valtix at support@valtix.com to get information about the service, port and acctname assigned to you.
+Contact Valtix at support@valtix.com for information Valtix Tenant assigned to you.
