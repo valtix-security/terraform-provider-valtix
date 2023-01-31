@@ -48,7 +48,7 @@ resource "valtix_profile_urlfilter" "url1" {
 
 ## URL Filter List
 * `url_list` - (Required) List of URLs (maximum of 60 URLs per list, combined with categories; maximum of 2048 characters per URL). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#url-list).
-* `vendor_category_list` - (Optional) List of pre-defined Vendor Categories (maximum of 128 categories per list, combined with URLs).  Structure [defined below](#vendor-category-list). 
+* `vendor_category_list` - (Optional) List of pre-defined Vendor Categories (maximum of 60 categories per list, combined with URLs).  Structure [defined below](#vendor-category-list). 
 * `filter_methods` - (Optional) List of URL methods (`ALL`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`). If not specified, the default value is `ALL`.
 * `policy` - (Required) Action to take when a URL matches an entry in the `url_list` or `vendor_category_list`.  Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
 * `return_status` - (Optional) HTTP status code to return when URLs are denied.  This argument only applies to resources that have a `policy` set to `Deny Log` or `Deny No Log`.
