@@ -67,8 +67,9 @@ resource "valtix_profile_network_intrusion" "ips_auto_advanced" {
     rule_ids   = ["12345", "12346"]
   }
   event_suppressor {
-    source_ips = ["0.0.0.0"]
-    rule_ids   = ["7689"]
+    source_ips = ["0.0.0.0/"]
+    rule_ids   = ["19", "32"]
+    gid        = "119"
   }
   profile_event_filter {
     type             = "SAMPLE"
@@ -115,6 +116,7 @@ resource "valtix_profile_network_intrusion" "ips_auto_advanced" {
 ## Rule Suppressor
 * `source_ips` - (Optional) List of source IPs or CIDRs
 * `rule_ids` - (Optional) List of Rule IDs to filter
+* `gid` - (Optional) Generator ID (GID) necessary when suppressing Talos Ruleset preprocessor rule IDs (lower numbered rule IDs).  If not specified, default value is `1`, which is the GID for Talos Standard Text Rules (higher numbered rule IDs). 
 
 ## Profile Event Filter
 * `rule_ids` - (Optional) List of Rule IDs to filter
