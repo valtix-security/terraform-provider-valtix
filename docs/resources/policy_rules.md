@@ -82,7 +82,7 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 
 ## Argument Reference
 * `rule_set_id` - (Required) ID of the Policy Rule Set. (e.g., *valtix_policy_rule_set.egress_ew_policy.id*).
-* `rule` - A list of Policy Rules.  This block can be repeated multiple times. Structure is [documented below](#rule).
+* `rule` - A set of Rule blocks that define the segmentation and security Policy.  Each Rule is represented by a separate block.  Zero or more blocks can be specified, with a maximum of 2047 blocks. Structure is [documented below](#rule).
 
 ### Rule
 * `name` - (Required) Name of the Rule
