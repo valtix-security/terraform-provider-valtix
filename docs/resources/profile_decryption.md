@@ -17,3 +17,10 @@ resource "valtix_profile_decryption" "decryption_profile1" {
 ## Attribute Reference
 * `id` - ID of the Decryption Profile resource that can be referenced in other resources (e.g., *valtix_service_object*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Decryption Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_decryption.decryption_profile1 10
+```

@@ -70,3 +70,10 @@ resource "valtix_alert_profile" "mssentinel1" {
 ## Attribute Reference
 * `id` - ID of the Alert Profile resource that can be referenced in other resources (e.g., *valtix_alert_rule*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Alert Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_alert_profile.slack 10
+```

@@ -302,3 +302,10 @@ A `tag_list` block representing a Tag key-value pair requires the following argu
 ## Attribute Reference
 * `id` - ID of the Address Object resource that can be referenced in other resources (e.g., *valtix_service_object*, `address_group_ids`)
 * `address_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Address Object resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_address_object.ip_cidr_ag 10
+```

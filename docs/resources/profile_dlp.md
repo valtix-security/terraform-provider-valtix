@@ -35,3 +35,10 @@ resource "valtix_profile_dlp" "dlp1" {
 ## Attribute Reference
 * `id` - ID of the Data Loss Prevention (DLP) Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Data Loss Prevention (DLP) Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_dlp.dlp1 10
+```

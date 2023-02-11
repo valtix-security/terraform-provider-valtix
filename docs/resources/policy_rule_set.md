@@ -33,3 +33,10 @@ resource "valtix_policy_rule_set" "ingress_policy_group" {
 ## Attribute Reference
 * `id` - ID of the Policy Rule Set resource that can be referenced in other resources (e.g., *valtix_policy_rules*, *valtix_policy_rule_set*)
 * `rule_set_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Policy Rule Set resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_policy_rule_set.ingress_policy_standalone 10
+```

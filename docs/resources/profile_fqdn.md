@@ -221,3 +221,10 @@ Please check the Valtix UI (Manage -> Profiles -> FQDN Filtering) to obtain a li
 ## Attribute Reference
 * `id` - ID of the FQDN Filtering Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] FQDN Filtering (FQDN) Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_fqdn.fqdn1 10
+```

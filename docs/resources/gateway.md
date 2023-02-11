@@ -9,7 +9,7 @@ resources must be created before the `valtix_gateway` resource can be created
 
 ### AWS Gateway (INGRESS Gateway in EDGE Mode)
 ```hcl
-resource "valtix_gateway" "aws-gw1" {
+resource "valtix_gateway" "aws_gw1" {
   name                    = "aws-gw1"
   description             = "AWS Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
@@ -42,7 +42,7 @@ For EDGE mode EGRESS Gateway specify `security_type = EGRESS` and add `aws_gatew
 
 ### AWS Gateway (EGRESS Gateway in HUB Mode)
 ```hcl
-resource "valtix_gateway" "aws-hub-gw1" {
+resource "valtix_gateway" "aws_hub_gw1" {
   name                   = "aws-hub-gw1"
   description            = "AWS Gateway 1"
   csp_account_name       = valtix_cloud_account.aws_act.name
@@ -67,7 +67,7 @@ For HUB mode INGRESS Gateway specify `security_type = INGRESS` and remove `aws_g
 ### Azure Gateway (INGRESS Gateway in EDGE Mode)
 ```hcl
 resource "valtix_gateway" azure_gw1 {
-  name                    = "gw1"
+  name                    = "azure-gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
@@ -99,8 +99,8 @@ For EDGE mode EGRESS Gateway specify `security_type = EGRESS`
 
 ### Azure Gateway (INGRESS Gateway in HUB Mode)
 ```hcl
-resource "valtix_gateway" "azure_gw1" {
-  name                    = "gw1"
+resource "valtix_gateway" "azure_hub_gw1" {
+  name                    = "azure-hub-gw1"
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
@@ -120,8 +120,8 @@ For HUB mode EGRESS Gateway specify `security_type = EGRESS`
 
 ### GCP Gateway (INGRESS Gateway in EDGE Mode)
 ```hcl
-resource "valtix_gateway" "gcp-gw" {
-  name                      = "gcp-gw"
+resource "valtix_gateway" "gcp_gw1" {
+  name                      = "gcp-gw1"
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
@@ -158,8 +158,8 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
 
 ### GCP Gateway (EGRESS Gateway in HUB Mode)
 ```hcl
-resource "valtix_gateway" "gcp-gw1" {
-  name                      = "gcp-gw"
+resource "valtix_gateway" "gcp_hub_gw1" {
+  name                      = "gcp-hub-gw1"
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
@@ -426,3 +426,10 @@ tags = {
 * `gwlb_service_id` - (AWS only) VPC Endpoint Service ID associated with the AWS Gateway Load Balancer.  This ID can be used by the AWS Terraform Provider for accepting GWLB Endpoint connections and assigning Principals.
 
 * `gateway_endpoint` - For Gateways of `security_type = INGRESS`, this represents the NLB endpoint (FQDN, IP Address) to be used as the target for the client communicating with any application protected by the Valtix Ingress Gateway.  This information is most often used in a DNS A record (IP Address) or CNAME record (FQDN) to resolve the application FQDN to the Valtix Ingress Gateway endpoint.  Valtix will receive traffic on this endpoint and proxy the traffic to the appropriate backend application based on the configured policy.  For the Ingress Gateway, this attribute is populated for Gateways deployed in all CSPs (AWS, Azure, GCP, OCI).  For Gateways of `security_type = EGRESS`, this represents the NLB endpoint (IP Address) to be used as a target for routing traffic from the Spoke VPC/VNet/VCN to the Valtix Egress / East-West Gateway.  Valtix will receive traffic from clients, and forward or proxy the traffic to the appropriate destination based on the configured policy.  For the Egress / East-West Gateway, this attribute is only populated for non-AWS Gateways (Azure, GCP, OCI).  For the AWS Gateways, traffic is routed to the AWS Transit Gateway (TGW) or Gateway Load Balancer (GWLB) endpoints.
+
+## Import
+[*Public Preview*] Gateway resources can be imported using the resource `name`:
+
+```hcl
+$ terraform import valtix_gateway.aws-gw1 aws-gw1
+```

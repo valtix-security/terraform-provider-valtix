@@ -129,3 +129,10 @@ resource "valtix_profile_application_threat" "waf_auto_advanced" {
 ## Attribute Reference
 * `id` - ID of the Application Threat (WAF) Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Application Threat (WAF) Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_application_threat.waf_auto 10
+```

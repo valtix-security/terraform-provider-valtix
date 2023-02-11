@@ -1,5 +1,5 @@
 # Resource: valtix_profile_urlfilter
-Resource for creating and managing a URL Filtering Profile
+Resource for creating and managing a URL Filtering (URL) Profile
 
 ## Example Usage
 ```hcl
@@ -183,3 +183,10 @@ default_url_filter {
 ## Attribute Reference
 * `id` - ID of the URL Filtering Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] URL Filtering (URL) Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_urlfilter.url1 10
+```
