@@ -262,9 +262,11 @@ gateway_lb_integration {
 ```
 
 ## Gateway Settings
-Gateway settings define a list of additional settings to apply to the Gateway
+Gateway Settings are set of configurable settings that can be specified by the user and applied to the Gateway and its corresponding Gateway Instances.  If a change to the settings from their defaults are necessary, the individual setting and the configured value can be applied to the list of settings as part of the settings block of the Gateway resource.
 
-### To enable EBS encryption for the Gateway instances using default KMS key
+### Gateway AWS/Azure/GCP EBS/Disk Encryption Settings
+
+#### To enable AWS EBS Encryption using default KMS Key
 ```hcl
 settings {
   name  = "gateway.aws.ebs.encryption.key.default"
@@ -272,10 +274,7 @@ settings {
 }
 ```
 
-~> **Note on EBS/Disk Encryption setting using default CSP key**
-The EBS Encryption Gateway setting using default KMS key only applies to Gateways deployed in AWS.  There is no need to use this setting to enable Disk Encryption for a Gateway deployed in Azure or GCP.  For AWS, EBS Encryption is disabled by default and the Gateway settings are needed to enable.  In Azure and GCP, Disk Encryption is enabled by default using a CSP key and cannot be disabled.
-
-### To enable EBS Encryption for the Gateway instances using specified KMS key (AWS)
+#### To enable AWS EBS Encryption using specified KMS Key
 ```hcl
 settings {
   name  = "gateway.aws.ebs.encryption.key.customer_key"
@@ -288,7 +287,7 @@ settings {
 }
 ```
 
-### To enable Disk Encryption for the Gateway instances using specified KMS key (Azure)
+#### To enable Azure Disk Encryption using specified KMS Key
 ```hcl
 settings {
   name  = "gateway.azure.disk.encryption.key.customer_key"
@@ -301,7 +300,7 @@ settings {
 }
 ```
 
-### To enable Disk Encryption for the Gateway instances using specified KMS key (GCP)
+#### To enable GCP Disk Encryption using specified Crypto Key
 ```hcl
 settings {
   name  = "gateway.gcp.disk.encryption.key.customer_key"
@@ -314,20 +313,27 @@ settings {
 }
 ```
 
-~> **Note on EBS/Disk Encryption setting using a Customer Managed Encryption Key (CMEK)**
-The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Key (CMEK).  The key specified is created in specific locations related to each CSP.  For AWS, the key is created in the Key Management System (KMS) and referenced by its ID.  For Azure, the key is created in the Disk Encryption Sets and referenced by its full path.  The Azure Access control (IAM) Role for the Valtix Controller (valtix-controller-role) requires an additional permission: `Microsoft.Compute/sshPublicKeys/read`.  This permission has been updated in the Azure PowerShell script used to prepare the Subscription for onboarding into Valtix.  For GCP, the key is created as a Key Management Key Ring and referenced by its relative path.  The Role / Principal for Cloud KMS CryptoKey Encrypter / Decyptor requires a Google Managed Service Account (Service Agent) to be specified: Compute Engine Service Agent (`service-PROJECT_NUMBER@compute-system.iam.gserviceaccount.com`). 
+~> **Note on AWS/Azure/GCP EBS/Disk Encryption Setting using default CSP Key**
+The EBS Encryption Gateway setting using default KMS key only applies to Gateways deployed in AWS.  There is no need to use this setting to enable Disk Encryption for a Gateway deployed in Azure or GCP.  For AWS, EBS Encryption is disabled by default and the Gateway settings are needed to enable.  In Azure and GCP, Disk Encryption is enabled by default using a CSP key and cannot be disabled.
 
-### To override the default DNS Server IP Address used by the Management interface of an Azure Gateway
+~> **Note on AWS/Azure/GCP EBS/Disk Encryption Setting using a Customer Managed Encryption Key (CMEK)**
+The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Key (CMEK).  The key specified is created in specific locations related to each CSP.  For AWS, the key is created in the Key Management System (KMS) and referenced by its ID.  For Azure, the key is created in the Disk Encryption Sets and referenced by its full path.  The Azure Access control (IAM) Role for the Valtix Controller (valtix-controller-role) requires an additional permission: `Microsoft.Compute/sshPublicKeys/read`.  This permission has been updated in the Azure PowerShell script used to prepare the Subscription for onboarding into Valtix.  For GCP, the key is created as a Key Management Key Ring and referenced by its relative path.  The Role / Principal for Cloud KMS CryptoKey Encrypter / Decypter requires a Google Managed Service Account (Service Agent) to be specified: Compute Engine Service Agent (`service-PROJECT_NUMBER@compute-system.iam.gserviceaccount.com`). 
+
+### Gateway DNS Server IP Address Setting
+
+#### To override the default DNS Server IP Address used by the Management interface of an Azure Gateway
 ```hcl
 settings {
   name  = "controller.gateway.dns_server_ip_address"
   value = "8.8.8.8"
 }
 ```
-~> **Note on DNS Server IP Address setting**
+~> **Note on DNS Server IP Address Setting**
 The DNS Server IP address setting only applies to Gateways deployed in Azure.  It is a user-specified override for the Gateway management interface (VNic).  The DNS specified should be a single IP referencing a DNS that can resolve publicly accessible domains.  When specified, the user-defined DNS will be used for any DNS resolution required by the Management traffic.  When not specified, the Management DNS will be taken from the VNet DNS setting.
 
-### To deploy Gateway instances into private subnets with no public IPs assigned to the interfaces
+### Gateway Assign Public IP Setting
+
+#### To deploy Gateway instances into private subnets with no public IPs assigned to the interfaces
 ```hcl
 settings {
   name = "controller.gateway.assign_public_ip"
@@ -335,10 +341,12 @@ settings {
 }
 ```
 
-~> **Note on Assign Public IP setting**
+~> **Note on Assign Public IP Setting**
 The Assign Public IP setting applies to Gateways deployed in Edge Mode for AWS, Azure and GCP.  Gateways in AWS deployed in Hub Mode are either deployed as public if the orchestrated VPC is deployed without a NAT Gateway or deployed as private if the orchestrated VPC is deployed with a NAT Gateway. For Hub mode deployment in Azure and GCP, the VNet or VPC is orchestrate without the use of a Virtual NAT or Cloud NAT, and thus the Gateways are deployed as public.
 
-### To change the AWS GWLB Acceptance Required
+### Gateway AWS GWLB Settings
+
+#### To change the AWS GWLB Acceptance Required
 ```hcl
 settings {
   name  = "controller.gateway.aws.gwlb.acceptance_required"
@@ -346,10 +354,10 @@ settings {
 }
 ```
 
-~> **Note on GWLB Acceptance Required**
+~> **Note on GWLB Acceptance Required Setting**
 The GWLB Acceptance required default is set to `false` when Valtix orchestrates the GWLB. In the case where a user will configure Principals and/or control Endpoint connection acceptance using the AWS Console or AWS Terraform Provider it is desired for the Acceptance required to be set to `true`.
 
-### To not create an AWS GWLB Endpoint (GLWBe) into the Datapath Subnet
+#### To not deploy an AWS GWLB Endpoint (GLWBe) into the Datapath Subnet
 ```hcl
 settings {
   name  = "controller.gateway.aws.gwlb.deploy_gwlb_endpoints"
@@ -357,10 +365,10 @@ settings {
 }
 ```
 
-~> **Note on GWLB Endpoint (GWLBe) Creation**
+~> **Note on AWS Deploy GWLB Endpoint (GWLBe) Setting**
 The GWLB Endpoint (GWLBe) creation default is set to `true` when Valtix orchestrates the GWLB when deploying an Egress Gateway. When not specified or explicitly set to `true`, Valtix orchestrates a GWLBe and connects it to the GWLB.  When set to `false`, Valtix will not orchestrate a GWLBe and will rely on the user to create any GWLBes using the AWS Terraform Provider or AWS Console and connect them to the GWLB.
 
-### To specify GWLB Service Principals (single Principal)
+#### To specify GWLB Service Principals (single Principal)
 ```hcl
 settings {
   name  = "controller.gateway.aws.gwlb.service_principals"
@@ -368,7 +376,7 @@ settings {
 }
 ```
 
-### To specify GWLB Service Principals (multiple Principals)
+#### To specify GWLB Service Principals (multiple Principals)
 ```hcl
 settings {
   name  = "controller.gateway.aws.gwlb.service_principals"
@@ -379,7 +387,12 @@ settings {
 }
 ```
 
-### To alter the HTTP Keepalive session timeout (default 5s)
+~> **Note on GWLB Service Principals Setting**
+When Valtix deploys an Egress Gateway in AWS it orchestrates the creation of a GWLB and GWLB Service.  The default deployment for the GWLB is to not require acceptance.  If a user prefers to require acceptance, and control the GWLBe connections and acceptance using Service Principals, the GWLB Service Principals setting can be used.  The setting is a list of strings representing Service Principals.  The setting will attach the Service Principals to the GWLB Service.
+
+### Gateway Proxy (HTTP) Keepalive Setting
+
+#### To alter the Proxy (HTTP) Keepalive (default 5s)
 ```hcl
 settings {
   name ="gateway.proxy.keepalive"
@@ -387,11 +400,38 @@ settings {
 }
 ```
 
-~> **Note on HTTP Keepalive session timeout**
-When HTTP Keepalive is used (controlled by a header setting on the application server), HTTP sessions will be reused.  In order to reduce the risk of session pool draining, each session will have an inactivity timeout of 5 seconds (default when not specified) after which point the session will be torn down. If a different timeout value is needed (e.g., if the distance between the clients and the application is substantial resulting in longer propagation delays), this setting can be used to change the value.
+~> **Note on Proxy (HTTP) Keepalive Setting**
+When HTTP Keepalive is used (controlled by a header setting on the application server), HTTP sessions will be reused.  In order to reduce the risk of session pool draining, each session will have an inactivity timeout of 5 seconds (default when not specified) after which point the session will be torn down. If a different timeout value is needed (e.g., if the distance between the clients and the application is substantial resulting in longer propagation delays, requiring a longer timeout), this setting can be used to change the value.
 
-~> **Note on GWLB Service Principals**
-When Valtix deploys an Egress Gateway in AWS it orchestrates the creation of a GWLB and GWLB Service.  The default deployment for the GWLB is to not require acceptance.  If a user prefers to require acceptance, and control the GWLBe connections and acceptance using Service Principals, the GWLB Service Principals setting can be used.  The setting is a list of strings representing Service Principals.  The setting will attach the Service Principals to the GWLB Service.
+### Gateway FQDN IP Cache Settings
+
+#### To alter the FQDN IP Cache Update Interval (default 60; range 3 - 60)
+```hcl
+settings {
+  name ="gateway.fqdn_ip_cache.update_interval"
+  value = 5
+}
+```
+
+#### To alter the FQDN IP Cache IP Entry TTL (default 0; range 0 -  640000)
+```hcl
+settings {
+  name ="gateway.fqdn_ip_cache.entry_ttl"
+  value = 86400
+}
+```
+
+#### To alter the FQDN IP Cache Size (default 0; range 0 - 5184000)
+```hcl
+settings {
+  name ="gateway.fqdn_ip_cache.size"
+  value = 320000
+}
+```
+
+~> **Note on FQDN IP Cache Settings**
+If the Address Object is configured with a set of FQDNs, the Valtix Gateway will resolve the FQDNs to a set of IPs using DNS.  The DNS resolution occurs every 60s and no cache is maintained (e.g., a new set of IPs will be established for each resolution).  If the FQDNs can resolve to a larger set of IPs, the Gateway can be configured to maintain an IP cache.  Gateway settings can be configured to control the DNS update interval (resolution frequency), entry TTL for each IP that is placed into the cache (duration the cache will maintain the IP before the IP is flushed), and the size of the cache (number of unique IPs that can be maintained by the cache).  To use FQDNs in an Address Object, see the [Address Object STATIC (Source Destination) Arguments](../address_object#static-source-destination-arguments) section of the Address Object resource.
+
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated

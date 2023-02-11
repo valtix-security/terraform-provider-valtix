@@ -182,6 +182,10 @@ For a complete set of arguments, see [DYNAMIC_ASG (Source Destination) Arguments
 * `description` - (Optional) Description of the Address Object
 * `type` = `STATIC` - (Required) Type of the Address Object
 * `value` - (Required) A list of IPs, CIDRs or FQDNs. The total number of FQDNs is limited to 200 where each FQDN can resolve to at most 400 IPs.
+
+~> **Note on use of FQDNs**
+If the Address Object is configured with a set of FQDNs, the Valtix Gateway will resolve the FQDNs to a set of IPs using DNS.  The DNS resolution occurs every 60s and no cache is maintained (e.g., a new set of IPs will be established for each resolution).  If the FQDNs can resolve to a larger set of IPs, the Gateway can be configured to maintain an IP cache.  Gateway settings can be configured to control the DNS update interval (resolution frequency), entry TTL for each IP that is placed into the cache (duration the cache will maintain the IP before the IP is flushed), and the size of the cache (number of unique IPs that can be maintained by the cache).  To configure the Gateway settings, see the [Gateway FQDN IP Cache Settings](../gateway#gateway-fqdn-ip-cache-settings) section of the Gateway resource.
+
 <br><br>For an example, see [STATIC (Source Destination) Example](#static-source-destination-examples)
 
 #### STATIC (Reverse Proxy Target) Arguments
