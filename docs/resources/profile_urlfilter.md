@@ -1,5 +1,5 @@
 # Resource: valtix_profile_urlfilter
-Resource for creating and managing a URL Filtering (URL) Profile
+Resource for creating and managing a URL Filter (URL) Profile
 
 ## Example Usage
 ```hcl
@@ -41,7 +41,7 @@ resource "valtix_profile_urlfilter" "url1" {
 ## Argument Reference
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
-* `url_filter_list` - (Required) One or more blocks, where each block is a row in the URL Filtering Profile (maximum of 254 blocks). Structure [defined below](#url-list).
+* `url_filter_list` - (Required) One or more blocks, where each block is a row in the URL Filter Profile (maximum of 254 blocks). Structure [defined below](#url-list).
 * `uncategorized_url_filter` - (Required) Uncategorized URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource and is not represented by any vendor category (whether specified or not).  Structure [defined below](#uncategorized-url-filter).
 * `default_url_filter` - (Required) Default URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource or is not matched by the `uncategorized_url_filter` resource (if specified).  This should be the last resource specified in the list of resources. Structure [defined below](#default-url-filter).
 * `deny_response` - (Optional) Specifies the HTTP response message to return back to the client when the URL is denied. This response is in addition to the `return_status` response code that is specified for each URL Filter List (`url_filter_list`) block.
@@ -180,12 +180,14 @@ default_url_filter {
 }
 ```
 
+Please check the Valtix UI (Manage -> Profiles -> URL Filtering) to obtain a list of predefined Categories.
+
 ## Attribute Reference
-* `id` - ID of the URL Filtering Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
+* `id` - ID of the URL Filter Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] URL Filtering (URL) Profile resources can be imported using the resource `id`:
+[*Public Preview*] URL Filter (URL) Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_urlfilter.url1 10
