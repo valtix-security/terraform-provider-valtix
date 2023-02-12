@@ -11,12 +11,11 @@ resource "valtix_policy_rules" "ingress_policy_rules" {
   rule_set_id = valtix_policy_rule_set.ingress_policy.id
   rule {
     name                   = "tcp-443"
-    description            = "listen port 443 to target port 443 on app1"
     type                   = "ReverseProxy"
+    state                  = "ENABLED"
     action                 = "Allow Log"
     service                = valtix_service_object.app1-svc-https.id
     web_protection_profile = data.valtix_profile_application_threat.waf1.id
-    state                  = "ENABLED"
   }
 }
 ```

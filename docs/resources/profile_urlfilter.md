@@ -41,12 +41,12 @@ resource "valtix_profile_urlfilter" "url1" {
 ## Argument Reference
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
-* `url_filter_list` - (Required) One or more blocks, where each block is a row in the URL Filtering Profile (maximum of 64 blocks). Structure [defined below](#url-filter-list).
+* `url_filter_list` - (Required) One or more blocks, where each block is a row in the URL Filtering Profile (maximum of 254 blocks). Structure [defined below](#url-list).
 * `uncategorized_url_filter` - (Required) Uncategorized URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource and is not represented by any vendor category (whether specified or not).  Structure [defined below](#uncategorized-url-filter).
 * `default_url_filter` - (Required) Default URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource or is not matched by the `uncategorized_url_filter` resource (if specified).  This should be the last resource specified in the list of resources. Structure [defined below](#default-url-filter).
 * `deny_response` - (Optional) Specifies the HTTP response message to return back to the client when the URL is denied. This response is in addition to the `return_status` response code that is specified for each URL Filter List (`url_filter_list`) block.
 
-## URL Filter List
+## URL List
 * `url_list` - (Required) List of URLs (maximum of 60 URLs per list, combined with categories; maximum of 2048 characters per URL). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#url-list).
 * `vendor_category_list` - (Optional) List of pre-defined Vendor Categories (maximum of 60 categories per list, combined with URLs).  Structure [defined below](#vendor-category-list). 
 * `filter_methods` - (Optional) List of URL methods (`ALL`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`). If not specified, the default value is `ALL`.
