@@ -1,5 +1,5 @@
 # Resource: valtix_profile_network_intrusion
-Resource for creating and managing a Network Intrusion (IPS) Profile
+Resource for creating and managing a Network Intrusion (IPS/IDS) Profile
 
 ## Example Usage
 
@@ -127,3 +127,10 @@ resource "valtix_profile_network_intrusion" "ips_auto_advanced" {
 ## Attribute Reference
 * `id` - ID of the Network Intrusion (IDS/IPS) Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Network Intrusion (IDS/IPS) Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_network_intrusion.ips_auto 10
+```

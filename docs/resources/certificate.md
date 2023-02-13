@@ -96,3 +96,10 @@ resource "valtix_certificate" "gcp_certificate_secret" {
 
 ## Attribute Reference
 * `id` - ID of the Certificate resource that can be referenced in other resources (e.g. valtix_profile_decryption)
+
+## Import
+[*Public Preview*] Certificate resources can be imported using the resource `name`:
+
+```hcl
+$ terraform import valtix_certificate.import_certificate import_certificate
+```

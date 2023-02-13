@@ -11,10 +11,10 @@ resource "valtix_policy_rules" "egress-policy-rules" {
 	rule_set_id = valtix_policy_rule_set.egress_policy.id
 	rule {
 		name                 = "any-to-any"
-		action               = "Allow Log"
-		state                = "ENABLED"
-		service              = valtix_service_object.tcp_443.id
 		type                 = "ForwardProxy"
+		state                = "ENABLED"
+		action               = "Allow Log"
+		service              = valtix_service_object.tcp_443.id
     malicious_ip_profile = data.valtix_profile_malicious_ip.mips1.id
 	}
 }

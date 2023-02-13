@@ -1,5 +1,5 @@
 # Resource: valtix_profile_malicious_ip
-Resource for creating and managing a Malicious IP Profile
+Resource for creating and managing a Malicious IP (MIP) Profile
 
 ## Example Usage
 
@@ -36,3 +36,10 @@ resource "valtix_profile_malicious_ip" "mips_manual" {
 ## Attribute Reference
 * `id` - ID of the Malicious IP Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Malicious IP (MIP) Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_malicious_ip.mips_auto 10
+```

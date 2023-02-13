@@ -1,5 +1,5 @@
 # Resource: valtix_profile_packet_capture
-Resource for creating and managing a Packet Capture Profile
+Resource for creating and managing a Packet Capture (PCAP) Profile
 
 ## Example Usage
 
@@ -47,3 +47,10 @@ resource "valtix_profile_packet_capture" "gcppcap1" {
 ## Attribute Reference
 * `id` - ID of the Packet Capture Profile resource that can be referenced in other resources (e.g., *valtix_gateway*)
 * `profile_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Packet Capture (PCAP) Profile resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_profile_packet_capture.awspcap1 10
+```

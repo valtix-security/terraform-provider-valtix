@@ -36,6 +36,15 @@ resource "valtix_alert_rule" "alert_rule2" {
 resource "valtix_alert_rule" "alert_rule3" {
   name          = "alert-rule3"
   alert_profile = valtix_alert_profile.slack1.id
+  type          = "Type_AuditLogs"
+  is_active     = true
+}
+```
+
+```hcl
+resource "valtix_alert_rule" "alert_rule3" {
+  name          = "alert-rule3"
+  alert_profile = valtix_alert_profile.slack1.id
   type          = "Type_Inventory"
   sub_type      = "SubType_InventoryGuardRails"
   severity      = "Info"
@@ -45,9 +54,16 @@ resource "valtix_alert_rule" "alert_rule3" {
 
 ## Argument Reference
 * `name` - (Required) Name of the Alert Profile
-* `description` - Description
+* `description` - Description of the Alert Profile
 * `alert_profile` - (Required) Alert Profile ID
-* `type` - (Required) One of `Type_Inventory`, `Type_SystemLogs`,
-* `sub_type` - (Required) For Type_Inventory, valid sub_type is `SubType_InventoryGuardRails`. For Type_SystemLogs, valid sub_type is `SubType_SystemLogsGateway` or `SubType_SystemLogsAccount`
-* `severity` - (Required) One of `Info`, `Medium`, `High`. For SystemLogs `Critical` and `Warning` are other severity types.
-* `is_active` - (Required) `true` or `false`
+* `type` - (Required) Valid values are `Type_Inventory`, `Type_SystemLogs`, or `Type_AuditLogs`
+* `sub_type` - (Required - SystemLogs) Applicable only to `type` set to `Type_Inventory` or `Type_SystemLogs`.  For `type` set to `Type_Inventory`, valid value for `sub_type` is `SubType_InventoryGuardRails`.  For `type` set to `Type_SystemLogs`, valid values for `sub_type` are `SubType_SystemLogsGateway` or `SubType_SystemLogsAccount`.
+* `severity` - (Required)  Applicable values when `type` is set to `Type_Inventory` are `Info`, `Medium`, or `High`.  Applicable values when `type` is set to `Type_SystemLogs` are `Info`, `Warning`, `Medium`, `High`, or `Critical`.  Alerts will be sent for all alerts that have severity equal to and higher than the specified value.
+* `is_active` - (Required) Applicable values are `true` or `false`
+
+## Import
+[*Public Preview*] Alert Rule resources can be imported using the resource `name`:
+
+```hcl
+$ terraform import valtix_alert_rule.alert_rule1 alert-rule1
+```

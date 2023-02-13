@@ -61,3 +61,10 @@ resource "valtix_service_vpc" "gcp_service_vpc" {
 * `id` - ID of the Services VPC/VNet resource that can be referenced in other resources (e.g., *valtix_gateway*)
 * `vpc_id` - Cloud specific ID of the Services VPC/VNet
 * `service_vpc_id` - (Deprecated) Same as the `id` attribute
+
+## Import
+[*Public Preview*] Service VPC/VNet resources can be imported using the resource `id`:
+
+```hcl
+$ terraform import valtix_service_vpc.aws_service_vpc 10
+```
