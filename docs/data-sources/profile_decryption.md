@@ -7,7 +7,7 @@ data "valtix_profile_decryption" "decryption_profile1" {
   name = "decryption_profile1"
 }
 
-resource "valtix_service_object" "internet-https" {
+resource "valtix_service_object" "internet_https" {
   name           = "internet-port-443"
   description    = "allow port 443 to Internet"
   service_type   = "ForwardProxy"

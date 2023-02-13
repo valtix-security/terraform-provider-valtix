@@ -7,15 +7,15 @@ data "valtix_profile_urlfilter" "url1" {
   name = "url1"
 }
 
-resource "valtix_policy_rules" "egress-policy-rules" {
+resource "valtix_policy_rules" "egress_policy_rules" {
 	rule_set_id = valtix_policy_rule_set.egress_policy.id
 	rule {
-		name        = "any-to-any"
-		type        = "ForwardProxy"
-		state       = "ENABLED"
-		action      = "Allow Log"
-		service     = valtix_service_object.tcp_443.id
-    url_filter  = data.valtix_profile_urlfilter.url1.id
+		name       = "any-to-any"
+		type       = "ForwardProxy"
+		state      = "ENABLED"
+		action     = "Allow Log"
+		service    = valtix_service_object.tcp_443.id
+    url_filter = data.valtix_profile_urlfilter.url1.id
 	}
 }
 ```

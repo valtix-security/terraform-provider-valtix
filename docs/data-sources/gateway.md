@@ -3,7 +3,7 @@ Data source for obtaining attributes of a Gateway resource
 
 ## Example Usage
 ```hcl
-data "valtix_gateway" "aws-gw1" {
+data "valtix_gateway" "aws_gw1" {
   name = "aws-gw1"
 }
 ```

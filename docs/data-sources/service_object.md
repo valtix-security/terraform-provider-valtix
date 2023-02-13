@@ -9,11 +9,11 @@ data "valtix_service_object" "app1_svc_https" {
 
 rule_set_id = valtix_policy_rule_set.ingress_policy_rule_set.id
   rule {
-    name        = "tcp-443"
-    type        = "Forwarding"
-    state       = "ENABLED"
-    action      = "ALLOW_LOG"
-    service     = data.valtix_service_object.app1_svc_https.id
+    name    = "tcp-443"
+    type    = "Forwarding"
+    state   = "ENABLED"
+    action  = "ALLOW_LOG"
+    service = data.valtix_service_object.app1_svc_https.id
   }
 }
 ```

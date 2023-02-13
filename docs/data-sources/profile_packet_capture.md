@@ -7,7 +7,7 @@ data "valtix_profile_packet_capture" "awspcap1"{
  name = "awspcap1"
 }
 
-resource "valtix_gateway" "aws-hub-gw1" {
+resource "valtix_gateway" "aws_hub_gw1" {
   name                   = "aws-hub-gw1"
   description            = "AWS Gateway 1"
   csp_account_name       = valtix_cloud_account.aws_act.name
