@@ -7,7 +7,7 @@ data "valtix_profile_dlp" "dlp1" {
   name = "dlp1"
 }
 
-resource "valtix_policy_rules" "egress-policy-rules" {
+resource "valtix_policy_rules" "egress_policy_rules" {
 	rule_set_id = valtix_policy_rule_set.egress_policy.id
 	rule {
 		name        = "any-to-any"

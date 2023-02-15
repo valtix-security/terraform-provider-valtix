@@ -7,7 +7,7 @@ data "valtix_policy_rule_set" "ingress_policy_standalone" {
   name = "ingress_rule_set_standalone"
 }
 
-resource "valtix_gateway" "aws-gw1" {
+resource "valtix_gateway" "aws_gw1" {
   # other arguments hidden for brevity
   policy_rule_set_id = data.valtix_policy_rule_set.ingress_policy_rule_set.id
 }

@@ -7,7 +7,7 @@ data "valtix_profile_l7dos" "l7dos1" {
   name = "l7dos1"
 }
 
-resource "valtix_service_object" "app1-svc-https" {
+resource "valtix_service_object" "app1_svc_https" {
   name           = "app1-svc-https"
   description    = "app1 service: listen on TCP/443 and proxy to HTTPS/443"
   service_type   = "ReverseProxy"

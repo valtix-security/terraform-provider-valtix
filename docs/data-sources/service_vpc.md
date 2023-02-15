@@ -4,12 +4,12 @@ Data source for obtaining the attributes of a Service VPC/VNet resource.  A Serv
 ## Example Usage
 ```hcl
 data "valtix_service_vpc" "aws_service_vpc" {
-  csp_account_name  = "aws_account1"
-  region            = "us-east-1"
-  vpc_id            = "vpc-0669e3afda800ca03"
+  csp_account_name = "aws_account1"
+  region           = "us-east-1"
+  vpc_id           = "vpc-0669e3afda800ca03"
 }
 
-resource "valtix_gateway" "aws-hub-gw1" {
+resource "valtix_gateway" "aws_hub_gw1" {
   name                   = "aws-hub-gw1"
   description            = "AWS Gateway 1"
   csp_account_name       = valtix_cloud_account.aws_act.name
