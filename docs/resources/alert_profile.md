@@ -3,15 +3,6 @@ Resource for creating and managing an Alert Profile that defines the 3rd-party S
 
 ## Example Usage
 
-### Slack
-```hcl
-resource "valtix_alert_profile" "slack" {
-  name            = "slack"
-  type            = "SlackWebHook"
-  integration_url = "https://slack-webhook-url"
-}
-```
-
 ### Pagerduty
 ```hcl
 resource "valtix_alert_profile" "pagerduty" {
@@ -31,10 +22,30 @@ resource "valtix_alert_profile" "servicenow" {
 }
 ```
 
-### MS Sentinel
+### Slack
+```hcl
+resource "valtix_alert_profile" "slack" {
+  name            = "slack"
+  type            = "SlackWebHook"
+  integration_url = "https://slack-webhook-url"
+}
+```
+
+### Datadog
+```
+resource "valtix_alert_profile" "datadog" {
+  name            = "datadog"
+  type            = "DataDog"
+  integration_url = "https://http-intake.logs.datadoghq.com/"
+  integration_key = "<auth token>"
+}
+```
+
+### Microsoft Sentinel
 ```hcl
 resource "valtix_alert_profile" "mssentinel1" {
   name                       = "mssentinel1"
+  type                       = "MicrosoftSentinel"
   log_analytics_log_type     = "mssentinel-valtix-alerting"
   log_analytics_workspace_id = "bbb7ee6f-6cd4-43e4-a2ab-e32fb70e401f"
   integration_key            = "<shared-key/primary-key>"
@@ -46,14 +57,9 @@ resource "valtix_alert_profile" "mssentinel1" {
 ### Common Arguments
 * `name` - (Required) Name of the Alert Profile
 * `description` - Description of the Alert Profile
-* `type` - (Required) One of `SlackWebHook`, `PagerDutyEventApi`, `ServiceNowWebHook`, `MicrosoftSentinel`
-* `integration_key` - (Required - ServiceNow, Pagerduty) Key
-* `integration_url` - (Required - ServiceNow, Slack) Webhook URL or ServiceNow URL
+* `type` - (Required) One of `PagerDutyEventApi`, `ServiceNowWebHook`, `SlackWebHook`, `DataDog`, `MicrosoftSentinel`
 
 ### Destination-specific Arguments
-
-### Slack
-* `integration_key` - (Required) Shared key / primary key used to authenticate with Slack
 
 ### Pagerduty
 * `integration_key` - (Required) Shared key / primary key used to authenticate with Pagerduty
@@ -62,7 +68,14 @@ resource "valtix_alert_profile" "mssentinel1" {
 * `integration_url` - (Required) HTTPS endpoint URL
 * `integration_key` - (Required) HTTPS auth token
 
-### MS Sentinel
+### Slack
+* `integration_key` - (Required) Shared key / primary key used to authenticate with Slack
+
+### Datadog
+* `integration_url` - (Required) HTTPS endpoint URL
+* `integration_key` - (Required) HTTPS auth token
+
+### Microsoft Sentinel
 * `log_analytics_log_type` - (Required) Name of the MS Sentinel table used to store the alerts 
 * `log_analytics_workspace_id ` - (Required) ID of the MS Sentinel workspace
 * `integration_key` - (Required) Shared key / primary key used to authenticate with MS Sentinel
