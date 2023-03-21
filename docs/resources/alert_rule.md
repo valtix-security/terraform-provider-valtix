@@ -1,5 +1,5 @@
 # valtix_alert_rule
-Resource for creating and managing the Rules that defines the scope of Valtix Alerts to send to a 3rd-party SIEM (Pagerduty, Slack, ServiceNow).
+Resource for creating and managing the Rules that defines the scope of Valtix Alerts to send to a 3rd-party SIEM (Pagerduty, ServiceNow, Slack, Datadog, Microsoft Sentinel).
 
 ## Example Usage
 ```hcl
