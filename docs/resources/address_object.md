@@ -138,6 +138,19 @@ resource "valtix_address_object" "udt1_ag" {
 ```
 For a complete set of arguments, see [DYNAMIC_USER_DEFINED_TAG (Source Destination) Arguments](#dynamic_user_defined_tag-source-destination-arguments)
 
+### DYNAMIC_SERVICE_ENDPOINTS (Source Destination) Example
+```hcl
+resource "valtix_address_object" "dse1_ag" {
+    name                  = "dse1"
+    description           = "Dynamic Service Endpoint"
+    type                  = "DYNAMIC_SERVICE_ENDPOINTS"
+    csp_account_name      = valtix_cloud_account.aws1.name
+    region                = var.aws_region
+    service_endpoint_name = "AMAZON"
+}
+```
+For a complete set of arguments, see [DYNAMIC_SERVICE_ENDPOINTS (Source Destination) Arguments](#dynamic_service_endpoints-source-destination-arguments)
+
 ### GEO_IP (Source Destination) Example
 ```hcl
 resource "valtix_address_object" "geoip1_ag" {
