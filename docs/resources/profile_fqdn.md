@@ -136,13 +136,13 @@ resource "valtix_profile_fqdn" "fqdn_match_group" {
 * `fqdn_filter_list` - (Required) One or more blocks, where each block is a row in the FQDN Filter Profile (maximum of 254 blocks). Structure [defined below](#fqdn-filter-list).
 
 ### FQDN Profile Filter List Arguments (Filter)
-* `fqdn_list` - (Required) List of FQDNs (maximum of 60 FQDNs per list, combined with categories; maximum 2048 characters per FQDN). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#fqdn-list).
+* `fqdn_list` - (Required) List of FQDNs (maximum of 60 FQDNs per list, combined with categories; maximum 255 characters per FQDN). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#fqdn-list).
 * `vendor_category_list` - (Optional) List of pre-defined Vendor Categories (maximum 60 categories per list, combined with FQDNs).  Structure [defined below](#vendor-category-list). 
 * `policy` - (Required) Action to take when an FQDN matches an entry in the `fqnd_list` or `vendor_category_list`.  Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
 * `decryption_exception` - (Optional) When used in conjunction with a proxy Rule (ForwardProxy, ReverseProxy), instructs the proxy engine to bypass decryption. Applicable values: `true` or `false`.  If not specified, the default value is `true`.
 
 ### FQDN Profile Filter List Arguments (Match)
-* `fqdn_list` - (Required) List of FQDNs (maximum of 60 FQDNs per list; maximum 2048 characters per FQDN). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#fqdn-list).
+* `fqdn_list` - (Required) List of FQDNs (maximum of 60 FQDNs per list; maximum 255 characters per FQDN). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#fqdn-list).
 * `decryption_exception` - (Optional) When used in conjunction with a proxy Rule (ForwardProxy, ReverseProxy), instructs the proxy engine to bypass decryption. Applicable values: `true` or `false`.  If not specified, the default value is `true`.
 
 ### FQDN List
