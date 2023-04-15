@@ -205,7 +205,7 @@ port {
 * `service_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Service Object resources can be imported using the resource `id`:
+Service Object resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_service_object.app1_svc_http 10

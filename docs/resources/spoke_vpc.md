@@ -63,7 +63,7 @@ resource "valtix_spoke_vpc" "valtix_spoke" {
 * `id` - ID of the Spoke VPC resource
 
 ## Import
-[*Public Preview*] Spoke VPC resources can be imported using the resource `id`:
+Spoke VPC resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_spoke_vpc.valtix_spoke 10

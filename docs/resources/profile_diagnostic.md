@@ -39,7 +39,7 @@ resource "valtix_profile_packet_capture" "azurediag1" {
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Diagnostic Profile resources can be imported using the resource `id`:
+Diagnostic Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_diagnostic.awsdiag1 10

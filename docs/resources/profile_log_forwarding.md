@@ -139,7 +139,7 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Log Forwarding Profile resources can be imported using the resource `id`:
+Log Forwarding Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_log_forwarding.splunk 10

@@ -129,7 +129,7 @@ resource "valtix_profile_network_intrusion" "ips_auto_advanced" {
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Network Intrusion (IDS/IPS) Profile resources can be imported using the resource `id`:
+Network Intrusion (IDS/IPS) Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_network_intrusion.ips_auto 10
