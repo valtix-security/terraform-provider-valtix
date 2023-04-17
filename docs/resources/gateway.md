@@ -1,9 +1,12 @@
 # Resource: valtix_gateway
 Resource for creating and managing Valtix Gateways
 
-~> **Note on valtix_gateway resource creation**
+~> **Note on Valtix Gateway Policy**
 The [`valtix_cloud_account`](../valtix_cloud_account) and [`valtix_policy_rule_set`](../valtix_policy_rule_set)
 resources must be created before the `valtix_gateway` resource can be created
+
+~> **Note on Shared VPC Resources**
+The Valtix Gateway resource (`valtix_gateway`) can be deployed into a shared VPC.  When the VPC is shared, the check to confirm the VPC is a valid and accessible VPC is not possible.  Valtix has relaxed this check to allow proper Gateway deployment.  It is required by the user to ensure the VPC ID specified is a valid and accessible VPC.
 
 ## Example Usage
 
