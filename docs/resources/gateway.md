@@ -1,9 +1,12 @@
 # Resource: valtix_gateway
 Resource for creating and managing Valtix Gateways
 
-~> **Note on valtix_gateway resource creation**
+~> **Note on Valtix Gateway Policy**
 The [`valtix_cloud_account`](../valtix_cloud_account) and [`valtix_policy_rule_set`](../valtix_policy_rule_set)
 resources must be created before the `valtix_gateway` resource can be created
+
+~> **Note on Shared VPC Resources**
+The Valtix Gateway resource (`valtix_gateway`) can be deployed into a shared VPC.  When the VPC is shared, the check to confirm the VPC is a valid and accessible VPC is not possible.  Valtix has relaxed this check to allow proper Gateway deployment.  It is required by the user to ensure the VPC ID specified is a valid and accessible VPC.
 
 ## Example Usage
 
@@ -14,7 +17,7 @@ resource "valtix_gateway" "aws_gw1" {
   description             = "AWS Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
   instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = "22.10-03"
+  gateway_image           = "23.02-04"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -71,7 +74,7 @@ resource "valtix_gateway" azure_gw1 {
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
-  gateway_image           = "22.10-03"
+  gateway_image           = "23.02-04"
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -125,7 +128,7 @@ resource "valtix_gateway" "gcp_gw1" {
   description               = "GCP gateway"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = "22.10-03"
+  gateway_image             = "23.02-04"
   gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
@@ -217,7 +220,8 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `azure_resource_group` - (Required - Azure) Azure Resource Group name used to associate all created Gateway resources
 * `region` - (Required) Region where the Gateway will be deployed
 * `vpc_id` - (Required) VPC/VNet ID where the Gateway will be deployed.  For HUB mode deployments, the value must refer to the **id** attribute of the [`valtix_service_vpc`](/terraform/valtix_service_vpc/#valtix_service_vpc) resource.
-* `aws_gateway_lb` - (Optional - AWS) `true` or `false`. This argument only applies to Gateway deployments in AWS with `mode` set to `HUB` and `security_type` set to `EGRESS`. If the argument is set to `true`, the Gateway will be deployed using an AWS Gateway Load Balancer (GWLB).  If not specified, the default value is `false` and the Gateway will be deployed using an AWS Network Load Balancer, which is a legacy deployment mode prior to AWS offering the GWLB.  (Even though this argument is optional, it is recommended to specify a value explicitly, as the default value may change in the future).
+* `aws_gateway_lb` - (Optional - AWS) `true` or `false`. This argument only applies to Gateway deployments in AWS with `mode` set to `HUB` and `security_type` set to `EGRESS`. If the argument is set to `true`, the Gateway will be deployed using an AWS Gateway Load Balancer (GWLB).  If not specified, the default value is `false` and the Gateway will be deployed using an internal AWS Network Load Balancer (NLB), which is a legacy deployment mode prior to AWS offering the GWLB.  (Even though this argument is optional, it is recommended to specify a value explicitly, as the default value may change in the future).
+* `azure_gateway_lb` - (Optional - Azure) *[Public Preview]* `true` or `false`. This argument only applies to Gateway deployments in Azure with `mode` set to `HUB` and `security_type` set to `INGRESS`. If the argument is set to `true`, the Gateway will be deployed using an Azure Gateway Load Balancer (GWLB).  If not specified, the default value is `false` and the Gateway will be deployed using an Internet-facing Azure Network Load Balancer (NLB), which is the default deployment for an Ingress Gateway in Azure.
 * `mgmt_vpc_id` - (Required - GCP) GCP VPC ID where the management interface of the Gateway is attached
 * `mgmt_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the management interface to permit management traffic to egress the Gateway. This must allow all outbound traffic for the Gateway to communicate with the Valtix Controller, Valtix S3 Bucket and for management DNS resolution.
 * `datapath_security_group` - (Required - EDGE Mode) AWS Security Group name, Azure Network Security Group ID or GCP Network Tag name to assigned to the datapath interface to permit datapath traffic to ingress or egress the Gateway. It's recommended to leave this open so that all traffic can be sent and received by the Gateway where the Gateway Policy will control whether traffic is allowed or denied.
@@ -468,7 +472,7 @@ tags = {
 * `gateway_endpoint` - For Gateways of `security_type = INGRESS`, this represents the NLB endpoint (FQDN, IP Address) to be used as the target for the client communicating with any application protected by the Valtix Ingress Gateway.  This information is most often used in a DNS A record (IP Address) or CNAME record (FQDN) to resolve the application FQDN to the Valtix Ingress Gateway endpoint.  Valtix will receive traffic on this endpoint and proxy the traffic to the appropriate backend application based on the configured policy.  For the Ingress Gateway, this attribute is populated for Gateways deployed in all CSPs (AWS, Azure, GCP, OCI).  For Gateways of `security_type = EGRESS`, this represents the NLB endpoint (IP Address) to be used as a target for routing traffic from the Spoke VPC/VNet/VCN to the Valtix Egress / East-West Gateway.  Valtix will receive traffic from clients, and forward or proxy the traffic to the appropriate destination based on the configured policy.  For the Egress / East-West Gateway, this attribute is only populated for non-AWS Gateways (Azure, GCP, OCI).  For the AWS Gateways, traffic is routed to the AWS Transit Gateway (TGW) or Gateway Load Balancer (GWLB) endpoints.
 
 ## Import
-[*Public Preview*] Gateway resources can be imported using the resource `name`:
+Gateway resources can be imported using the resource `name`:
 
 ```hcl
 $ terraform import valtix_gateway.aws-gw1 aws-gw1

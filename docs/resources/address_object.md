@@ -319,7 +319,7 @@ A `tag_list` block representing a Tag key-value pair requires the following argu
 * `address_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Address Object resources can be imported using the resource `id`:
+Address Object resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_address_object.ip_cidr_ag 10

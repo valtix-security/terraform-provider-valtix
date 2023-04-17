@@ -62,7 +62,7 @@ resource "valtix_alert_rule" "alert_rule3" {
 * `is_active` - (Required) Applicable values are `true` or `false`
 
 ## Import
-[*Public Preview*] Alert Rule resources can be imported using the resource `name`:
+Alert Rule resources can be imported using the resource `name`:
 
 ```hcl
 $ terraform import valtix_alert_rule.alert_rule1 alert-rule1

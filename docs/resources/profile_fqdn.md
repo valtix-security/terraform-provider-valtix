@@ -279,7 +279,7 @@ Please check the Valtix UI (Manage -> Profiles -> FQDN Filtering) to obtain a li
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] FQDN Profile resources can be imported using the resource `id`:
+FQDN Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_fqdn.fqdn1 10

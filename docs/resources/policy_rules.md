@@ -104,3 +104,10 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 * `url_filter` - (Optional) ID of the URL Filter Profile (valtix_profile_url_filter). (e.g., *valtix_profile_url_filter.url1.id*).
 * `malicious_ip_profile` - (Optional) ID of the Malicious IP Profile (valtix_profile_malicious_ip_profile). (e.g., *valtix_profile_malicious_ip_profile.mip1.id*).
 * `packet_capture_enabled` - (Optional) `true` or `false`. Specifies the Packet Capture Profile to enable packet capture for each session that is processed by the Rule.  If not specified, the default value is `false`.
+
+## Import
+Policy Rules resources can be imported using the Policy Rule Set resource `id`:
+
+```hcl
+$ terraform import valtix_policy_rules.ingress_policy_standalone 10
+```

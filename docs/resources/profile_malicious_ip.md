@@ -38,7 +38,7 @@ resource "valtix_profile_malicious_ip" "mips_manual" {
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Malicious IP (MIP) Profile resources can be imported using the resource `id`:
+Malicious IP (MIP) Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_malicious_ip.mips_auto 10

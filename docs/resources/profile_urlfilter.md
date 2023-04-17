@@ -187,7 +187,7 @@ Please check the Valtix UI (Manage -> Profiles -> URL Filtering) to obtain a lis
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] URL Filter (URL) Profile resources can be imported using the resource `id`:
+URL Filter (URL) Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_urlfilter.url1 10

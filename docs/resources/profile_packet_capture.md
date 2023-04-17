@@ -49,7 +49,7 @@ resource "valtix_profile_packet_capture" "gcppcap1" {
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Packet Capture (PCAP) Profile resources can be imported using the resource `id`:
+Packet Capture (PCAP) Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_packet_capture.awspcap1 10

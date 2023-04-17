@@ -99,7 +99,7 @@ resource "valtix_cloud_account" "aws_account1" {
 * `id` - ID of the Cloud Account resource that can be referenced in other resources
 
 ## Import
-[*Public Preview*] Cloud Account resources can be imported using the resource `name`:
+Cloud Account resources can be imported using the resource `name`:
 
 ```hcl
 $ terraform import valtix_cloud_account.aws1 aws-account1

@@ -19,7 +19,7 @@ resource "valtix_profile_decryption" "decryption_profile1" {
 * `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
-[*Public Preview*] Decryption Profile resources can be imported using the resource `id`:
+Decryption Profile resources can be imported using the resource `id`:
 
 ```hcl
 $ terraform import valtix_profile_decryption.decryption_profile1 10
