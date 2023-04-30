@@ -15,7 +15,7 @@ resource "valtix_profile_ntp" "ntp1" {
 * `server_list` - (Required) List of NTP servers to be applied to the Gateway NTP configuration
 
 ### Default NTP Servers
-The default NTP servers for each CSP that are configured on the Gateway are as follows:
+The default NTP servers that are configured on the Gateway for each CSP are as follows:
 
 * **AWS:**  2.centos.pool.ntp.org, 169.254.169.123
 * **Azure:** 0.centos.pool.ntp.org, 1.centos.pool.ntp.org, 2.centos.pool.ntp.org, 3.centos.pool.ntp.org
