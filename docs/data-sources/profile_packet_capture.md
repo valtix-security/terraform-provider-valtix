@@ -30,4 +30,4 @@ resource "valtix_gateway" "aws_hub_gw1" {
 * `name` - (Required) Name of the Packet Capture Profile resource
 
 ## Attributes Reference
-* `id` - ID of the Log Packet Capture Profile resource
+* `id` - ID of the Packet Capture Profile resource

@@ -1,0 +1,33 @@
+# DataSource: valtix_profile_ntp
+Data source for obtaining attributes of a NTP Profile resource.  The attributes can be used in the arguments of a Gateway resource.
+
+## Example Usage
+```hcl
+data "valtix_profile_ntp" "ntp1"{
+ name = "ntp1"
+}
+
+resource "valtix_gateway" "aws_hub_gw1" {
+  name                  = "aws-hub-gw1"
+  description           = "AWS Gateway 1"
+  csp_account_name      = valtix_cloud_account.aws_act.name
+  instance_type         = "AWS_M5_2XLARGE"
+  gateway_image         = var.gateway_image
+  gateway_state         = "ACTIVE"
+  mode                  = "HUB"
+  security_type         = "EGRESS"
+  policy_rule_set_id    = valtix_policy_rule_set.egress_policy_rule_set.id
+  ssh_key_pair          = "ssh_keypair1"
+  aws_iam_role_firewall = "iam_role_name_for_firewall"
+  region                = "us-east-1"
+  vpc_id                = valtix_service_vpc.service_vpc.id
+  ntp_profile           = data.valtix_profile_ntp.ntp1.id
+  aws_gateway_lb        = true
+}
+```
+
+## Argument Reference
+* `name` - (Required) Name of the NTP Profile resource
+
+## Attributes Reference
+* `id` - ID of the NTP Profile resource
