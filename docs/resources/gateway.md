@@ -6,7 +6,8 @@ The [`valtix_cloud_account`](../valtix_cloud_account) and [`valtix_policy_rule_s
 resources must be created before the `valtix_gateway` resource can be created
 
 ~> **Note on Shared VPC Resources**
-The Valtix Gateway resource (`valtix_gateway`) can be deployed into a shared VPC.  When the VPC is shared, the check to confirm the VPC is a valid and accessible VPC is not possible.  Valtix has relaxed this check to allow proper Gateway deployment.  It is required by the user to ensure the VPC ID specified is a valid and accessible VPC.
+The Valtix Gateway resource (`valtix_gateway`) can be deployed into a shared VPC.  When the VPC is shared, the check to confirm the VPC is valid is not possible.  Valtix has relaxed this check to allow proper Gateway deployment.  It is required by the user to ensure the VPC ID specified is correct and valid.<br><br>
+It is also required that the shared VPC Project needs to grant *Compute Network User* access to the Valtix Controller service principal associated with Project where the VPC is shared.
 
 ## Example Usage
 
@@ -135,24 +136,26 @@ resource "valtix_gateway" "gcp_gw1" {
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-west1"
-  vpc_id                    = "https://www.googleapis.com/compute/v1/projects/gcp-project/global/networks/datapath-vpc"
-  mgmt_vpc_id               = "https://www.googleapis.com/compute/v1/projects/gcp-project/global/networks/mgmt-vpc"
-  # vpc_id                  = data.google_compute_network.datapath_vpc.self_link
+  mgmt_vpc_id               = "projects/gcp-project/global/networks/mgmt-vpc"
+  vpc_id                    = "projects/gcp-project/global/networks/datapath-vpc"
   # mgmt_vpc_id             = data.google_compute_network.mgmt_vpc.self_link
+  # vpc_id                  = data.google_compute_network.datapath_vpc.self_link
   mgmt_security_group       = "valtix-mgmt"
   datapath_security_group   = "valtix-datapath"
   log_profile               = valtix_profile_log_forwarding.splunk.id
   instance_details {
     availability_zone = "us-west1-a"
-    mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
-    datapath_subnet   = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
+    mgmt_subnet       = "projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
+    datapath_subnet   = "projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
     # mgmt_subnet     = data.google_compute_subnetwork.mgmt_subnet1.self_link
     # datapath_subnet = data.google_compute_subnetwork.datapath_subnet1.self_link
   }
   instance_details {
     availability_zone = "us-west1-b"
-    mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
-    datapath_subnet   = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
+    mgmt_subnet       = "projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
+    datapath_subnet   = "projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
+    # mgmt_subnet     = data.google_compute_subnetwork.mgmt_subnet2.self_link
+    # datapath_subnet = data.google_compute_subnetwork.datapath_subnet2.self_link
   }
 }
 ```
