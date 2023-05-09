@@ -6,7 +6,8 @@ The [`valtix_cloud_account`](../valtix_cloud_account) and [`valtix_policy_rule_s
 resources must be created before the `valtix_gateway` resource can be created
 
 ~> **Note on Shared VPC Resources**
-The Valtix Gateway resource (`valtix_gateway`) can be deployed into a shared VPC.  When the VPC is shared, the check to confirm the VPC is a valid and accessible VPC is not possible.  Valtix has relaxed this check to allow proper Gateway deployment.  It is required by the user to ensure the VPC ID specified is a valid and accessible VPC.
+The Valtix Gateway resource (`valtix_gateway`) can be deployed using Subnets of a VPC that is shared from another Project.  The Gateway instances themselves are deployed in the local Project, while the interfaces use the Subnets of the Shared VPC.  When the VPC subnets are shared, the check to confirm the shared VPC is valid, and the subnets are contained within, is not possible.  Valtix has removed the check altogether.  It is important that the shared VPC ID specified is correct and valid to ensure proper Gateway deployment.<br><br>
+It is also required that the Project that is sharing the VPC needs to grant *Compute Network User* access to the Valtix Controller service principal associated with Project the VPC is shared with.
 
 ## Example Usage
 
@@ -135,24 +136,26 @@ resource "valtix_gateway" "gcp_gw1" {
   policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.id
   gcp_service_account_email = "valtix-controller@gcp-project.iam.gserviceaccount.com"
   region                    = "us-west1"
-  vpc_id                    = "https://www.googleapis.com/compute/v1/projects/gcp-project/global/networks/datapath-vpc"
-  mgmt_vpc_id               = "https://www.googleapis.com/compute/v1/projects/gcp-project/global/networks/mgmt-vpc"
-  # vpc_id                  = data.google_compute_network.datapath_vpc.self_link
+  mgmt_vpc_id               = "projects/gcp-project/global/networks/mgmt-vpc"
+  vpc_id                    = "projects/gcp-project/global/networks/datapath-vpc"
   # mgmt_vpc_id             = data.google_compute_network.mgmt_vpc.self_link
+  # vpc_id                  = data.google_compute_network.datapath_vpc.self_link
   mgmt_security_group       = "valtix-mgmt"
   datapath_security_group   = "valtix-datapath"
   log_profile               = valtix_profile_log_forwarding.splunk.id
   instance_details {
     availability_zone = "us-west1-a"
-    mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
-    datapath_subnet   = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
+    mgmt_subnet       = "projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
+    datapath_subnet   = "projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
     # mgmt_subnet     = data.google_compute_subnetwork.mgmt_subnet1.self_link
     # datapath_subnet = data.google_compute_subnetwork.datapath_subnet1.self_link
   }
   instance_details {
     availability_zone = "us-west1-b"
-    mgmt_subnet       = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
-    datapath_subnet   = "https://www.googleapis.com/compute/v1/projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
+    mgmt_subnet       = "projects/gcp-project/regions/us-west1/subnetworks/mgmt-subnet"
+    datapath_subnet   = "projects/gcp-project/regions/us-west1/subnetworks/datapath-subnet"
+    # mgmt_subnet     = data.google_compute_subnetwork.mgmt_subnet2.self_link
+    # datapath_subnet = data.google_compute_subnetwork.datapath_subnet2.self_link
   }
 }
 ```
@@ -435,7 +438,7 @@ settings {
 ```
 
 ~> **Note on FQDN IP Cache Settings**
-If the Address Object is configured with a set of FQDNs, the Valtix Gateway will resolve the FQDNs to a set of IPs using DNS.  The DNS resolution occurs every 60s and no cache is maintained (e.g., a new set of IPs will be established for each resolution).  If the FQDNs can resolve to a larger set of IPs, the Gateway can be configured to maintain an IP cache.  Gateway settings can be configured to control the DNS update interval (resolution frequency), entry TTL for each IP that is placed into the cache (duration the cache will maintain the IP before the IP is flushed), and the size of the cache (number of unique IPs that can be maintained by the cache).  To use FQDNs in an Address Object, see the [Address Object STATIC (Source Destination) Arguments](../address_object#static-source-destination-arguments) section of the Address Object resource.
+If the Address Object is configured with a set of FQDNs, the Valtix Gateway will resolve the FQDNs to a set of IPs using DNS.  The DNS resolution occurs every 60s and no cache is maintained (e.g., a new set of IPs will be established for each resolution).  If the FQDNs can resolve to a larger set of IPs, the Gateway can be configured to maintain an IP cache.  Gateway settings can be configured to control the DNS update interval (resolution frequency), entry TTL for each IP that is placed into the cache (duration the cache will maintain the IP before the IP is flushed), and the size of the cache (number of unique IPs that can be maintained by the cache).  To use FQDNs in an Address Object, see the [Address Object STATIC (Source Destination) Arguments](../resources/address_object#static-source-destination-arguments) section of the Address Object resource.
 
 
 ## Gateway Tags
