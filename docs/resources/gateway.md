@@ -6,8 +6,8 @@ The [`valtix_cloud_account`](../valtix_cloud_account) and [`valtix_policy_rule_s
 resources must be created before the `valtix_gateway` resource can be created
 
 ~> **Note on Shared VPC Resources**
-The Valtix Gateway resource (`valtix_gateway`) can be deployed into a shared VPC.  When the VPC is shared, the check to confirm the VPC is valid is not possible.  Valtix has relaxed this check to allow proper Gateway deployment.  It is required by the user to ensure the VPC ID specified is correct and valid.<br><br>
-It is also required that the shared VPC Project needs to grant *Compute Network User* access to the Valtix Controller service principal associated with Project where the VPC is shared.
+The Valtix Gateway resource (`valtix_gateway`) can be deployed using Subnets of a VPC that is shared from another Project.  The Gateway instances themselves are deployed in the local Project, while the interfaces use the Subnets of the Shared VPC.  When the VPC subnets are shared, the check to confirm the shared VPC is valid, and the subnets are contained within, is not possible.  Valtix has removed the check altogether.  It is important that the shared VPC ID specified is correct and valid to ensure proper Gateway deployment.<br><br>
+It is also required that the Project that is sharing the VPC needs to grant *Compute Network User* access to the Valtix Controller service principal associated with Project the VPC is shared with.
 
 ## Example Usage
 
