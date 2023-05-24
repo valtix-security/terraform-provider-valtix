@@ -32,7 +32,7 @@ resource "valtix_alert_profile" "slack" {
 ```
 
 ### Datadog
-```
+```hcl
 resource "valtix_alert_profile" "datadog" {
   name            = "datadog"
   type            = "DataDog"
