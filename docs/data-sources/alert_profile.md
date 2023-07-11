@@ -3,13 +3,13 @@ Data source for obtaining the attributes of an Alert Profile resource. The attri
 
 ## Example Usage
 ```hcl
-data "valtix_alert_profile" "slack1" {
-  name = "slack1"
+data "valtix_alert_profile" "webex" {
+  name = "webex"
 }
 
 resource "valtix_alert_rule" "alert_rule1" {
   name          = "alert_rule1"
-  alert_profile = data.valtix_alert_profile.slack1.id
+  alert_profile = data.valtix_alert_profile.webex.id
   type          = "Type_SystemLogs"
   sub_type      = "SubType_SystemLogsGateway"
   severity      = "Info"

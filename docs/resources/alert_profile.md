@@ -1,5 +1,5 @@
 # valtix_alert_profile
-Resource for creating and managing an Alert Profile that defines the 3rd-party SIEM (Pagerduty, Slack, ServiceNow) and configuration required to send Valtix Alerts.  The Alert Profile is used in an Alert Rule.
+Resource for creating and managing an Alert Profile that defines the configuration required for sending Alerts to 3rd-party SIEMs (Pagerduty, Slack, ServiceNow, Slack, Datadog, MS Sentinel, Webex).  The Alert Profile is used in an Alert Rule.
 
 ## Example Usage
 
@@ -52,12 +52,22 @@ resource "valtix_alert_profile" "mssentinel1" {
 }
 ```
 
+### Webex
+```hcl
+resource "valtix_alert_profile" "webex" {
+  name            = "webex"
+  description     = "Webex"
+  type            = "WebexWebHook"
+  integration_url = "https://webexapis.com/v1/webhooks/incoming/Y2lzY29zcGFyazovL3VzL1dFQkhPT0svYjc5NTQ0NzMtMWQ2ZC00Y2I0LTk1ZWMtYzFlNTA0NGZlNTE2"
+}
+```
+
 ## Argument Reference
 
 ### Common Arguments
 * `name` - (Required) Name of the Alert Profile
 * `description` - Description of the Alert Profile
-* `type` - (Required) One of `PagerDutyEventApi`, `ServiceNowWebHook`, `SlackWebHook`, `DataDog`, `MicrosoftSentinel`
+* `type` - (Required) One of `PagerDutyEventApi`, `ServiceNowWebHook`, `SlackWebHook`, `DataDog`, `MicrosoftSentinel`, `WebexWebHook`
 
 ### Destination-specific Arguments
 
@@ -79,6 +89,9 @@ resource "valtix_alert_profile" "mssentinel1" {
 * `log_analytics_log_type` - (Required) Name of the MS Sentinel table used to store the alerts 
 * `log_analytics_workspace_id ` - (Required) ID of the MS Sentinel workspace
 * `integration_key` - (Required) Shared key / primary key used to authenticate with MS Sentinel
+
+### Webex
+* `integration_key` - (Required) Shared key / primary key used to authenticate with Webex
 
 ## Attribute Reference
 * `id` - ID of the Alert Profile resource that can be referenced in other resources (e.g., *valtix_alert_rule*)

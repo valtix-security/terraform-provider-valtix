@@ -3,17 +3,17 @@ Resource for creating and managing the Rules that defines the scope of Valtix Al
 
 ## Example Usage
 ```hcl
-resource "valtix_alert_profile" "slack1" {
-  name            = "slack1"
-  type            = "SlackWebHook"
-  integration_url = "https://slack-webhook-url"
+resource "valtix_alert_profile" "webex" {
+  name            = "webex"
+  type            = "WebexWebHook"
+  integration_url = "https://webexapis.com/v1/webhooks/incoming/Y2lzY29zcGFyazovL3VzL1dFQkhPT0svYjc5NTQ0NzMtMWQ2ZC00Y2I0LTk1ZWMtYzFlNTA0NGZlNTE2"
 }
 ```
 
 ```hcl
 resource "valtix_alert_rule" "alert_rule1" {
   name          = "alert-rule1"
-  alert_profile = valtix_alert_profile.slack1.id
+  alert_profile = valtix_alert_profile.webex.id
   type          = "Type_SystemLogs"
   sub_type      = "SubType_SystemLogsGateway"
   severity      = "Info"
@@ -24,7 +24,7 @@ resource "valtix_alert_rule" "alert_rule1" {
 ```hcl
 resource "valtix_alert_rule" "alert_rule2" {
   name          = "alert-rule2"
-  alert_profile = valtix_alert_profile.slack1.id
+  alert_profile = valtix_alert_profile.webex.id
   type          = "Type_SystemLogs"
   sub_type      = "SubType_SystemLogsAccount"
   severity      = "Info"
@@ -35,16 +35,16 @@ resource "valtix_alert_rule" "alert_rule2" {
 ```hcl
 resource "valtix_alert_rule" "alert_rule3" {
   name          = "alert-rule3"
-  alert_profile = valtix_alert_profile.slack1.id
+  alert_profile = valtix_alert_profile.webex.id
   type          = "Type_AuditLogs"
   is_active     = true
 }
 ```
 
 ```hcl
-resource "valtix_alert_rule" "alert_rule3" {
-  name          = "alert-rule3"
-  alert_profile = valtix_alert_profile.slack1.id
+resource "valtix_alert_rule" "alert_rule4" {
+  name          = "alert-rule4"
+  alert_profile = valtix_alert_profile.webex.id
   type          = "Type_Inventory"
   sub_type      = "SubType_InventoryGuardRails"
   severity      = "Info"
