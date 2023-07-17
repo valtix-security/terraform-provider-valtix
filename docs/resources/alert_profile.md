@@ -80,7 +80,6 @@ resource "valtix_alert_profile" "webex" {
 
 ### Slack
 * `integration_url` - (Required) HTTPS endpoint URL
-* `integration_key` - (Required) Shared key / primary key used to authenticate with Slack
 
 ### Datadog
 * `integration_url` - (Required) HTTPS endpoint URL
