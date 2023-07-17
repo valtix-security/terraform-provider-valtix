@@ -270,6 +270,7 @@ If the Address Object is configured with a set of FQDNs, the Valtix Gateway will
 * `csp_account_name` - (Optional) The name of the CSP account onboarded into Valtix to restrict the scope of the `tag_list`
 * `region` - (Optional) The Region to restrict the scope of the `tag_list`
 * `vpc_id` - (Optional) The VPC ID to restrict the scope of the `tag_list`
+* `subnet_id` - (Optional) The Subnet ID to restrict the scope of the `tag_list`
 * `resource_group` - (Azure only) The Resource Group to restrict the scope of the `tag_list`
 * `tag_list` - (Required) The set of one or more blocks where each block represents a Tag key-value pair and Resource type. The set of blocks is operated on by an AND operator. `tag_list` structure [defined below](#tag-list). The set of `tag_list` arguments are used to dynamically associate the IPs or CIDRs of Instances, Subnets and VPCs/Vnets that match the set of Tag key-value pairs.
 <br><br>For an example, see [DYNAMIC_USER_DEFINED_TAG (Source Destination) Example](#dynamic_user_defined_tag-source-destination-example)
