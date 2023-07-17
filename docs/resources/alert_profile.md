@@ -36,7 +36,6 @@ resource "valtix_alert_profile" "slack" {
 resource "valtix_alert_profile" "datadog" {
   name            = "datadog"
   type            = "DataDog"
-  integration_url = "https://http-intake.logs.datadoghq.com/"
   integration_key = "<auth token>"
 }
 ```
@@ -82,7 +81,6 @@ resource "valtix_alert_profile" "webex" {
 * `integration_url` - (Required) HTTPS endpoint URL
 
 ### Datadog
-* `integration_url` - (Required) HTTPS endpoint URL
 * `integration_key` - (Required) Shared key / primary key used to authenticate with Datadog
 
 ### Microsoft Sentinel
