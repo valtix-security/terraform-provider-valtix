@@ -7,7 +7,7 @@ data "valtix_service_object" "app1_svc_https" {
   name = "app1-svc-https"
 }
 
-rule_set_id = valtix_policy_rule_set.ingress_policy_rule_set.id
+rule_set_id = valtix_policy_rule_set.ingress_policy_rule_set.id {
   rule {
     name    = "tcp-443"
     type    = "Forwarding"
