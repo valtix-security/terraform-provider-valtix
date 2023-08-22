@@ -3,17 +3,17 @@ Data source for obtaining the attributes of a Service Object resource. The attri
 
 ## Example Usage
 ```hcl
-data "valtix_service_object" "app1_svc_https" {
-  name = "app1-svc-https"
+data "valtix_service_object" "forwarding_tcp_443" {
+  name = "forwarding-tcp-443"
 }
-
-rule_set_id = valtix_policy_rule_set.ingress_policy_rule_set.id
+resource "valtix_policy_rules" "egress_policy_rules" {
+  rule_set_id = valtix_policy_rule_set.egress_policy_rule_set.id
   rule {
     name    = "tcp-443"
     type    = "Forwarding"
     state   = "ENABLED"
     action  = "ALLOW_LOG"
-    service = data.valtix_service_object.app1_svc_https.id
+    service = data.valtix_service_object.forwarding_tcp_443.id
   }
 }
 ```

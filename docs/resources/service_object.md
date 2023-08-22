@@ -139,7 +139,7 @@ For a complete set of arguments, see [Forwarding Arguments](#forwarding-argument
 * `service_type` - (Required) Type of Service Object.  Applicable values are `ReverseProxy`, `ForwardProxy`, or `Forwarding`.
 
 ### ReverseProxy Arguments
-* `transport_mode` - (Required) Proxy to use for processing traffic.  Applicable values for secure proxy are `HTTPS`, `TLS`, or `WEBSOCKET_S`. Applicable values for non-secure proxy are `HTTP`, `TCP`, or `WEBSOCKET`.
+* `transport_mode` - (Required) Proxy to use for processing traffic.  Applicable values for secure proxy are `TLS`, `HTTPS`, or `WEBSOCKET_S`. Applicable values for non-secure proxy are `TCP`, `HTTP`, or `WEBSOCKET`.
 * `tls_profile` - (Optional) Application certificate to issue and TLS settings to use when negotiating a secure TLS session between the client and Gateway.  Applicable value is a Decryption Profile (`valtix_profile_decryption`) ID.
 * `client_tls_profile` - (Optional) Certificate to use to authenticate the client certificate in a mutual TLS handshake. Applicable value is a Decryption Profile (`valtix_profile_decryption`) ID.
 * `port` - (Required) Destination port(s) to use for processing traffic.  Multiple ports or port ranges can be specified by repeating this block. Structure is [defined below](#reverseproxy-port-arguments).
@@ -171,7 +171,7 @@ port {
 For examples, see [ReverseProxy Examples](#reverseproxy-examples)
 
 ### ForwardProxy Arguments
-* `transport_mode` - (Required) Proxy to use for processing traffic.  Applicable values for non-secure proxy are `HTTP` or `WEBSOCKET`.  Applicable values for secure proxy are `HTTPS` or `WEBSOCKET_S`.
+* `transport_mode` - (Required) Proxy to use for processing traffic.  Applicable values for secure proxy are `TLS`, `HTTPS`, or `WEBSOCKET_S`. Applicable values for non-secure proxy are `TCP`, `HTTP`, or `WEBSOCKET`.
 * `port` - (Required) Destination port(s) to use for processing traffic.  Multiple ports or port ranges can be specified by repeating this block.  Structure is [defined below](#forwardproxy-port-arguments).
 * `tls_profile` - (Optional) Intermediate, self-signed or enterprise-signed certificate to be issued and TLS settings to be used when negotiating a secure TLS session between the client and Gateway.  Applicable value is a Decryption Profile (`valtix_profile_decryption`) ID.
 
