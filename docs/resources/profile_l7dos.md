@@ -28,7 +28,6 @@ resource "valtix_profile_l7dos" "l7dos1" {
 
 ## Attribute Reference
 * `id` - ID of the L7DOS Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 L7 DOS (L7DOS) Profile resources can be imported using the resource `id`:

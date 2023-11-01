@@ -18,4 +18,3 @@ resource "valtix_gateway" "aws_gw1" {
 
 ## Attributes Reference
 * `id` - ID of the Policy Ruleset resource
-* `rule_set_id` - (Deprecated) Same as the `id` attribute

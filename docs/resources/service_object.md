@@ -202,7 +202,6 @@ port {
 
 ## Attribute Reference
 * `id` - ID of the Service Object resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
-* `service_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Service Object resources can be imported using the resource `id`:

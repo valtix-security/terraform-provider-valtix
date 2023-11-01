@@ -120,7 +120,6 @@ resource "valtix_alert_profile" "splunk" {
 
 ## Attribute Reference
 * `id` - ID of the Alert Profile resource that can be referenced in other resources (e.g., *valtix_alert_rule*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Alert Profile resources can be imported using the resource `id`:

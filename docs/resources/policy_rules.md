@@ -100,7 +100,6 @@ resource "valtix_policy_rules" "egress-ew-policy-rules" {
 * `web_protection_profile` - (Optional) ID of the WAF Profile (valtix_profile_web_protection). (e.g., *valtix_profile_web_protection.waf1.id*).
 * `fqdn_filter_profile` - (Optional) ID of the FQDN Filter Profile (valtix_profile_fqdn_filter). (e.g., *valtix_profile_fqdn_filter.waf1.id*).
 * `anti_malware_profile` - (Optional) ID of the AM Profile (valtix_profile_anti_malware). (e.g., *valtix_profile_anti_malware.waf1.id*).
-* `anti_virus_profile` - (Optional - Deprecated) ID of the AV Profile (valtix_profile_anti_virus). (e.g., *valtix_profile_anti_virus.waf1.id*). This argument has been deprecated and will be remain in place for two release cycles at which point it will be removed.
 * `url_filter` - (Optional) ID of the URL Filter Profile (valtix_profile_url_filter). (e.g., *valtix_profile_url_filter.url1.id*).
 * `malicious_ip_profile` - (Optional) ID of the Malicious IP Profile (valtix_profile_malicious_ip_profile). (e.g., *valtix_profile_malicious_ip_profile.mip1.id*).
 * `packet_capture_enabled` - (Optional) `true` or `false`. Specifies the Packet Capture Profile to enable packet capture for each session that is processed by the Rule.  If not specified, the default value is `false`.

@@ -184,7 +184,6 @@ Please check the Valtix UI (Manage -> Profiles -> URL Filtering) to obtain a lis
 
 ## Attribute Reference
 * `id` - ID of the URL Filter Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 URL Filter (URL) Profile resources can be imported using the resource `id`:
