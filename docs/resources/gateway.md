@@ -233,7 +233,6 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `health_check_port` - (Optional) TCP Port number that the Valtix orchestrated load balancers use for health checks to the Gateway instances.  If not specified, the default value is `65534`. A rule must be configured on the `datapath_security_group` to allow traffic to this TCP Port.
 * `log_profile` - (Optional) Log Forwarding Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.id)*
 * `packet_capture_profile` - (Optional) Packet Capture Profile ID *(e.g. valtix_profile_packet_capture.pcap1.id)*
-* `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.id)*
 * `ntp_profile` - (Optional) NTP Profile ID *(e.g. valtix_profile_ntp.ntp1.id)*
 * `metrics_profile` - (Optional) Metrics Forwarding Profile ID *(e.g. valtix_profile_metrics_forwarding.datadog.id)*
 * `settings` - (Optional) Gateway Settings block. This block can be repeated multiple times. See [Gateway Settings](#gateway-settings) for the block structure.
