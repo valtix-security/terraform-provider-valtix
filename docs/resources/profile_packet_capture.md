@@ -46,7 +46,6 @@ resource "valtix_profile_packet_capture" "gcppcap1" {
 
 ## Attribute Reference
 * `id` - ID of the Packet Capture Profile resource that can be referenced in other resources (e.g., *valtix_gateway*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Packet Capture (PCAP) Profile resources can be imported using the resource `id`:

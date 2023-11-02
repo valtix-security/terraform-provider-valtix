@@ -1,5 +1,5 @@
 # valtix_alert_profile
-Resource for creating and managing an Alert Profile that defines the configuration required for sending Alerts to 3rd-party SIEMs (Pagerduty, Slack, ServiceNow, Slack, Datadog, MS Sentinel, Webex).  The Alert Profile is used in an Alert Rule.
+Resource for creating and managing an Alert Profile that defines the configuration required for sending Alerts to 3rd-party SIEMs (Pagerduty, Slack, ServiceNow, Slack, Datadog, MS Sentinel, MS Teams, Webex, Splunk).  The Alert Profile is used in an Alert Rule.
 
 ## Example Usage
 
@@ -17,7 +17,7 @@ resource "valtix_alert_profile" "pagerduty" {
 resource "valtix_alert_profile" "servicenow" {
   name            = "servicenow"
   type            = "ServiceNowWebHook"
-  integration_url = "https://service-now-url"
+  integration_url = "https://<service-now-url>"
   integration_key = "<key>"
 }
 ```
@@ -27,7 +27,7 @@ resource "valtix_alert_profile" "servicenow" {
 resource "valtix_alert_profile" "slack" {
   name            = "slack"
   type            = "SlackWebHook"
-  integration_url = "https://slack-webhook-url"
+  integration_url = "https://<slack-webhook-url>"
 }
 ```
 
@@ -46,8 +46,17 @@ resource "valtix_alert_profile" "mssentinel1" {
   name                       = "mssentinel1"
   type                       = "MicrosoftSentinel"
   log_analytics_log_type     = "mssentinel-valtix-alerting"
-  log_analytics_workspace_id = "bbb7ee6f-6cd4-43e4-a2ab-e32fb70e401f"
+  log_analytics_workspace_id = "<workspace-id>"
   integration_key            = "<shared-key/primary-key>"
+}
+```
+
+### Microsoft Teams
+```hcl
+resource "valtix_alert_profile" "msteams" {
+  name            = "msteams"
+  type            = "MicrosoftTeams"
+  integration_url = "https://<msteams-url>"
 }
 ```
 
@@ -57,7 +66,17 @@ resource "valtix_alert_profile" "webex" {
   name            = "webex"
   description     = "Webex"
   type            = "WebexWebHook"
-  integration_url = "https://webexapis.com/v1/webhooks/incoming/Y2lzY29zcGFyazovL3VzL1dFQkhPT0svYjc5NTQ0NzMtMWQ2ZC00Y2I0LTk1ZWMtYzFlNTA0NGZlNTE2"
+  integration_url = "https://<webex-url>"
+}
+```
+
+### Splunk
+```hcl
+resource "valtix_alert_profile" "splunk" {
+  name            = "splunk"
+  type            = "Splunk"
+  integration_url = "https://<splunk-url>"
+  integration_key = "<shared-key/primary-key>"
 }
 ```
 
@@ -66,7 +85,7 @@ resource "valtix_alert_profile" "webex" {
 ### Common Arguments
 * `name` - (Required) Name of the Alert Profile
 * `description` - Description of the Alert Profile
-* `type` - (Required) One of `PagerDutyEventApi`, `ServiceNowWebHook`, `SlackWebHook`, `DataDog`, `MicrosoftSentinel`, `WebexWebHook`
+* `type` - (Required) One of `PagerDutyEventApi`, `ServiceNowWebHook`, `SlackWebHook`, `DataDog`, `MicrosoftSentinel`, `MicrosoftTeams`, `WebexWebHook`, `Splunk`
 
 ### Destination-specific Arguments
 
@@ -84,16 +103,23 @@ resource "valtix_alert_profile" "webex" {
 * `integration_key` - (Required) Shared key / primary key used to authenticate with Datadog
 
 ### Microsoft Sentinel
-* `log_analytics_log_type` - (Required) Name of the MS Sentinel table used to store the alerts 
-* `log_analytics_workspace_id ` - (Required) ID of the MS Sentinel workspace
 * `integration_key` - (Required) Shared key / primary key used to authenticate with MS Sentinel
+* `log_analytics_log_type` - (Required) Name of the MS Sentinel table where the Alerts will be stored
+* `log_analytics_workspace_id ` - (Required) ID of the MS Sentinel workspace
+
+### Microsoft Teams
+* `integration_url` - (Required) HTTPS endpoint URL
 
 ### Webex
 * `integration_url` - (Required) HTTPS endpoint URL
 
+### Splunk
+* `integration_url` - (Required) HTTPS endpoint URL
+* `integration_key` - (Required) Shared key / primary key used to authenticate with Splunk
+* `splunk_index` - (Optional) Index name where the Alerts will be stored.  If not specified, the default index of `main` will be used.
+
 ## Attribute Reference
 * `id` - ID of the Alert Profile resource that can be referenced in other resources (e.g., *valtix_alert_rule*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Alert Profile resources can be imported using the resource `id`:

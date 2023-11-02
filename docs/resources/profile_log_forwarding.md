@@ -94,7 +94,6 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 ### Common Arguments
 * `name` - (Required) Name of the Log Forwarding profile
 * `destination` - (Required) One of `REMOTE_SYSLOG`, `SPLUNK`, `DATADOG`, `GCPLOGGING_FROM_GATEWAY`, `SUMO_LOGIC`, `AWS_S3`, `MS_SENTINEL`
-* `siem_vendor` - (Deprecated) One of `REMOTE_SYSLOG`, `SPLUNK`, `DATADOG`, `GCPLOGGING_FROM_GATEWAY`
 * `type` - (Optional) Specifies whether the Log Forwarding Profile is a Group Log Forwarding Profile.  The only applicable value is `GROUP`.  If not specified, the Log Forwarding Profile operates as a Standalone (non-Group) Log Forwarding Profile.
 * `group_member_ids` - (Required - Group). Ordered list of Log Forwarding Profile (Standalone) IDs that make up the components of the Log Forwarding Profile (Group).  This argument only applies when `type` is set to `GROUP`.  The list can contain zero or more IDs and is limited to a maximum of 5 IDs.
 
@@ -136,7 +135,6 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 
 ## Attribute Reference
 * `id` - ID of the Log Forwarding Profile resource that can be referenced in other resources (e.g., *valtix_gateway*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Log Forwarding Profile resources can be imported using the resource `id`:

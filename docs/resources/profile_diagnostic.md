@@ -36,7 +36,6 @@ resource "valtix_profile_packet_capture" "azurediag1" {
 
 ## Attribute Reference
 * `id` - ID of the Diagnostic Profile resource that can be referenced in other resources (e.g., *valtix_gateway*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Diagnostic Profile resources can be imported using the resource `id`:

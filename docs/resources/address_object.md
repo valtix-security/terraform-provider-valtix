@@ -194,7 +194,7 @@ For a complete set of arguments, see [DYNAMIC_ASG (Source Destination) Arguments
 * `name` - (Required) Name of the Address Object
 * `description` - (Optional) Description of the Address Object
 * `type` = `STATIC` - (Required) Type of the Address Object
-* `value` - (Required) A list of IPs, CIDRs or FQDNs. The total number of FQDNs is limited to 200 where each FQDN can resolve to at most 400 IPs.
+* `value` - (Required) A list of IPs, CIDRs or FQDNs
 <br><br>For an example, see [STATIC (Source Destination) Example](#static-source-destination-examples)
 
 ~> **Note on use of FQDNs**
@@ -317,7 +317,6 @@ A `tag_list` block representing a Tag key-value pair requires the following argu
 
 ## Attribute Reference
 * `id` - ID of the Address Object resource that can be referenced in other resources (e.g., *valtix_service_object*, `address_group_ids`)
-* `address_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Address Object resources can be imported using the resource `id`:

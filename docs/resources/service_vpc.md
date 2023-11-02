@@ -53,14 +53,17 @@ resource "valtix_service_vpc" "gcp_service_vpc" {
 * `cidr` - (Required) CIDR of the Service VPC/VNet to be deployed.  For GCP only: This CIDR is used for the Datapath Subnet created within the Datapath VPC as part of the GCP Service VPC construct. When the Gateways are deployed within the GCP Service VPC construct (Management and Datapath VPCs), the datapath interfaces will be deployed in the Datapath VPC / Subnet.  This CIDR block must be different than the CIDR specified in the `management_cidr` argument.
 * `availability_zones` - (Required) List of Availability Zones for the Region/Location to associate with the Service VPC/VNet. Valtix Gateways deployed in this Service VPC/VNet will have instances deployed in all associated Availability Zones.
 * `transit_gateway_id` - (Required for AWS) Transit Gateway ID for the Service VPC to attach to
-* `azure_resource_group` - (Required for Azure) Resource Group Name in which the Service VNet and its resources are created
+* `azure_resource_group` - (Required for Azure) Resource Group where the Service VNet and its resources will be orchestrated
+<!-- Leaving in place for when we support this in Terraform>
+* `azure_resource_group_name` - (Required for Azure) Resource Group Name where the Service VNet and its resources will be orchestrated.  This argument is required only when `azure_resource_group` argument value is set to `Create`, where the Resource Group will be created as part of the Service VNet orchestration.
+* `azure_resource_group_region` - (Required for Azure) Resource Group Region where the Service VNet and its resources will be orchestrated.  This argument is required only when the `azure_resource_group` arguement value is set to `Create`, where the Resource Group will be created as part of the Service VNet orchestration.
+<-->
 * `management_cidr` - (Required for GCP) The CIDR used for the Management Subnet created within the Management VPC as part of the GCP Service VPC construct. When the Gateways are deployed within the GCP Service VPC construct (Management and Datapath VPCs), the management interfaces will be deployed in the Management VPC / Subnet.  This CIDR block must be different than the CIDR specified in the `cidr` argument.
-* `use_nat_gateway` - (Optional for AWS) `true` or `false`. If `true`, enables egress communication through NAT gateway in each AZ (Default `false`).
+* `use_nat_gateway` - (Optional for AWS) Applicable values are `true` or `false`. If set to `true`, AWS NAT Gateways will be orchestrated to use for all egress traffic to the Internet.  If not specified, the default value is `false`.
 
 ## Attribute Reference
 * `id` - ID of the Services VPC/VNet resource that can be referenced in other resources (e.g., *valtix_gateway*)
 * `vpc_id` - Cloud specific ID of the Services VPC/VNet
-* `service_vpc_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Service VPC/VNet resources can be imported using the resource `id`:

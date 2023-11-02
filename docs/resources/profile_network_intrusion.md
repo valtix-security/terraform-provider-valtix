@@ -126,7 +126,6 @@ resource "valtix_profile_network_intrusion" "ips_auto_advanced" {
 
 ## Attribute Reference
 * `id` - ID of the Network Intrusion (IDS/IPS) Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
-* `profile_id` - (Deprecated) Same as the `id` attribute
 
 ## Import
 Network Intrusion (IDS/IPS) Profile resources can be imported using the resource `id`:
