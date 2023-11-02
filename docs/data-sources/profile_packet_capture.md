@@ -1,4 +1,4 @@
-# DataSource: valtix_packet_capture
+# DataSource: valtix_profile_packet_capture
 Data source for obtaining attributes of a Packet Capture Profile resource.  The attributes can be used in the arguments of a Gateway resource.
 
 ## Example Usage

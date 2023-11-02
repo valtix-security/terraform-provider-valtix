@@ -231,11 +231,10 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 * `min_instances` - (Optional) Minimum number of instances per availability zone.  If not specified, the default value is `1`.
 * `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `3`.
 * `health_check_port` - (Optional) TCP Port number that the Valtix orchestrated load balancers use for health checks to the Gateway instances.  If not specified, the default value is `65534`. A rule must be configured on the `datapath_security_group` to allow traffic to this TCP Port.
-* `log_profile` - (Optional) Log Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.id)*
-* `packet_capture_profile` - (Optional) Packet Profile ID *(e.g. valtix_profile_packet_capture.pcap1.id)*
-* `diagnostics_profile` - (Optional) Diagnostics Profile ID *(e.g. valtix_profile_diagnostics.diag1.id)*
+* `log_profile` - (Optional) Log Forwarding Profile ID *(e.g. valtix_profile_log_forwarding.splunk1.id)*
+* `packet_capture_profile` - (Optional) Packet Capture Profile ID *(e.g. valtix_profile_packet_capture.pcap1.id)*
 * `ntp_profile` - (Optional) NTP Profile ID *(e.g. valtix_profile_ntp.ntp1.id)*
-* `metrics_profile` - (Optional) Metrics Profile ID *(e.g. valtix_profile_gateway_metrics_forwarding.datadog.id)*
+* `metrics_profile` - (Optional) Metrics Forwarding Profile ID *(e.g. valtix_profile_metrics_forwarding.datadog.id)*
 * `settings` - (Optional) Gateway Settings block. This block can be repeated multiple times. See [Gateway Settings](#gateway-settings) for the block structure.
 * `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each Gateway instance. The key is an unquoted name and the value is a quoted string.  See [Gateway Tags](#gateway-tags) for the block structure.  The Valtix Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
 * `instance_details` - (Required - EDGE Mode) Gateway Instance Details.  This block is only needed when deploying a Gateway in EDGE mode.  This block should not be used when deploying a Gateway in HUB mode.  For EDGE mode deployment, the block can be repeated multiple times for deploying Gateway instances in multiple Availability Zones.  See [Instance Details](#instance-details) for the block structure.  In EDGE mode, at least 1 block must be provided.

@@ -1,9 +1,9 @@
-# DataSource: valtix_gatewy_metrics_forwarding_profile
-Data source for obtaining attributes of a Gateway Metrics Forwarding Profile resource.  The attributes can be used in the arguments of a Gateway resource.
+# DataSource: valtix_profile_metrics_forwarding
+Data source for obtaining attributes of a Metrics Forwarding Profile resource.  The attributes can be used in the arguments of a Gateway resource.
 
 ## Example Usage
 ```hcl
-data "valtix_profile_gateway_metrics_forwarding" "datadog" {
+data "valtix_profile_metrics_forwarding" "datadog" {
   name = "datadog"
 }
 
@@ -21,13 +21,13 @@ resource "valtix_gateway" "aws_hub_gw1" {
   aws_iam_role_firewall = "iam_role_name_for_firewall"
   region                = "us-east-1"
   vpc_id                = valtix_service_vpc.service_vpc.id
-  metrics_profile       = data.valtix_profile_gateway_metrics_forwarding.datadog.id
+  metrics_profile       = data.valtix_profile_metrics_forwarding.datadog.id
   aws_gateway_lb        = true
 }
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the Gateway Metrics Forwarding Profile resource
+* `name` - (Required) Name of the Metrics Forwarding Profile resource
 
 ## Attributes Reference
-* `id` - ID of the Gateway Metrics Forwarding Profile resource
+* `id` - ID of the Metrics Forwarding Profile resource
