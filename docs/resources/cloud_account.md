@@ -88,7 +88,7 @@ resource "valtix_cloud_account" "aws_account1" {
 
 ### GCP Arguments
 * `gcp_project_id` - (Optional) GCP Project ID to onboard. If not specified, the Project ID is obtained from the credentials file. This argument is necessary if the same Service Account is used to onboard multiple Projects. This argument is not used if the Folder ID is onboarded using the `gcp_folder_id` argument. Regardless of whether used or not, the Project ID field will be populated from either a specified Project ID using this argument or by obtaining the Project ID from the credentials file.
-* `gcp_folder_id` - (Optional) GCP Folder ID to onboard. This argument is used to simplify the onboarding of multiple Projects that are contained within a Folder hierarchy.
+* `gcp_folder_id` - (Optional) GCP Folder ID to onboard. This argument is used to simplify the onboarding of multiple Projects that are contained within a Folder hierarchy.  The Projects onboarded as part of a Folder ID hierarchy cannot be used for Service VPC and Gateway orchestration.  They can only be used for asset and traffic discovery. 
 * `gcp_credentials_file` - (Required) Service Account credentials file to use as the trust relationship between the Controller and the GCP Project/Folder
 * `inventory_monitoring` - Region-based inventory monitoring block. This block can be repeated multiple times. See [Inventory Monitoring](#inventory-monitoring) for the block structure.
 
