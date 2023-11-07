@@ -4,7 +4,7 @@ Resource for creating and managing Valtix Cloud Accounts consisting of on-boarde
 ## Example Usage
 
 ## AWS
-Create a cross account IAM role before running this block. Look at the [AWS Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/aws/overview/) for more details. Use a Valtix generated External ID in the trust Policy of the IAM role, and the same External ID in the AWS Cloud Account Setup.
+Create a cross account IAM role before running this block. Please see [AWS Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/aws/overview/) for more details. Use a Valtix generated External ID in the Policy of the IAM Role, and the same External ID in the AWS Cloud Account resource.
 
 ```hcl
 resource "valtix_cloud_account" "aws1" {
@@ -20,7 +20,7 @@ resource "valtix_cloud_account" "aws1" {
 ```
 
 ## Azure
-Create an application and secret before running this block. Look at the [Azure Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/azure/overview/) for more details.
+Create an application and secret before running this block. Please see [Azure Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/azure/overview/) for more details.
 
 ```hcl
 resource "valtix_cloud_account" "azure_account1" {
@@ -35,7 +35,7 @@ resource "valtix_cloud_account" "azure_account1" {
 ```
 
 ## GCP
-Create a GCP Service Account for use by the Valtix controller and generate/download the key file before running this block. Look at the [GCP Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/gcp/overview/) for more details.
+Create a GCP Service Account for use by the Valtix Controller and generate/download the key file before running this block. Please see [GCP Cloud Provider Setup](https://docs.valtix.com/userguide/setup_csp/gcp/overview/) for more details.
 
 ```hcl
 resource "valtix_cloud_account" "gcp_account1" {
@@ -67,33 +67,34 @@ resource "valtix_cloud_account" "aws_account1" {
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the Cloud Account on the Valtix Console. Must contain only alphanumeric, hyphens or underscore characters and not exceed 100 characters
+* `name` - (Required) Name of the Cloud Account that will be used as reference in other Valtix resources. Must contain only alphanumeric, hyphens or underscore characters and must not exceed 100 characters.
 * `description` - (Optional) Description of the Cloud Account
-* `csp_type` - (Required)  Defines the Cloud Service Provider. Must be `GCP`, `AWS` or `AZURE`
+* `csp_type` - (Required)  Cloud Service Provider (CSP) to use for onboarding. Applicable values: `GCP`, `AWS`, `AZURE`, `OCI`.
 
 ### AWS Arguments
-* `aws_credentials_type` - (AWS - Required) must be `AWS_IAM_ROLE`
+* `aws_credentials_type` - (Required) Must be specified as `AWS_IAM_ROLE`
 * `aws_iam_role` - (AWS - Required) IAM role ARN used to deploy and manage Valtix in your cloud account
-* `aws_account_number` - (AWS - Required) AWS account number
-* `aws_iam_role_external_id` - (AWS - Required) External Id for trust relationship
-* `aws_inventory_iam_role` - (AWS - Optional) IAM Role ARN used by CloudWatch Event Rule to post inventory events to the Valtix Controller
-* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times).  See [Inventory Monitoring](#inventory-monitoring) for details.
+* `aws_account_number` - (Required) AWS Account Number to onboard
+* `aws_iam_role_external_id` - (Required) External ID to use as the trust relationship between the Controller and the AWS Account
+* `aws_inventory_iam_role` - (Optional) IAM Role ARN used by the CloudWatch Event Rule to post inventory events to the Controller for real-time inventory discovery
+* `inventory_monitoring` - Region-based inventory monitoring block. This block can be repeated multiple times. See [Inventory Monitoring](#inventory-monitoring) for the block structure.
 
 ### Azure Arguments
-* `azure_directory_id` - (Azure - Required) Azure Active Directory Id (Tenant Id)
-* `azure_subscription_id` - (Azure - Required) Azure Subscription Id where the Valtix gateway instances are deployed
-* `azure_application_id` - (Azure - Required) Azure Application Id that's used as credentials (along with the secret) to manage Azure account/subscription
-* `azure_client_secret` - (Azure - Required) Azure client secret for the above application
-* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times).  See [Inventory Monitoring](#inventory-monitoring) for details.
+* `azure_directory_id` - (Required) Azure Active Directory ID (Tenant ID)
+* `azure_subscription_id` - (Required) Azure Subscription ID to onboard
+* `azure_application_id` - (Required) Azure Application ID to use as the trust relationship between the Controller and the Azure Subscription
+* `azure_client_secret` - (Required) Azure Client Secret to use as the trust relationship between the Controller and the Application ID
+* `inventory_monitoring` - Region-based inventory monitoring block. This block can be repeated multiple times. See [Inventory Monitoring](#inventory-monitoring) for the block structure.
 
 ### GCP Arguments
-* `gcp_credentials_file` - (GCP - Required) Service Account credentials key file created for the Valtix Controller access.
-* `inventory_monitoring` - Enable inventory monitoring (can be repeated multiple times). See [Inventory Monitoring](#inventory-monitoring) for details.
-* `gcp_project_id` - (Optional) Add the specified Project ID (name) to the Valtix Controller. If this is not specified, then the Project ID from the credentials file is used. The argument is required if a Service Account is used to manage multiple GCP Projects.
+* `gcp_project_id` - (Optional) GCP Project ID to onboard. If not specified, the Project ID is obtained from the credentials file. This argument is necessary if the same Service Account is used to onboard multiple Projects. This argument is not used if the Folder ID is onboarded using the `gcp_folder_id` argument. Regardless of whether used or not, the Project ID field will be populated from either a specified Project ID using this argument or by obtaining the Project ID from the credentials file.
+* `gcp_folder_id` - (Optional) GCP Folder ID to onboard. This argument is used to simplify the onboarding of multiple Projects that are contained within a Folder hierarchy.  The Projects onboarded as part of a Folder ID hierarchy cannot be used for Service VPC and Gateway orchestration.  They can only be used for asset and traffic discovery. 
+* `gcp_credentials_file` - (Required) Service Account credentials file to use as the trust relationship between the Controller and the GCP Project/Folder
+* `inventory_monitoring` - Region-based inventory monitoring block. This block can be repeated multiple times. See [Inventory Monitoring](#inventory-monitoring) for the block structure.
 
 ## Inventory Monitoring
-* `regions` - List of regions to enable and monitor inventory
-* `refresh_interval` - Interval in minutes where the inventory is refreshed
+* `regions` - List of Regions to enable periodic API-based periodic refresh and push-based real-time inventory monitoring
+* `refresh_interval` - Interval (in minutes) to use for periodic API-based inventory monitoring
 
 ## Attribute Reference
 * `id` - ID of the Cloud Account resource that can be referenced in other resources

@@ -70,7 +70,7 @@ cipher_suite_and_group {
 * DH-RSA-AES128-SHA2564
 * DH-RSA-AES128-SHA4
 
-### PKCS (RSA) Cipher Suirtes
+### PKCS (RSA) Cipher Suites
 * AES256-GCM-SHA3844
 * AES256-SHA256
 * AES256-SHA
