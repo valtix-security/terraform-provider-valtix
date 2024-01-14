@@ -72,7 +72,7 @@ For HUB mode INGRESS Gateway specify `security_type = INGRESS` and remove `aws_g
 ```hcl
 resource "valtix_gateway" azure_gw1 {
   name                    = "azure-gw1"
-  description            = "Azure Ingress Gateway 1"
+  description             = "Azure Ingress Gateway 1"
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
@@ -187,25 +187,25 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
 ### OCI Gateway (INGRESS Gateway in EDGE Mode)
 ```hcl
 resource "valtix_gateway" "oci_gw1" {
-  name                      = "oci-gw1"
-  description               = "OCI Ingress Gateway 1"
-  csp_account_name          = valtix_cloud_account.oci_act.name
-  instance_type             = "OCI_E3_FLEX"
-  gateway_image             = var.gateway_image
-  gateway_state             = "ACTIVE"
-  mode                      = "EDGE"
-  security_type             = "INGRESS"
-	ssh_public_key            = file(var.ssh_public_key_file)
-  policy_rule_set_id        = valtix_policy_rule_set.ingress_policy_rule_set.id
-	region                    = "us-sanjose-1"
-	vpc_id                    = "ocid1.vcn.oc1.us-sanjose-1.amaaaaaa725octaa5u3m3po74swbme7p274xpqw43af6u5vjogpmpeugzezq"
-  mgmt_security_group       = "ocid1.networksecuritygroup.oc1.us-sanjose-1.aaaaaaaa2m3q2h3yfaawze4tdtyc5frwoi4kpsbppbq7lyee4jprimxvuvmq"
-	datapath_security_group   = "ocid1.networksecuritygroup.oc1.us-sanjose-1.aaaaaaaai62ierhdjsb5v3v447wzgxzihl6nx7b3xqyrjy2qixz5uxylyl6a"
-	instance_details {
-		availability_zone = "RVji:US-SANJOSE-1-AD-1"
-		mgmt_subnet       = "ocid1.subnet.oc1.us-sanjose-1.aaaaaaaaxpi7fbtx2xe2evsrlsygtv2crtqqg3dkpw5m2jskfpqm36nygj4a"
-		datapath_subnet   = "ocid1.subnet.oc1.us-sanjose-1.aaaaaaaaukdyjnjwooqhrig66dhkbplunhviyzrkvheleqoad7jrojk2m5ea"
-	}
+  name                    = "oci-gw1"
+  description             = "OCI Ingress Gateway 1"
+  csp_account_name        = valtix_cloud_account.oci_act.name
+  instance_type           = "OCI_E3_FLEX"
+  gateway_image           = var.gateway_image
+  gateway_state           = "ACTIVE"
+  mode                    = "EDGE"
+  security_type           = "INGRESS"
+  ssh_public_key          = file(var.ssh_public_key_file)
+  policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.id
+  region                  = "us-sanjose-1"
+  vpc_id                  = "ocid1.vcn.oc1.us-sanjose-1.amaaaaaa725octaa5u3m3po74swbme7p274xpqw43af6u5vjogpmpeugzezq"
+  mgmt_security_group     = "ocid1.networksecuritygroup.oc1.us-sanjose-1.aaaaaaaa2m3q2h3yfaawze4tdtyc5frwoi4kpsbppbq7lyee4jprimxvuvmq"
+  datapath_security_group = "ocid1.networksecuritygroup.oc1.us-sanjose-1.aaaaaaaai62ierhdjsb5v3v447wzgxzihl6nx7b3xqyrjy2qixz5uxylyl6a"
+  instance_details {
+    availability_zone = "RVji:US-SANJOSE-1-AD-1"
+    mgmt_subnet       = "ocid1.subnet.oc1.us-sanjose-1.aaaaaaaaxpi7fbtx2xe2evsrlsygtv2crtqqg3dkpw5m2jskfpqm36nygj4a"
+    datapath_subnet   = "ocid1.subnet.oc1.us-sanjose-1.aaaaaaaaukdyjnjwooqhrig66dhkbplunhviyzrkvheleqoad7jrojk2m5ea"
+  }
 }
 ```
 
@@ -473,7 +473,6 @@ settings {
 If the Address Object is configured with a set of FQDNs, the Valtix Gateway will resolve the FQDNs to a set of IPs using DNS.  The DNS resolution occurs every 60s and no cache is maintained (e.g., a new set of IPs will be established for each resolution).  If the FQDNs can resolve to a larger set of IPs, the Gateway can be configured to maintain an IP cache.  Gateway settings can be configured to control the DNS update interval (resolution frequency), entry TTL for each IP that is placed into the cache (duration the cache will maintain the IP before the IP is flushed), and the size of the cache (number of unique IPs that can be maintained by the cache).  To use FQDNs in an Address Object, see the [Address Object STATIC (Source Destination) Arguments](../resources/address_object#static-source-destination-arguments) section of the Address Object resource.
 
 ### Gateway GCP Internal Load Balancer IP Setting
-
 ```hcl
 settings {
   name = "gateway.gcp.lb.ip_address_object_id"
