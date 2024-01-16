@@ -15,10 +15,10 @@ It is also required that the Project that is sharing the VPC needs to grant *Com
 ```hcl
 resource "valtix_gateway" "aws_gw1" {
   name                    = "aws-gw1"
-  description             = "AWS Gateway 1"
+  description             = "AWS Ingress Gateway 1"
   csp_account_name        = valtix_cloud_account.aws_act.name
   instance_type           = "AWS_M5_2XLARGE"
-  gateway_image           = "23.02-04"
+  gateway_image           = var.gateway_image
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -48,7 +48,7 @@ For EDGE mode EGRESS Gateway specify `security_type = EGRESS` and add `aws_gatew
 ```hcl
 resource "valtix_gateway" "aws_hub_gw1" {
   name                   = "aws-hub-gw1"
-  description            = "AWS Gateway 1"
+  description            = "AWS Egress Gateway 1"
   csp_account_name       = valtix_cloud_account.aws_act.name
   instance_type          = "AWS_M5_2XLARGE"
   gateway_image          = var.gateway_image
@@ -72,10 +72,11 @@ For HUB mode INGRESS Gateway specify `security_type = INGRESS` and remove `aws_g
 ```hcl
 resource "valtix_gateway" azure_gw1 {
   name                    = "azure-gw1"
+  description             = "Azure Ingress Gateway 1"
   csp_account_name        = valtix_cloud_account.azure_act.name
   instance_type           = "AZURE_D8S_V3"
   azure_resource_group    = "rg1"
-  gateway_image           = "23.02-04"
+  gateway_image           = var.gateway_image
   gateway_state           = "ACTIVE"
   mode                    = "EDGE"
   security_type           = "INGRESS"
@@ -104,19 +105,20 @@ For EDGE mode EGRESS Gateway specify `security_type = EGRESS`
 ### Azure Gateway (INGRESS Gateway in HUB Mode)
 ```hcl
 resource "valtix_gateway" "azure_hub_gw1" {
-  name                    = "azure-hub-gw1"
-  csp_account_name        = valtix_cloud_account.azure_act.name
-  instance_type           = "AZURE_D8S_V3"
-  azure_resource_group    = "rg1"
-  gateway_image           = var.gateway_image
-  gateway_state           = "ACTIVE"
-  mode                    = "HUB"
-  security_type           = "INGRESS"
-  ssh_public_key          = file(var.ssh_public_key_file)
-  azure_user_name         = "centos"
-  policy_rule_set_id      = valtix_policy_rule_set.egress_policy_rule_set.id
-  region                  = var.region
-  vpc_id                  = valtix_service_vpc.svpc1.id
+  name                 = "azure-hub-gw1"
+  description          = "Azure Ingress Gateway 1"
+  csp_account_name     = valtix_cloud_account.azure_act.name
+  instance_type        = "AZURE_D8S_V3"
+  azure_resource_group = "rg1"
+  gateway_image        = var.gateway_image
+  gateway_state        = "ACTIVE"
+  mode                 = "HUB"
+  security_type        = "INGRESS"
+  ssh_public_key       = file(var.ssh_public_key_file)
+  azure_user_name      = "centos"
+  policy_rule_set_id   = valtix_policy_rule_set.egress_policy_rule_set.id
+  region               = var.region
+  vpc_id               = valtix_service_vpc.svpc1.id
 }
 ```
 
@@ -126,10 +128,10 @@ For HUB mode EGRESS Gateway specify `security_type = EGRESS`
 ```hcl
 resource "valtix_gateway" "gcp_gw1" {
   name                      = "gcp-gw1"
-  description               = "GCP gateway"
+  description               = "GCP Ingress Gateway 1"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
-  gateway_image             = "23.02-04"
+  gateway_image             = var.gateway_image
   gateway_state             = "ACTIVE"
   mode                      = "EDGE"
   security_type             = "INGRESS"
@@ -166,7 +168,7 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
 ```hcl
 resource "valtix_gateway" "gcp_hub_gw1" {
   name                      = "gcp-hub-gw1"
-  description               = "GCP gateway"
+  description               = "GCP Egress Gateway 1"
   csp_account_name          = valtix_cloud_account.gcp_act.name
   instance_type             = "GCP_E2_8"
   gateway_image             = var.gateway_image
@@ -181,6 +183,33 @@ resource "valtix_gateway" "gcp_hub_gw1" {
 ```
 
 For HUB mode INGRESS Gateway set the `security_type = INGRESS`
+
+### OCI Gateway (INGRESS Gateway in EDGE Mode)
+```hcl
+resource "valtix_gateway" "oci_gw1" {
+  name                    = "oci-gw1"
+  description             = "OCI Ingress Gateway 1"
+  csp_account_name        = valtix_cloud_account.oci_act.name
+  instance_type           = "OCI_E3_FLEX"
+  gateway_image           = var.gateway_image
+  gateway_state           = "ACTIVE"
+  mode                    = "EDGE"
+  security_type           = "INGRESS"
+  ssh_public_key          = file(var.ssh_public_key_file)
+  policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.id
+  region                  = "us-sanjose-1"
+  vpc_id                  = "ocid1.vcn.oc1.us-sanjose-1.amaaaaaa725octaa5u3m3po74swbme7p274xpqw43af6u5vjogpmpeugzezq"
+  mgmt_security_group     = "ocid1.networksecuritygroup.oc1.us-sanjose-1.aaaaaaaa2m3q2h3yfaawze4tdtyc5frwoi4kpsbppbq7lyee4jprimxvuvmq"
+  datapath_security_group = "ocid1.networksecuritygroup.oc1.us-sanjose-1.aaaaaaaai62ierhdjsb5v3v447wzgxzihl6nx7b3xqyrjy2qixz5uxylyl6a"
+  instance_details {
+    availability_zone = "RVji:US-SANJOSE-1-AD-1"
+    mgmt_subnet       = "ocid1.subnet.oc1.us-sanjose-1.aaaaaaaaxpi7fbtx2xe2evsrlsygtv2crtqqg3dkpw5m2jskfpqm36nygj4a"
+    datapath_subnet   = "ocid1.subnet.oc1.us-sanjose-1.aaaaaaaaukdyjnjwooqhrig66dhkbplunhviyzrkvheleqoad7jrojk2m5ea"
+  }
+}
+```
+
+For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
 
 ## Argument Reference
 
@@ -207,6 +236,9 @@ For HUB mode INGRESS Gateway set the `security_type = INGRESS`
             * **GCP_E2_8** (8 core)
             * **GCP_E2_4** (4 core)
             * **GCP_E2_2** (2 core)
+    * **OCI**
+        * **E3**
+            * **OCI_E3_FLEX** (8 core)
 * `gateway_image` - (Required) Represents the image version to be used for this Gateway. A list of applicable image versions is available from the Valtix Portal (ADMINISTRATION -> Management -> System -> Gateway Images). Please view the [Valtix Release Recommendation](https://docs.valtix.com/releases/recommendation/) for the recommended Gateway image version or contact [Valtix Support](mailto:support@valtix.com).
 * `mode` - (Required - AWS, Azure, GCP) Applicable values are `EDGE` or `HUB`. Review the Valtix product documentation for information on the different deployment modes.  This argument is not supported for OCI and must not be used.
 * `security_type` - (Optional) Applicable values are `INGRESS` or `EGRESS`. If not specified, the default is `INGRESS`.
@@ -440,6 +472,16 @@ settings {
 ~> **Note on FQDN IP Cache Settings**
 If the Address Object is configured with a set of FQDNs, the Valtix Gateway will resolve the FQDNs to a set of IPs using DNS.  The DNS resolution occurs every 60s and no cache is maintained (e.g., a new set of IPs will be established for each resolution).  If the FQDNs can resolve to a larger set of IPs, the Gateway can be configured to maintain an IP cache.  Gateway settings can be configured to control the DNS update interval (resolution frequency), entry TTL for each IP that is placed into the cache (duration the cache will maintain the IP before the IP is flushed), and the size of the cache (number of unique IPs that can be maintained by the cache).  To use FQDNs in an Address Object, see the [Address Object STATIC (Source Destination) Arguments](../resources/address_object#static-source-destination-arguments) section of the Address Object resource.
 
+### Gateway GCP Internal Load Balancer IP Setting
+```hcl
+settings {
+  name = "gateway.gcp.lb.ip_address_object_id"
+  value = google_compute_address.internal_with_subnet_and_address.self_link
+}
+```
+
+~> **Note on Gateway GCP Internal Load Balancer IP Setting**
+When a Gateway resoure in GCP is created, a GCP internal Load Balancer (LB) is also created to front the Gateway instances.  This LB requires an internal IP address to be used as the endpoint for routing traffic to the LB. When this setting is not used, the Controller will orchestrate creating the IP resource and assigning it to the LB.  When using this setting, the IP address resource is created by the user and supplied to the Gateway resource for the Controller to assign to the created LB.  The IP address resource is a `google_compute_address` resource.  The `address_type` must be set to "INTERNAL", the `subnetwork` must be the same as the Gateway datapath subnet, and the `region` must be the same region as the Gateway.
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
