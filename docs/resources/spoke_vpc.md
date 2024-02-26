@@ -22,16 +22,25 @@ resource "valtix_spoke_vpc" "valtix_spoke" {
 resource "valtix_spoke_vpc" "valtix_spoke" {
   service_vpc_id             = valtix_service_vpc.service_vpc.id
   spoke_vpc_id               = "vpc-12345678912345678"
-  spoke_vpc_csp_account_name = "valtix-csp-account2-name"
+  spoke_vpc_csp_account_name = "aws-account-2"
   spoke_vpc_region           = "us-west-2"
 }
 ```
 
-### Azure Spoke VNet
+### Azure Spoke VNet (Service VNet and Spoke VNet are in the same Azure Subscription)
 ```hcl
 resource "valtix_spoke_vpc" "valtix_spoke" {
   service_vpc_id = valtix_service_vpc.service_vpc.id
   spoke_vpc_id   = "/subscriptions/subid/resourceGroups/rgname/providers/Microsoft.Network/virtualNetworks/spoke1"
+}
+```
+
+### Azure Spoke VNet (Service VNet and Spoke VNet are in the different Azure Subscriptions)
+```hcl
+resource "valtix_spoke_vpc" "valtix_spoke" {
+  service_vpc_id             = valtix_service_vpc.service_vpc.id
+  spoke_vpc_id               = "/subscriptions/subid/resourceGroups/rgname/providers/Microsoft.Network/virtualNetworks/spoke1"
+  spoke_vpc_csp_account_name = "azure-account-2"
 }
 ```
 
@@ -48,16 +57,16 @@ resource "valtix_spoke_vpc" "valtix_spoke" {
 resource "valtix_spoke_vpc" "valtix_spoke" {
   service_vpc_id             = valtix_service_vpc.service_vpc.id
   spoke_vpc_id               = "https://www.googleapis.com/compute/v1/projects/project-003-281801/global/networks/gcp-auto-spoke6"
-  spoke_vpc_csp_account_name = "gcp-account-1"
+  spoke_vpc_csp_account_name = "gcp-account-2"
 }
 ```
 
 ## Argument Reference
 * `service_vpc_id` - (Required) Service VPC/VNet ID
 * `spoke_vpc_id` - (Required) Spoke VPC/VNet ID
-* `spoke_vpc_csp_account_name` - (Optional - AWS, GCP) Valtix CSP Account Name where the Spoke VPC resides (if different from the Valtix CSP Account Name in which the Service VPC resides)
-* `spoke_vpc_region` - (Optional - AWS) Region where the spoke vpc exists (if different from the CSP account name in which Service VPC is created)
-* `transit_gateway_attachment_subnets` - (Optional - AWS) List of Subnet Ids used to attach to the Transit Gateway. By default, a random subnet in each availability zone is selected
+* `spoke_vpc_csp_account_name` - (Optional - AWS, Azure, GCP) Valtix CSP Account Name where the Spoke VPC/VNet resides. This argumnent is only required if the Spoke VPC/VNet is in a different Account than the Service VPC/VNet.
+* `spoke_vpc_region` - (Optional - AWS) AWS Region where the Spoke VPC resides.  This argument is only required if the Spoke VPC is in a different Region than the Service VPC.
+* `transit_gateway_attachment_subnets` - (Optional - AWS) List of Subnet IDs (one per Availability Zone) within the Spoke VPC that will be used to orchestrate the Transit Gateway Attachment ENIs. If not specified, a randomly selected Subnet in each Availability Zone will be used.
 
 ## Attribute Reference
 * `id` - ID of the Spoke VPC resource

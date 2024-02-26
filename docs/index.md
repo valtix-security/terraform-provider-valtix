@@ -29,7 +29,7 @@ terraform {
   required_providers {
     valtix = {
       source = "valtix-security/valtix"
-      version = "23.10.1"
+      version = "24.2.1"
     }
   }
 }
@@ -39,4 +39,4 @@ provider "valtix" {
 }
 ```
 
-Contact Valtix at support@valtix.com for information on the Valtix Tenant assigned to you
+Contact Valtix at support@valtix.com for information on the Valtix Tenant assigned to you.
