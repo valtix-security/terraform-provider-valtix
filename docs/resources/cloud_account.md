@@ -74,7 +74,6 @@ resource "valtix_cloud_account" "oci_account1" {
   description          = "OCI Tenant - Production"
   csp_type             = "OCI"
   oci_tenant_id        = "ocid1.tenancy.oc1..aaaaaaaa76nyd44x2kruauq47wqngjm7m51zapquxo7bqox6vy9681uz47oq"
-  oci_compartment_id   = "ocid1.compartment.oc1..aaaaaaaauo3cpjxzlgebu3zmzsirphib4mtpzgxa4ca2rbzhlbwokpzrjixa"
   oci_user_id          = "ocid1.user.oc1..aaaaaaaa1jqpgy3vqs9ysrmx7rmi51bqokqj2ek0iphhbxyurgoofzh9ymma"
   oci_client_secret    = <Client Secret>
 }
@@ -128,7 +127,6 @@ resource "valtix_cloud_account" "aws_account1" {
 
 ### OCI Arguments
 * `oci_tenant_id` - (Required) OCI Tenant ID to onboard
-* `oci_compartment_id` - (Required) OCI Compartment ID where the Gateways will be deployed
 * `oci_user_id` - (Required) OCI User ID use to define the permissions that are granted to the Controller
 * `oci_client_secret` - (Required) OCI Client Secret to use as the trust relationship between the Controller and the OCI Tenant
 
