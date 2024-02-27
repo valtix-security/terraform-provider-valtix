@@ -197,6 +197,7 @@ resource "valtix_gateway" "oci_gw1" {
   security_type           = "INGRESS"
   ssh_public_key          = file(var.ssh_public_key_file)
   policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.id
+  oci_compartment_id      = "ocid1.compartment.oc1..aaaaaaaauo3cpjxzlgebu3zmzsirphib4mtpzgxa4ca2rbzhlbwokpzrjixa"
   region                  = "us-sanjose-1"
   vpc_id                  = "ocid1.vcn.oc1.us-sanjose-1.amaaaaaa725octaa5u3m3po74swbme7p274xpqw43af6u5vjogpmpeugzezq"
   mgmt_security_group     = "ocid1.networksecuritygroup.oc1.us-sanjose-1.aaaaaaaa2m3q2h3yfaawze4tdtyc5frwoi4kpsbppbq7lyee4jprimxvuvmq"
@@ -253,6 +254,7 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
 * `aws_iam_role_firewall` - (Required - AWS) The AWS IAM role that defines the permissions for the Gateway to integrate with other AWS Account resources such as Key Pairs, Secrets Manager and Key Management Service (KMS).
 * `azure_user_identity_id` - (Optional - Azure) The Azure User Assigned Identity that defines the permissions for the Gateway to integrate with other Azure Subscription resources such as Key Pairs, Key Vault and Blob Storage.
 * `azure_resource_group` - (Required - Azure) Azure Resource Group name used to associate all created Gateway resources
+* `oci_compartment_id` - (Required - OCI) OCI Compartment ID where the Gateway will be deployed
 * `region` - (Required) Region where the Gateway will be deployed
 * `vpc_id` - (Required) VPC/VNet where the Gateway will be deployed.  For HUB mode deployments, the value must refer to the **id** attribute of the [`valtix_service_vpc`](/terraform/valtix_service_vpc/#valtix_service_vpc) resource. For AWS, use the VPC ID.  For Azure, use the full path of the VNet resource.  For GCP, use the self link for the VPC.
 * `aws_gateway_lb` - (Optional - AWS) `true` or `false`. This argument only applies to Gateway deployments in AWS with `security_type` set to `EGRESS`. If the argument is set to `true`, the Gateway will be deployed using an AWS Gateway Load Balancer (GWLB).  If the argument is set to `false`, the Gateway will be deployed using an internal AWS Network Load Balancer (NLB), which is a legacy deployment mode prior to AWS offering the GWLB.  If not specified, the default value is `true`.
