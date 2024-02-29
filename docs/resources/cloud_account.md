@@ -127,7 +127,7 @@ resource "valtix_cloud_account" "aws_account1" {
 
 ### OCI Arguments
 * `oci_tenant_id` - (Required) OCI Tenant ID to onboard
-* `oci_user_id` - (Required) OCI User ID use to define the permissions that are granted to the Controller
+* `oci_user_id` - (Required) OCI User ID used to define the permissions that are granted to the Controller
 * `oci_client_secret` - (Required) OCI Client Secret to use as the trust relationship between the Controller and the OCI Tenant
 
 ## Inventory Monitoring
