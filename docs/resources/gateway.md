@@ -24,7 +24,7 @@ resource "valtix_gateway" "aws_gw1" {
   security_type           = "INGRESS"
   policy_rule_set_id      = valtix_policy_rule_set.ingress_policy_rule_set.id
   ssh_key_pair            = "ssh_keypair1"
-  aws_iam_role_firewall   = "iam_role_name_for_firewall"
+  aws_iam_role_firewall   = "valtix-gateway-role"
   region                  = "us-east-1"
   vpc_id                  = "vpc-123456789"
   mgmt_security_group     = "sg-123456788"
@@ -57,7 +57,7 @@ resource "valtix_gateway" "aws_hub_gw1" {
   security_type          = "EGRESS"
   policy_rule_set_id     = valtix_policy_rule_set.egress_policy_rule_set.id
   ssh_key_pair           = "ssh_keypair1"
-  aws_iam_role_firewall  = "iam_role_name_for_firewall"
+  aws_iam_role_firewall  = "valtix_gateway_role"
   region                 = "us-east-1"
   vpc_id                 = valtix_service_vpc.service_vpc.id
   log_profile            = valtix_profile_log_forwarding.datadog.id
@@ -498,28 +498,32 @@ tags = {
 
 ## Attribute Reference
 * `id` - ID of the Gateway resource
-* `gateway_gwlb_endpoints` - (AWS, Azure) For AWS, this attribute includes the Gateway Load Balancer (GWLB) endpoints created in each of the AZs displayed in the format as follows:
+* `gateway_gwlb_endpoints` - (AWS, Azure) For AWS, this is represented as a list of maps, where each list entry is a AZ-specific endpoint, and each map are the attributes of the endpoint, including the AZ.  An example format is shown as follows:
 
-    ```hcl
-    gateway_gwlb_endpoints {
-        availability_zone    = "us-east-1a"
-        endpoint_id          = "vpce-047c749fc6f7e0c0d"
-        network_interface_id = "eni-017eacdb23d2ebaf4"
-        subnet_id            = "subnet-0d61750e97caafd9d"
-    }
-    gateway_gwlb_endpoints {
-        availability_zone    = "us-east-1b"
-        endpoint_id          = "vpce-0707fa3f03c5064a7"
-        network_interface_id = "eni-020464bd838461bca"
-        subnet_id            = "subnet-0fd61e07f200224f1"
-    }
-    ```
-    For Azure, this attribute includes the Gateway Load Balancer Frontend IP resource path in the format as follows:
-
-    ```hcl
-    gateway_gwlb_endpoints {
-        endpoint_id = "/subscriptions/8b29c730-36f9-4f5c-86e4-96129569d6a0/resourceGroups/hardik-eastus-resources/providers/Microsoft.Network/loadBalancers/valtix-l-azure-injkczap/frontendIPConfigurations/valtix-l-azure-injkczap-fip"
+    ```json
+    "gateway_gwlb_endpoints": [
+      {
+        "availability_zone": "us-east-1a",
+        "endpoint_id": "vpce-047c749fc6f7e0c0d",
+        "network_interface_id": "eni-017eacdb23d2ebaf4",
+        "subnet_id": "subnet-0d61750e97caafd9d"
+      },
+      {
+        "availability_zone": "us-east-1b",
+        "endpoint_id": "vpce-0707fa3f03c5064a7",
+        "network_interface_id": "eni-020464bd838461bca",
+        "subnet_id": "subnet-0fd61e07f200224f1"
       }
+    ]
+    ```
+    For Azure, this is represented as a single entry list of a map, where the map contains the attributes of the endpoint.  An example format is shown as follows:
+
+    ```json
+    "gateway_gwlb_endpoints": [
+      {
+        "endpoint_id": "/subscriptions/8b29c730-36f9-4f5c-86e4-96129569d6a0/resourceGroups/hardik-eastus-resources/providers/Microsoft.Network/loadBalancers/valtix-l-azure-injkczap/frontendIPConfigurations/valtix-l-azure-injkczap-fip"
+      }
+    ]
     ```
 
 * `gwlb_service_name` - (AWS only) VPC Endpoint Service Name associated with the AWS Gateway Load Balancer.  This name can be used by the AWS Terraform Provider for establishing a GWLB Endpoint connection.
