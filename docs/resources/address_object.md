@@ -166,10 +166,11 @@ For a complete set of arguments, see [GEO_IP (Source Destination) Arguments](#ge
 ### GROUP (Source Destination) Example
 ```hcl
 resource "valtix_address_object" "group1_ag" {
-  name              = "group1"
-  description       = "Address Object Group"
-  type              = "GROUP"
-  address_group_ids = [valtix_address_object.addr1.id, valtix_address_object.addr2.id]
+  name                      = "group1"
+  description               = "Address Object Group"
+  type                      = "GROUP"
+  address_group_ids         = [valtix_address_object.addr1.id, valtix_address_object.addr2.id]
+  exclude_address_group_ids = [valtix_address_object.addr3.id]
 }
 ```
 For a complete set of arguments, see [GROUP (Source Destination) Arguments](#group-source-destination-arguments)
