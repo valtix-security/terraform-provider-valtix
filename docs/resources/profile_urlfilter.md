@@ -6,30 +6,32 @@ Resource for creating and managing a URL Filter (URL) Profile
 resource "valtix_profile_urlfilter" "url1" {
   name        = "url1"
   description = "URL filter list"
+  vendor_category_list {
+    vendor = "BRIGHTCLOUD"
+    categories = [
+      "Bot Nets",
+      "Phishing and Other Frauds",
+      "Malware Sites",
+      "Keyloggers and Monitoring",
+      "Proxy Avoidance and Anonymizers",
+      "Spyware and Adware",
+      "SPAM URLs"
+    ]
+    policy = "Deny Log"
+    return_status = 502
+  }
   url_filter_list {
     url_list = [
-      "https://.*\\.website1\\.com/.*",
-      "https://.*\\.website2\\.com/.*"
+      "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website1\.com)",
+      "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website2\.com)"
     ]
     policy = "Allow Log"
     filter_methods = ["GET"]
   }
-  
-  url_filter_list {
-    url_list       = [
-      "https://.*\\.website1\\.com/.*",
-      "https://.*\\.website2\\.com/.*" 
-    ]
-    policy         = "Deny Log"
-    filter_methods = ["POST"]
-    return_status  = 400
-  }
-  
   uncategorized_url_filter {
     policy        = "Deny Log"
     return_status = 500
   }
-  
   default_url_filter {
     policy        = "Deny No Log"
     return_status = 500
@@ -53,11 +55,40 @@ resource "valtix_profile_urlfilter" "url1" {
 * `policy` - (Required) Action to take when a URL matches an entry in the `url_list` or `vendor_category_list`.  Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
 * `return_status` - (Required) HTTP status code to return when URLs are denied.  This argument only applies to resources that have a `policy` set to `Deny Log` or `Deny No Log`.
 
+## URL Filter List
+```hcl
+url_filter_list {
+  url_list = [
+    "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website1\.com)",
+    "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website2\.com)"
+  ]
+  policy = "Allow Log"
+  filter_methods = ["GET"]
+}
+url_filter_list {
+  vendor_category_list {
+    vendor = "BRIGHTCLOUD"
+    categories = [
+      "Bot Nets",
+      "Phishing and Other Frauds",
+      "Malware Sites",
+      "Keyloggers and Monitoring",
+      "Proxy Avoidance and Anonymizers",
+      "Spyware and Adware",
+      "SPAM URLs"
+    ]
+	}
+  policy = "Deny Log"
+  filter_methods = ["GET"]
+  return_status  = 503
+}
+```
+
 ## URL List
 ```hcl
 url_list = [
-  "https://.*\\.website1\\.com/.*",
-  "https://.*\\.website2\\.com/.*"
+  "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website1\.com)",
+  "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website2\.com)"
 ]
 ```
 
@@ -66,9 +97,13 @@ url_list = [
 vendor_category_list {
   vendor     = "BRIGHTCLOUD"
   categories = [
-    "Malware Sites",
     "Bot Nets",
-    "Spyware and Adware"
+    "Phishing and Other Frauds",
+    "Malware Sites",
+    "Keyloggers and Monitoring",
+    "Proxy Avoidance and Anonymizers",
+    "Spyware and Adware",
+    "SPAM URLs"
   ]
 }
 ```
