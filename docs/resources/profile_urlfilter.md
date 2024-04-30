@@ -41,21 +41,23 @@ resource "valtix_profile_urlfilter" "url1" {
 ```
 
 ## Argument Reference
+
+### URL Filter Profile Common Arguments
 * `name` - (Required) Name of the Profile
 * `description` - (Optional) Description of the Profile
-* `url_filter_list` - (Required) One or more blocks, where each block is a row in the URL Filter Profile (maximum of 254 blocks). Structure [defined below](#url-list).
+* `url_filter_list` - (Required) One or more blocks, where each block is a row in the URL Filter Profile (maximum of 254 blocks). Structure [defined below](#url-filter-list).
 * `uncategorized_url_filter` - (Required) Uncategorized URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource and is not represented by any vendor category (whether specified or not).  Structure [defined below](#uncategorized-url-filter).
 * `default_url_filter` - (Required) Default URL Filter action for any URL that does not match the URLs defined in the `url_filter_list` resource or is not matched by the `uncategorized_url_filter` resource (if specified).  This should be the last resource specified in the list of resources. Structure [defined below](#default-url-filter).
 * `deny_response` - (Optional) Specifies the HTTP response message to return back to the client when the URL is denied. This response is in addition to the `return_status` response code that is specified for each URL Filter List (`url_filter_list`) block.
 
-## URL List
+### URL Filter List Arguments
 * `url_list` - (Required) List of URLs (maximum of 60 URLs per list, combined with categories; maximum of 2048 characters per URL). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#url-list).
 * `vendor_category_list` - (Optional) List of pre-defined Vendor Categories (maximum of 60 categories per list, combined with URLs).  Structure [defined below](#vendor-category-list). 
 * `filter_methods` - (Optional) List of URL methods (`DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`). If not specified, the default value is `ALL`.
 * `policy` - (Required) Action to take when a URL matches an entry in the `url_list` or `vendor_category_list`.  Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
 * `return_status` - (Required) HTTP status code to return when URLs are denied.  This argument only applies to resources that have a `policy` set to `Deny Log` or `Deny No Log`.
 
-## URL Filter List
+### URL Filter List
 ```hcl
 url_filter_list {
   url_list = [
@@ -84,7 +86,7 @@ url_filter_list {
 }
 ```
 
-## URL List
+### URL List
 ```hcl
 url_list = [
   "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website1\.com)",
@@ -92,7 +94,7 @@ url_list = [
 ]
 ```
 
-## Vendor Category List
+### Vendor Category List
 ```hcl
 vendor_category_list {
   vendor     = "BRIGHTCLOUD"
@@ -108,7 +110,7 @@ vendor_category_list {
 }
 ```
 
-## Vendor Category List (All Categories)
+### Vendor Category List (All Categories)
 ```hcl
 vendor_category_list {
 	vendor      = "BRIGHTCLOUD"
@@ -199,7 +201,7 @@ vendor_category_list {
 }
 ```
 
-## Uncategorized URL Filter
+### Uncategorized URL Filter
 ```hcl
 uncategorized_url_filter {
   policy        = "Deny Log"
@@ -207,7 +209,7 @@ uncategorized_url_filter {
 }
 ```
 
-## Default URL Filter
+### Default URL Filter
 ```hcl
 default_url_filter {
   policy        = "Deny No Log"
