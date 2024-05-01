@@ -70,12 +70,12 @@ Create a policy, user, group and secret before running this block. Please see [O
 
 ```hcl
 resource "valtix_cloud_account" "oci_account1" {
-  name                 = "oci-account1"
-  description          = "OCI Tenant - Production"
-  csp_type             = "OCI"
-  oci_tenant_id        = "ocid1.tenancy.oc1..aaaaaaaa76nyd44x2kruauq47wqngjm7m51zapquxo7bqox6vy9681uz47oq"
-  oci_user_id          = "ocid1.user.oc1..aaaaaaaa1jqpgy3vqs9ysrmx7rmi51bqokqj2ek0iphhbxyurgoofzh9ymma"
-  oci_client_secret    = <Client Secret>
+  name          = "oci-account1"
+  description   = "OCI Tenant - Production"
+  csp_type      = "OCI"
+  oci_tenant_id = "ocid1.tenancy.oc1..aaaaaaaa76nyd44x2kruauq47wqngjm7m51zapquxo7bqox6vy9681uz47oq"
+  oci_user_id   = "ocid1.user.oc1..aaaaaaaa1jqpgy3vqs9ysrmx7rmi51bqokqj2ek0iphhbxyurgoofzh9ymma"
+  private_key   = <Client Secret>
 }
 ```
 
@@ -128,7 +128,7 @@ resource "valtix_cloud_account" "aws_account1" {
 ### OCI Arguments
 * `oci_tenant_id` - (Required) OCI Tenant ID to onboard
 * `oci_user_id` - (Required) OCI User ID used to define the permissions that are granted to the Controller
-* `oci_client_secret` - (Required) OCI Client Secret to use as the trust relationship between the Controller and the OCI Tenant
+* `private_key` - (Required) OCI Client Secret to use as the trust relationship between the Controller and the OCI Tenant
 
 ## Inventory Monitoring
 * `regions` - List of Regions to enable periodic API-based periodic refresh and push-based real-time inventory monitoring

@@ -9,17 +9,25 @@ resource "valtix_profile_fqdn" "fqdn_filter1" {
   name        = "fqdn_filter1"
   description = "FQDN filter list"
   fqdn_filter_list {
+    vendor_category_list {
+      vendor = "BRIGHTCLOUD"
+      categories = [
+        "Bot Nets",
+        "Phishing and Other Frauds",
+        "Malware Sites",
+        "Keyloggers and Monitoring",
+        "Proxy Avoidance and Anonymizers",
+        "Spyware and Adware",
+        "SPAM URLs"
+      ]
+    }
+    policy = "Deny Log"
+  }
+  fqdn_filter_list {
     fqdn_list = [
       "www\\.website1\\.com",
       ".*\\.website2\\.com"
     ]
-    vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = [
-        "Search Engines",
-        "Reference and Research"
-      ]
-    }
     policy               = "Allow Log"
     decryption_exception = false
   }
@@ -28,14 +36,6 @@ resource "valtix_profile_fqdn" "fqdn_filter1" {
       "www\\.website3\\.com",
       "www\\.website4\\.com"
     ]
-    vendor_category_list {
-      vendor     = "BRIGHTCLOUD"
-      categories = [
-        "Malware Sites",
-        "Bot Nets",
-        "Spyware and Adware"
-      ]
-    }
     policy               = "Deny Log"
     decryption_exception = false
   }
@@ -43,7 +43,6 @@ resource "valtix_profile_fqdn" "fqdn_filter1" {
     policy               = "Deny Log"
     decryption_exception = false
   }
-  
   default_fqdn_filter {
     policy               = "Deny No Log"
     decryption_exception = false
@@ -145,6 +144,32 @@ resource "valtix_profile_fqdn" "fqdn_match_group" {
 * `fqdn_list` - (Required) List of FQDNs (maximum of 60 FQDNs per list; maximum 255 characters per FQDN). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#fqdn-list).
 * `decryption_exception` - (Optional) When used in conjunction with a proxy Rule (ForwardProxy, ReverseProxy), instructs the proxy engine to bypass decryption. Applicable values: `true` or `false`.  If not specified, the default value is `true`.
 
+### FQDN Filter List
+```hcl
+fqdn_filter_list {
+  fqdn_list = [
+    "www\\.website1\\.com",
+    ".*\\.website2\\.com"
+  ]
+  policy = "Allow Log"
+}
+fqdn_filter_list {
+  vendor_category_list {
+    vendor = "BRIGHTCLOUD"
+    categories = [
+      "Bot Nets",
+      "Phishing and Other Frauds",
+      "Malware Sites",
+      "Keyloggers and Monitoring",
+      "Proxy Avoidance and Anonymizers",
+      "Spyware and Adware",
+      "SPAM URLs"
+    ]
+	}
+  policy = "Deny Log"
+}
+```
+
 ### FQDN List
 ```hcl
 fqdn_list = [
@@ -158,9 +183,13 @@ fqdn_list = [
 vendor_category_list {
   vendor     = "BRIGHTCLOUD"
   categories = [
-    "Malware Sites",
     "Bot Nets",
-    "Spyware and Adware"
+    "Phishing and Other Frauds",
+    "Malware Sites",
+    "Keyloggers and Monitoring",
+    "Proxy Avoidance and Anonymizers",
+    "Spyware and Adware",
+    "SPAM URLs"
   ]
 }
 ```
