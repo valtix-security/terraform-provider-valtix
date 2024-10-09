@@ -103,11 +103,13 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 * `endpoint` - (Required) HTTPS endpoint URL
     * For splunk, the most common endpoint is `https://ip-or-fqdn:8088/services/collector`
 * `auth_token` - (Required) HTTPS auth token
+* `skip_verify` - (Optional) Skips verifying the issued certificate.  Applicable values are `true` or `false`.  If not specified, the default value is `false`.
 * `splunk_index` - (Required) Index name where the logs will be stored
 
 ### Syslog
 * `syslog_server_ip` - (Required) Syslog Server IP
 * `syslog_port` - (Required) Syslog Server port
+* `skip_verify` - (Optional) Skips verifying the issued certificate.  Applicable values are `true` or `false`.  If not specified, the default value is `false`.
 * `syslog_flow_logs` - (Optional) `true` or `false`. Forward Flow Log events.
 * `syslog_firewall_events` - (Optional) `true` or `false`. Forward L4 Firewall (L4_FW) events.
 * `syslog_https_logs` - (Optional) `true` or `false`. Forward TLS Log/Error (TLS_LOG, TLS_ERROR) events.
@@ -117,6 +119,7 @@ resource "valtix_profile_log_forwarding" "lf_group" {
 ### Datadog
 * `endpoint` - (Required) HTTPS endpoint URL
 * `auth_token` - (Required) HTTPS auth token
+* `skip_verify` - (Optional) Skips verifying the issued certificate.  Applicable values are `true` or `false`.  If not specified, the default value is `false`.
 
 ### GCP Logging
 * `log_name` - (Optional) GCP Logging name where the logs will be stored. If not specified, the default name is `valtix-gateway-logs`.

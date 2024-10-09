@@ -256,10 +256,10 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
 * `azure_resource_group` - (Required - Azure) Azure Resource Group name used to associate all created Gateway resources
 * `oci_compartment_id` - (Required - OCI) OCI Compartment ID where the Gateway will be deployed
 * `region` - (Required) Region where the Gateway will be deployed
-* `vpc_id` - (Required) VPC/VNet where the Gateway will be deployed.  For HUB mode deployments, the value must refer to the **id** attribute of the [`valtix_service_vpc`](/terraform/valtix_service_vpc/#valtix_service_vpc) resource. For AWS, use the VPC ID.  For Azure, use the full path of the VNet resource.  For GCP, use the self link for the VPC.
+* `vpc_id` - (Required) VPC/VNet/VNC where the Gateway will be deployed. For HUB mode deployments, the value must refer to the `id` attribute of the [`valtix_service_vpc`](/terraform/valtix_service_vpc/#valtix_service_vpc) resource.  For EDGE mode deployments, the CSP-specific resource should be used:  For AWS, use the VPC resource ID; For Azure, use the VNet resource full path; For GCP, use the VPC resource self-link; For OCI, use the VNC resource OCID.
 * `aws_gateway_lb` - (Optional - AWS) `true` or `false`. This argument only applies to Gateway deployments in AWS with `security_type` set to `EGRESS`. If the argument is set to `true`, the Gateway will be deployed using an AWS Gateway Load Balancer (GWLB).  If the argument is set to `false`, the Gateway will be deployed using an internal AWS Network Load Balancer (NLB), which is a legacy deployment mode prior to AWS offering the GWLB.  If not specified, the default value is `true`.
 * `azure_gateway_lb` - (Optional - Azure) *[Public Preview]* `true` or `false`. This argument only applies to Gateway deployments in Azure with `security_type` set to `INGRESS`. If the argument is set to `true`, the Gateway will be deployed using an Azure Gateway Load Balancer (GWLB).  If not specified, the default value is `false` and the Gateway will be deployed using an Internet-facing Azure Network Load Balancer (NLB), which is the default deployment for an Ingress Gateway in Azure.
-* `mgmt_vpc_id` - (Required - GCP) Self link of the GCP VPC where the management interface of the Gateway is attached
+* `mgmt_vpc_id` - (Required - GCP EDGE Mode) Self link of the GCP VPC where the management interface of the Gateway is attached
 * `mgmt_security_group` - (Required - EDGE Mode) AWS Security Group ID, Azure Network Security Group ID, GCP Network Tag name assigned to the management interface, or OCI Security Group OCID to permit management traffic to egress the Gateway. This must allow all outbound traffic for the Gateway to communicate with the Valtix Controller, Valtix S3 Bucket and for DNS resolution.
 * `datapath_security_group` - (Required - EDGE Mode) AWS Security Group ID, Azure Network Security Group ID, GCP Network Tag name assigned to the datapath interface, or OCI Security Group OCID to permit datapath traffic to ingress and egress the Gateway. It's recommended to leave this open so that all traffic can be sent and received by the Gateway where the Gateway Policy will control whether traffic is allowed or denied.
 * `min_instances` - (Optional) Minimum number of instances per availability zone.  If not specified, the default value is `1`.
@@ -484,6 +484,25 @@ settings {
 
 ~> **Note on Gateway GCP Internal Load Balancer IP Setting**
 When a Gateway resoure in GCP is created, a GCP internal Load Balancer (LB) is also created to front the Gateway instances.  This LB requires an internal IP address to be used as the endpoint for routing traffic to the LB. When this setting is not used, the Controller will orchestrate creating the IP resource and assigning it to the LB.  When using this setting, the IP address resource is created by the user and supplied to the Gateway resource for the Controller to assign to the created LB.  The IP address resource is a `google_compute_address` resource.  The `address_type` must be set to "INTERNAL", the `subnetwork` must be the same as the Gateway datapath subnet, and the `region` must be the same region as the Gateway.
+
+### Gateway Instance Creation Retry Settings
+```hcl
+settings {
+  name = "controller.gateway.instance_creation_retry_count"
+  value = "3"
+}
+settings {
+  name = "controller.gateway.instance_creation_retry_reset_time"
+  value = "360"
+}
+```
+
+~> **Note on Gateway Instance Creation Retry Settings**
+When a Gateway resource is created, if an instance creation fails, the Controller will initiate a retry.  If the issue is corrected, then the Gateway will eventually be successfully created. If the issue is not corrected, then the Controller will retry indefinitely.  If the Controller continues to retry without success, Terraform will timeout after 15 minutes and produce an error stating the Gateway is not yet ACTIVE.
+
+The Gateway Instance Creation Retry Settings provide a user with some control over the instance creation retry behavior.  The settings are defined and behave as follows:
+* `controller.gateway.instance_creation_retry_count` - Defines the number of times the Controller will retry creating each instance.  If the retry count is exceeded, then the Controller will no longer retry the creation and the Gateway will remain in ACTIVE_PENDING state.  The Controller will reinitiate its retry attempts once the retry reset time has expired.  If this setting is not specified, the Controller will retry indefinitely.
+* `controller.gateway.instance_creation_retry_reset_time` - Defines the amount of time (in minutes) after the retry count has been exceeded that the Controller will reinitiate its retry attempts. If this setting is not specified, the reset time will be infinite and the Controller will never reinitiate its retry attempts. This setting is only applicable if the retry count setting is specifed.
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated

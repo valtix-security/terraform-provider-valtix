@@ -297,8 +297,8 @@ If the Address Object is configured with a set of FQDNs, the Valtix Gateway will
 * `name` - (Required) Name of the Address Object
 * `description` - (Optional) Description of the Address Object
 * `type` = `GROUP` - (Required) Type of the Address Object
-* `address_group_ids` - (Required) List of Standalone Address Objects whos addresses will be included in the membership
-* `excluded_address_group_ids` - (Optional) List of Standalone Address Objects whos addresses will be excluded in the membership
+* `address_group_ids` - (Required) List of Standalone Address Objects whose addresses will be included in the membership
+* `excluded_address_group_ids` - (Optional) List of Standalone Address Objects whose addresses will be excluded from the membership
 <br><br>For an example, see [GROUP (Source Destination) Example](#group-source-destination-example)
 
 #### DYNAMIC_ASG (Source Destination) Arguments
