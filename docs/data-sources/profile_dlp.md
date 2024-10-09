@@ -21,7 +21,7 @@ resource "valtix_policy_rules" "egress_policy_rules" {
 ```
 
 ## Argument Reference
-* `name` - (Required) Name of the Data Loss Prevention (DLP) IP Profile resource
+* `name` - (Required) Name of the Data Loss Prevention (DLP) Profile resource
 
 ## Attributes Reference
 * `id` - ID of the Data Loss Prevention (DLP) Profile resource
