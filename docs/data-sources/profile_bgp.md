@@ -8,8 +8,8 @@ data "valtix_profile_bgp" "bgp1" {
 }
 
 resource "valtix_gateway" "aws_gw1" {
-	# Other arguments hidden for brevity
-	bgp_profile = data.valtix_bgp.bgp1.id
+  # Other arguments hidden for brevity
+  bgp_profile = data.valtix_bgp.bgp1.id
 }
 ```
 

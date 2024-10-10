@@ -4,12 +4,12 @@ Data source for obtaining attributes of an VPN Connection Set resource.  The att
 ## Example Usage
 ```hcl
 data "valtix_vpn_connection_set" "vpn_connection_set1" {
-	name = "vpn_connection_set1"
+  name = "vpn_connection_set1"
 }
 
 resource "valtix_gateway" "aws_gw1" {
-	# Other arguments hidden for brevity
-	vpn_connection_set_id = data.valtix_vpn_connection_set.vpn_connections1.id
+  # Other arguments hidden for brevity
+  vpn_connection_set_id = data.valtix_vpn_connection_set.vpn_connections1.id
 }
 
 resource "valtix_vpn_connections" "vpn_connections1" {
