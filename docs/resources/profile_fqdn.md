@@ -62,6 +62,7 @@ resource "valtix_profile_fqdn" "fqdn_match1" {
       ".*\\.website2\\.com"
     ]
     decryption_exception = false
+    cert_validation      = "Inherit from Decryption Profile"
   }
   fqdn_filter_list {
     fqdn_list = [
@@ -69,6 +70,7 @@ resource "valtix_profile_fqdn" "fqdn_match1" {
       "www\\.website4\\.com"
     ]
     decryption_exception = false
+    cert_validation      = "Inherit from Decryption Profile"
   }
 }
 ```
@@ -144,7 +146,7 @@ resource "valtix_profile_fqdn" "fqdn_match_group" {
 * `fqdn_list` - (Required) List of FQDNs (maximum of 60 FQDNs per list; maximum 255 characters per FQDN). Applicable values are Perl Compatible Regular Expression (PCRE) patterns representing FQDNs.  When specifying a multi-level domain (e.g., `www.example.com`), it's important to escape the `.` character (e.g., `www\\.example\\.com`) otherwise it will be treated as a wildcard for any single character.  Structure [defined below](#fqdn-list).
 proxy engine to bypass decryption. Applicable values: `true` or `false`.  If not specified, the default value is `true`.
 * `decryption_exception` - (Optional) When used in conjunction with a ForwardProxy Rule, instructs the proxy engine to bypass decryption. Applicable values: `true` or `false`.  If not specified, the default value is `true`.
-* `cert_validation` - (Optional) When used in conjunction with a ForwardProxy Rule, instructs the proxy engine to validate the application certificate received from the server.  Applicable values are:  `Inherit from Decryption Profile` (use the configuration specified in the Decryption Profile), `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).  If not specified, the default value is `Inherit from Decryption Profile`.
+* `cert_validation` - (Optional) Specifies whether server certification validation will be performed, what action to take and whether to log the action.  The validation applies only to Forward Proxy policies and is performed by the Gateway for backend (Gateway to Server) TLS session negotiation.  This feature is available for Gateway versions 23.10 or later.  Applicable values: `Inherit from Decryption Profile` (use the configuration specified in the Decryption Profile), `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).  If not specified, the default value is `Allow No Log`.  If not specified, the default value is `Inherit from Decryption Profile`.
 
 ### FQDN Filter List
 ```hcl
