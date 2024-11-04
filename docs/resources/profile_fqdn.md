@@ -179,7 +179,7 @@ proxy engine to bypass decryption. Applicable values: `true` or `false`.  If not
 * `cert_validation` - (Optional) Specifies whether server certification validation will be performed, what action to take and whether to log the action.  The validation applies only to Forward Proxy policies and is performed by the Gateway for backend (Gateway to Server) TLS session negotiation.  This feature is available for Gateway versions 23.10 or later.  Applicable values: `Inherit from Decryption Profile` (use the configuration specified in the Decryption Profile), `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).  If not specified, the default value is `Allow No Log`.  If not specified, the default value is `Inherit from Decryption Profile`.
 
 ### Vendor Category List Arguments (Filter)
-* `vendor` - (Required) Specifies the vendor to use for mapping domains to categories. Applicable values: `Brightcloud`. As of 24.10 Controller release, Multicloud Defense uses Talos as a vendor. Prior to 24.10 Controller release, Multicloud Defense used Brightcloud as a vendor. In order to retain backwards compatibility almongst Gateway releases, Brightcloud will remain as the vendor and the value `Brightcloud` will be required to be specified. Existing Profiles created and managed via Terraform can remain using the Brightcloud categories. However, if an existing Profile is changed in anyway, the Brightcloud category names will need be replaced by the equivalent Talos category names. In order to understand the Talos category names to use, go the UI, edit and save the Profile, export the Profile to Terraform and copy the Terraform code.
+* `vendor` - (Required) Specifies the vendor to use for mapping domains to categories. Applicable values: `Brightcloud`. As of 24.10 Controller release, Valtix uses Talos as a vendor. Prior to 24.10 Controller release, Valtix used Brightcloud as a vendor. In order to retain backwards compatibility almongst Gateway releases, Brightcloud will remain as the vendor and the value `Brightcloud` will be required to be specified. Existing Profiles created and managed via Terraform can remain using the Brightcloud categories. However, if an existing Profile is changed in anyway, the Brightcloud category names will need be replaced by the equivalent Talos category names. In order to understand the Talos category names to use, go the UI, edit and save the Profile, export the Profile to Terraform and copy the Terraform code.
 * `categories` - (Required) Specifies a list of one or more Talos categories to either allow or block domains that match against the categories.
 
 ### FQDN Filter List (Filter)
@@ -290,7 +290,7 @@ default_fqdn_filter {
 }
 ```
 
-Please check the Cisco Multicloud Defense UI (Manage -> Profiles -> FQDN Filtering) to obtain a list of predefined Talos Categories.
+Please check the Valtix UI (Manage -> Profiles -> FQDN Filtering) to obtain a list of predefined Talos Categories.
 
 ## Attribute Reference
 * `id` - ID of the FQDN Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
