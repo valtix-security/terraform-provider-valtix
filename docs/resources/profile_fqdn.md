@@ -320,7 +320,7 @@ default_fqdn_filter {
 }
 ```
 
-Please check the Valtix UI (Manage -> Profiles -> FQDN Filtering) to obtain a list of predefined Talos Categories. A full list of Talos catogories is available at [Talos Intelligence Cateegories](https://www.talosintelligence.com/categories). A Talos FQDN loopup tool is available at [Talos Intelligence Search](https://www.talosintelligence.com/reputation_center).
+Please check the Valtix UI (Policies -> Profiles -> FQDN Filtering) to obtain a list of predefined Talos Categories. A full list of Talos catogories is available at [Talos Intelligence Categories](https://www.talosintelligence.com/categories). A Talos FQDN loopup tool is available at [Talos Intelligence Search](https://www.talosintelligence.com/reputation_center).
 
 ## Attribute Reference
 * `id` - ID of the FQDN Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
