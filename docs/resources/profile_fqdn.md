@@ -5,7 +5,7 @@ Resource for creating and managing an FQDN Profile that can be used in a Policy 
 
 ### Standalone (Filter)
 ```hcl
-resource "ciscomcd_profile_fqdn" "fqdn_filter1" {
+resource "valtix_profile_fqdn" "fqdn_filter1" {
   name        = "fqdn_filter1"
   description = "FQDN filter list"
   fqdn_filter_list {
