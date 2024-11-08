@@ -6,20 +6,6 @@ Resource for creating and managing a URL Filter (URL) Profile
 resource "valtix_profile_urlfilter" "url1" {
   name        = "url1"
   description = "URL filter list"
-  vendor_category_list {
-    vendor = "BRIGHTCLOUD"
-    categories = [
-      "Bot Nets",
-      "Phishing and Other Frauds",
-      "Malware Sites",
-      "Keyloggers and Monitoring",
-      "Proxy Avoidance and Anonymizers",
-      "Spyware and Adware",
-      "SPAM URLs"
-    ]
-    policy = "Deny Log"
-    return_status = 502
-  }
   url_filter_list {
     url_list = [
       "^(?i)(https?\:\/\/)([\da-z\.-]+\.)?(website1\.com)",
@@ -27,6 +13,53 @@ resource "valtix_profile_urlfilter" "url1" {
     ]
     policy = "Allow Log"
     filter_methods = ["GET"]
+  }
+  fqdn_filter_list {
+    vendor_category_list {
+      vendor = "BRIGHTCLOUD"
+      categories = [
+        "Spyware and Adware",
+        "Malware",
+        "Botnets",
+        "Open Mail Relay",
+        "Poor Sender Reputation",
+        "High Risk Sites and Locations",
+        "Spam",
+        "TOR Exit Nodes",
+        "Mobile Threats",
+        "Graymail",
+        "Spoofing",
+        "P2P Malware Node",
+        "Open HTTP Proxy",
+        "Lying DNS",
+        "Newly Seen Domains",
+        "DNS Tunneling",
+        "Linkshare",
+        "Cryptojacking",
+        "Dynamic DNS",
+        "Potential DNS Rebinding",
+        "Bogon",
+        "Exploits",
+        "Malicious Sites",
+        "Indicators of Compromise (IOC)",
+        "Scam",
+        "Ebanking Fraud",
+        "Domain Generated Algorithm",
+        "Phishing"
+      ]
+    }
+    policy = "Deny Log"
+    return_status = 503
+  }
+  url_filter_list {
+    vendor_category_list {
+      vendor = "BRIGHTCLOUD"
+      categories = [
+        "Child Abuse Content"
+      ]
+    }
+    policy = "Deny Log"
+    return_status = 503
   }
   uncategorized_url_filter {
     policy        = "Deny Log"
@@ -57,6 +90,10 @@ resource "valtix_profile_urlfilter" "url1" {
 * `policy` - (Required) Action to take when a URL matches an entry in the `url_list` or `vendor_category_list`.  Applicable values: `Allow Log` (allow and log the event), `Allow No Log` (allow and do not log the event), `Deny Log` (deny and log the event), `Deny No Log` (deny and do not log the event).
 * `return_status` - (Required) HTTP status code to return when URLs are denied.  This argument only applies to resources that have a `policy` set to `Deny Log` or `Deny No Log`.
 
+### Vendor Category List Arguments
+* `vendor` - (Required) Specifies the vendor to use for mapping domains to categories. Applicable values: `Brightcloud`. As of 24.10 Controller release, Valtix uses Talos as a vendor. Prior to 24.10 Controller release, Valtix used Brightcloud as a vendor. In order to retain backwards compatibility almongst Gateway releases, Brightcloud will remain as the vendor and the value `Brightcloud` will be required to be specified. Existing Profiles created and managed via Terraform can remain using the Brightcloud categories. However, if an existing Profile is changed in anyway, the Brightcloud category names will need be replaced by the equivalent Talos category names. In order to understand the Talos category names to use, go the UI, edit and save the Profile, export the Profile to Terraform and copy the Terraform code.
+* `categories` - (Required) Specifies a list of one or more Talos categories to either allow or block domains that match against the categories.
+
 ### URL Filter List
 ```hcl
 url_filter_list {
@@ -71,15 +108,47 @@ url_filter_list {
   vendor_category_list {
     vendor = "BRIGHTCLOUD"
     categories = [
-      "Bot Nets",
-      "Phishing and Other Frauds",
-      "Malware Sites",
-      "Keyloggers and Monitoring",
-      "Proxy Avoidance and Anonymizers",
       "Spyware and Adware",
-      "SPAM URLs"
+      "Malware",
+      "Botnets",
+      "Open Mail Relay",
+      "Poor Sender Reputation",
+      "High Risk Sites and Locations",
+      "Spam",
+      "TOR Exit Nodes",
+      "Mobile Threats",
+      "Graymail",
+      "Spoofing",
+      "P2P Malware Node",
+      "Open HTTP Proxy",
+      "Lying DNS",
+      "Newly Seen Domains",
+      "DNS Tunneling",
+      "Linkshare",
+      "Cryptojacking",
+      "Dynamic DNS",
+      "Potential DNS Rebinding",
+      "Bogon",
+      "Exploits",
+      "Malicious Sites",
+      "Indicators of Compromise (IOC)",
+      "Scam",
+      "Ebanking Fraud",
+      "Domain Generated Algorithm",
+      "Phishing"
     ]
-	}
+  }
+  policy = "Deny Log"
+  filter_methods = ["GET"]
+  return_status  = 503
+}
+url_filter_list {
+  vendor_category_list {
+    vendor = "BRIGHTCLOUD"
+    categories = [
+      "Child Abuse Content"
+    ]
+  }
   policy = "Deny Log"
   filter_methods = ["GET"]
   return_status  = 503
@@ -94,109 +163,49 @@ url_list = [
 ]
 ```
 
-### Vendor Category List
+### Vendor Category List (Malicious Categories)
 ```hcl
 vendor_category_list {
   vendor     = "BRIGHTCLOUD"
   categories = [
-    "Bot Nets",
-    "Phishing and Other Frauds",
-    "Malware Sites",
-    "Keyloggers and Monitoring",
-    "Proxy Avoidance and Anonymizers",
     "Spyware and Adware",
-    "SPAM URLs"
+    "Malware",
+    "Botnets",
+    "Open Mail Relay",
+    "Poor Sender Reputation",
+    "High Risk Sites and Locations",
+    "Spam",
+    "TOR Exit Nodes",
+    "Mobile Threats",
+    "Graymail",
+    "Spoofing",
+    "P2P Malware Node",
+    "Open HTTP Proxy",
+    "Lying DNS",
+    "Newly Seen Domains",
+    "DNS Tunneling",
+    "Linkshare",
+    "Cryptojacking",
+    "Dynamic DNS",
+    "Potential DNS Rebinding",
+    "Bogon",
+    "Exploits",
+    "Malicious Sites",
+    "Indicators of Compromise (IOC)",
+    "Scam",
+    "Ebanking Fraud",
+    "Domain Generated Algorithm",
+    "Phishing"
   ]
 }
 ```
 
-### Vendor Category List (All Categories)
+### Vendor Category List (Child Abuse Categories)
 ```hcl
 vendor_category_list {
-	vendor      = "BRIGHTCLOUD"
-	categories  = [
-    "Abortion",
-    "Abused Drugs",
-    "Adult and Pornography",
-    "Alcohol and Tobacco",
-    "Auctions",
-    "Bot Nets",
-    "Business and Economy",
-    "Cheating",
-    "Computer and Internet Info",
-    "Computer and Internet Security",
-    "Confirmed SPAM Sources",
-    "Content Delivery Networks",
-    "Cult and Occult",
-    "Dating",
-    "Dead Sites",
-    "Dynamically Generated Content",
-    "Educational Institutions",
-    "Entertainment and Arts",
-    "Fashion and Beauty",
-    "Financial Services",
-    "Gambling",
-    "Games",
-    "Government",
-    "Gross",
-    "Hacking",
-    "Hate and Racism",
-    "Health and Medicine",
-    "Home and Garden",
-    "Hunting and Fishing",
-    "Illegal",
-    "Image and Video Search",
-    "Individual Stock Advice and Tools",
-    "Internet Communications",
-    "Internet Portals",
-    "Job Search",
-    "Keyloggers and Monitoring",
-    "Kids",
-    "Legal",
-    "Local Information",
-    "Malware Sites",
-    "Marijuana",
-    "Military",
-    "Motor Vehicles",
-    "Music",
-    "News and Media",
-    "Nudity",
-    "Online Greeting Cards",
-    "Open HTTP Proxies",
-    "Parked Domains",
-    "Pay to Surf",
-    "Peer to Peer",
-    "Personal sites and Blogs",
-    "Personal Storage",
-    "Philosophy and Political Advocacy",
-    "Phishing and Other Frauds",
-    "Private IP Addresses",
-    "Proxy Avoidance and Anonymizers",
-    "Questionable",
-    "Real Estate",
-    "Recreation and Hobbies",
-    "Reference and Research",
-    "Religion",
-    "Search Engines",
-    "Sex Education",
-    "Shareware and Freeware",
-    "Shopping",
-    "Social Networking",
-    "Society",
-    "SPAM URLs",
-    "Sports",
-    "Spyware and Adware",
-    "Streaming Media",
-    "Swimsuits and Intimate Apparel",
-    "Training and Tools",
-    "Translation",
-    "Travel",
-    "Unconfirmed SPAM Sources",
-    "Violence",
-    "Weapons",
-    "Web Advertisements",
-    "Web Hosting",
-    "Web-based Email"
+  vendor     = "BRIGHTCLOUD"
+  categories = [
+    "Child Abuse Content"
   ]
 }
 ```
@@ -217,7 +226,7 @@ default_url_filter {
 }
 ```
 
-Please check the Valtix UI (Manage -> Profiles -> URL Filtering) to obtain a list of predefined Categories.
+Please check the Valtix UI (Policies -> Profiles -> URL Filtering) to obtain a list of predefined Categories. A full list of Talos catogories is available at [Talos Intelligence Categories](https://www.talosintelligence.com/categories). A Talos URL lookup tool is available at [Talos Intelligence Search](https://www.talosintelligence.com/reputation_center).
 
 ## Attribute Reference
 * `id` - ID of the URL Filter Profile resource that can be referenced in other resources (e.g., *valtix_policy_rules*)
