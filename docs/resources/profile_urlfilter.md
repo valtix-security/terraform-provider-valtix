@@ -3,7 +3,7 @@ Resource for creating and managing a URL Filter (URL) Profile
 
 ## Example Usage
 ```hcl
-resource "ciscomcd_profile_urlfilter" "url1" {
+resource "valtix_profile_urlfilter" "url1" {
   name        = "url1"
   description = "URL filter list"
   url_filter_list {
