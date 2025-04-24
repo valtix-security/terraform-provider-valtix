@@ -223,6 +223,10 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
             * **AWS_M5_2XLARGE** (8 core)
             * **AWS_M5_XLARGE** (4 core)
             * **AWS_M5_LARGE** (2 core)
+        * **M7i**
+            * **AWS_M7I_2XLARGE** (8 core)
+            * **AWS_M7I_XLARGE** (4 core)
+            * **AWS_M7I_LARGE** (2 core)
     * **Azure**
         * **DS_V3**
             * **AZURE_D8S_V3** (8 core)
