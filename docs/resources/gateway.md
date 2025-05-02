@@ -223,6 +223,10 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
             * **AWS_M5_2XLARGE** (8 core)
             * **AWS_M5_XLARGE** (4 core)
             * **AWS_M5_LARGE** (2 core)
+        * **M7i**
+            * **AWS_M7I_2XLARGE** (8 core)
+            * **AWS_M7I_XLARGE** (4 core)
+            * **AWS_M7I_LARGE** (2 core)
     * **Azure**
         * **DS_V3**
             * **AZURE_D8S_V3** (8 core)
@@ -252,7 +256,7 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
 * `gcp_user_name` - (Optional - GCP) Name to use as the user when SSH to a GCP Gateway instance.  When not specified, `centos` is used.
 * `gcp_service_account_email` - (Required - GCP) The GCP Service Account Email that defines the permissions for the Gateway to integrate with other GCP Project resources such as Secrets Manager and Storage Buckets. 
 * `aws_iam_role_firewall` - (Required - AWS) The AWS IAM role that defines the permissions for the Gateway to integrate with other AWS Account resources such as Key Pairs, Secrets Manager and Key Management Service (KMS).
-* `azure_user_identity_id` - (Optional - Azure) The Azure User Assigned Identity that defines the permissions for the Gateway to integrate with other Azure Subscription resources such as Key Pairs, Key Vault and Blob Storage.
+* `azure_user_identity_id` - (Optional - Azure) The Azure User Assigned Identity that defines the permissions for the Gateway to integrate with other Azure Subscription resources such as Key Pairs, Key Vault and Blob Storage. The value specified should be the resource full path.
 * `azure_resource_group` - (Required - Azure) Azure Resource Group name used to associate all created Gateway resources
 * `oci_compartment_id` - (Required - OCI) OCI Compartment ID where the Gateway will be deployed
 * `region` - (Required) Region where the Gateway will be deployed
@@ -492,7 +496,7 @@ settings {
   value = "3"
 }
 settings {
-  name = "controller.gateway.instance_creation_retry_reset_time"
+  name = "controller.gateway.instance_creation_retry_reset_timeout"
   value = "360"
 }
 ```
