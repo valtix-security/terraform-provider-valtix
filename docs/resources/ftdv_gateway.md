@@ -22,6 +22,22 @@ resource "valtix_ftdv_gateway" "aws_ftdv_gw1" {
 ```
 
 ### Azure FTDv Gateway
+```hcl
+resource "valtix_gateway" "azure_ftdv_gw1" {
+  name                 = "azure-ftdv-gw1"
+  description          = "Azure FTDv Gateway 1"
+  csp_account_name     = valtix_cloud_account.azure_act.name
+  region               = var.region
+  vpc_id               = valtix_service_vpc.svpc1.id
+  instance_type        = "AZURE_D8S_V3"
+  azure_resource_group = "rg1"
+  ssh_public_key       = file(var.ssh_public_key_file)
+	ftdv_version         = "7.6.0"
+  ftdv_policy_id       = "06B65657-5F61-0ed3-0000-004294985858"
+	ftdv_password        = "<need to fill in>"
+	ftdv_license_model   = "MULTICLOUD_DEFENSE"
+}
+```
 
 ## Argument Reference
 
