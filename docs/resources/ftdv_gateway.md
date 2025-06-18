@@ -68,7 +68,7 @@ resource "valtix_gateway" "azure_ftdv_gw1" {
 * `gateway_state` - (Optional) Specifies the state of the Gateway.  Applicable values are `ACTIVE` and `INACTIVE`.  When set to `ACTIVE`, the Gateway will be enabled and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `wait_for_gateway_state` - (Optional) Determines if Terraform should wait for the Gateway state, defined by the `gateway_state` argument, to be achieved before completing.  Applicable values are `true` and `false`.  If not specified, the default value is `true`.
 * `ftdv_version` - (Required) Represents the image version to be used for this Gateway
-* `ftdv_policy_id` - (Optional) Represents the ID of the policy to assign to the Gateway.  If not specified, the Multicloud Defense Controller will create a new policy and assign this policy o the Gateway.
+* `ftdv_policy_id` - (Optional) Represents the ID of the policy to assign to the Gateway.  If not specified, the Multicloud Defense Controller will create a new policy and assign this policy to the Gateway.
 * `ftpv_password` - (Required) The admin password to assign to each Gateway instance
 * `ftdv_license_mode` - (Optional) The license mode to use for this Gateway.  Applicable values are: `MULTICLOUD_DEFENSE` or `SMART_LICENSING`.  If not specified, the default value is `SMART_LICENSE`.
 * `ftdv_licenses` - (Optional) A comma-separated list of license types to use when the `ftdv_license_mode` is specified as `SMART_LICENSE`.  Applicable values are: `BASE`, `CARRIER`, `MALWARE`, `THREAT` and `URLFILTER`.  `BASE` is always required.  `THREAT` is required if also specifying `MALWARE`.  If not specified, the default value is `BASE`.
