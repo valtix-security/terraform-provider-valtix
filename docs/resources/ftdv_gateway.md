@@ -6,18 +6,18 @@ Resource for creating and managing Firewall Threat Defense Virtual (FTDv) Gatewa
 ### AWS FTDv Gateway
 ```hcl
 resource "valtix_ftdv_gateway" "aws_ftdv_gw1" {
-	name                  = "aws-ftdv-gw1"
+  name                  = "aws-ftdv-gw1"
   description           = "AWS FTDv Gateway 1"
   csp_account_name      = valtix_cloud_account.aws_act.name
-	region                = "us-west-2"
-	vpc_id                = valtix_service_vpc.svpc1.id
-	instance_type         = "AWS_C5_4XLARGE"
+  region                = "us-west-2"
+  vpc_id                = valtix_service_vpc.svpc1.id
+  instance_type         = "AWS_C5_4XLARGE"
   aws_iam_role_firewall = "arn:aws:iam::407068433435:role/valtix-ftdv-gateway-role"
   ssh_key_pair          = "ssh_keypair1"
-	ftdv_version          = "7.6.0"
+  ftdv_version          = "7.6.0"
   ftdv_policy_id        = "06B65657-5F61-0ed3-0000-004294985858"
-	ftdv_password         = "<need to fill in>"
-	ftdv_license_model    = "MULTICLOUD_DEFENSE"
+  ftdv_password         = "<need to fill in>"
+  ftdv_license_model    = "MULTICLOUD_DEFENSE"
 }
 ```
 
@@ -32,10 +32,10 @@ resource "valtix_gateway" "azure_ftdv_gw1" {
   instance_type        = "AZURE_D8S_V3"
   azure_resource_group = "rg1"
   ssh_public_key       = file(var.ssh_public_key_file)
-	ftdv_version         = "7.6.0"
+  ftdv_version         = "7.6.0"
   ftdv_policy_id       = "06B65657-5F61-0ed3-0000-004294985858"
-	ftdv_password        = "<need to fill in>"
-	ftdv_license_model   = "MULTICLOUD_DEFENSE"
+  ftdv_password        = "<need to fill in>"
+  ftdv_license_model   = "MULTICLOUD_DEFENSE"
 }
 ```
 
@@ -126,7 +126,7 @@ The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Ke
 #### To deploy Gateway instances with no public IPs assigned to the interfaces
 ```hcl
 settings {
-  name = "controller.gateway.assign_public_ip"
+  name  = "controller.gateway.assign_public_ip"
   value = false
 }
 ```
@@ -134,11 +134,11 @@ settings {
 ### Gateway Instance Creation Retry Settings
 ```hcl
 settings {
-  name = "controller.gateway.instance_creation_retry_count"
+  name  = "controller.gateway.instance_creation_retry_count"
   value = "3"
 }
 settings {
-  name = "controller.gateway.instance_creation_retry_reset_timeout"
+  name  = "controller.gateway.instance_creation_retry_reset_timeout"
   value = "360"
 }
 ```
