@@ -502,7 +502,7 @@ settings {
 ```
 
 ~> **Note on Gateway Instance Creation Retry Settings**
-When a Gateway resource is created, if an instance creation fails, the Controller will initiate a retry.  If the issue is corrected, then the Gateway will eventually be successfully created. If the issue is not corrected, then the Controller will retry indefinitely.  If the Controller continues to retry without success, Terraform will timeout after 15 minutes and produce an error stating the Gateway is not yet ACTIVE.
+When a Gateway resource is created, if an instance creation fails, the Controller will initiate a retry.  If the issue is corrected, then the Gateway will eventually be successfully created. If the issue is not corrected, then the Controller will retry indefinitely.  If the Controller continues to retry without success, Terraform will timeout after 20 minutes and produce an error stating the Gateway is not yet ACTIVE.
 
 The Gateway Instance Creation Retry Settings provide a user with some control over the instance creation retry behavior.  The settings are defined and behave as follows:
 * `controller.gateway.instance_creation_retry_count` - Defines the number of times the Controller will retry creating each instance.  If the retry count is exceeded, then the Controller will no longer retry the creation and the Gateway will remain in ACTIVE_PENDING state.  The Controller will reinitiate its retry attempts once the retry reset time has expired.  If this setting is not specified, the Controller will retry indefinitely.
