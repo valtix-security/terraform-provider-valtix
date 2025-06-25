@@ -169,17 +169,22 @@ tags = {
 * `ftdv_policy_id` - ID of the policy applied to the Gateway
 * `gateway_endpoint` - (Azure only) The NLB endpoint (IP Address) to be used as a target for routing traffic to the Gateway
 * `gateway_gwlb_endpoints` - (AWS only) AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
-    ```hcl
-    gateway_gwlb_endpoints {
-        endpoint_id          = "vpce-047c749fc6f7e0c0d"
-        network_interface_id = "eni-017eacdb23d2ebaf4"
-        subnet_id            = "subnet-0d61750e97caafd9d"
-    }
-    gateway_gwlb_endpoints {
-        endpoint_id          = "vpce-0707fa3f03c5064a7"
-        network_interface_id = "eni-020464bd838461bca"
-        subnet_id            = "subnet-0fd61e07f200224f1"
-    }
+
+    ```json
+    "gateway_gwlb_endpoints": [
+      {
+        "availability_zone": "us-east-1a",
+        "endpoint_id": "vpce-047c749fc6f7e0c0d",
+        "network_interface_id": "eni-017eacdb23d2ebaf4",
+        "subnet_id": "subnet-0d61750e97caafd9d"
+      },
+      {
+        "availability_zone": "us-east-1b",
+        "endpoint_id": "vpce-0707fa3f03c5064a7",
+        "network_interface_id": "eni-020464bd838461bca",
+        "subnet_id": "subnet-0fd61e07f200224f1"
+      }
+    ]
     ```
 * `gwlb_service_name` - (AWS only) VPC Endpoint Service Name associated with the AWS Gateway Load Balancer.  This name can be used by the AWS Terraform Provider for establishing a GWLB Endpoint connection.
 * `gwlb_service_id` - (AWS only) VPC Endpoint Service ID associated with the AWS Gateway Load Balancer.  This ID can be used by the AWS Terraform Provider for accepting GWLB Endpoint connections and assigning Principals.
