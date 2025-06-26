@@ -148,7 +148,7 @@ When a Gateway resource is created, if an instance creation fails, the Controlle
 
 The Gateway Instance Creation Retry Settings provide a user with some control over the instance creation retry behavior.  The settings are defined and behave as follows:
 * `controller.gateway.instance_creation_retry_count` - Defines the number of times the Controller will retry creating each instance.  If the retry count is exceeded, then the Controller will no longer retry and the Gateway will remain in ACTIVE_PENDING state.  The Controller will reinitiate the retry attempts once the retry reset time has expired.  Applicable values are positive integers.  If this setting is not specified, the default value is `3` and the Controller will retry three times.
-* `controller.gateway.instance_creation_retry_reset_time` - Defines the amount of time (in minutes) after the retry count has been exceeded when the Controller will reinitiate the retry attempts.  Applicable values are positive integers.  If this setting is not specified, the reset time will be infinite and the Controller will never reinitiate the retry attempts.
+* `controller.gateway.instance_creation_retry_reset_timeout` - Defines the amount of time (in minutes) after the retry count has been exceeded when the Controller will reinitiate the retry attempts.  Applicable values are positive integers.  If this setting is not specified, the reset time will be infinite and the Controller will never reinitiate the retry attempts.
 
 ## Gateway Tags
 Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
