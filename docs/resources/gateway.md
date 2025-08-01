@@ -509,7 +509,7 @@ The Gateway Instance Creation Retry Settings provide a user with some control ov
 * `controller.gateway.instance_creation_retry_reset_timeout` - Defines the amount of time (in minutes) after the retry count has been exceeded that the Controller will reinitiate its retry attempts. If this setting is not specified, the reset time will be infinite and the Controller will never reinitiate its retry attempts. This setting is only applicable if the retry count setting is specifed.
 
 ## Gateway Tags
-Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated
+Gateway tags define a map of Tags that will apply to each Gateway instance when instantiated.
 
 ### To add a map of user-specified Tags to the Gateway instances
 ```hcl
@@ -518,6 +518,9 @@ tags = {
   tag2 = "value2"
 }
 ```
+
+~> **Note on Gateway Tags**
+Any change to the Gateway Tags block will be refelected when a new Gateway instance is instantiated. The changes are not applied dynamically to existing Gateway instances.
 
 ## Attribute Reference
 * `id` - ID of the Gateway resource
