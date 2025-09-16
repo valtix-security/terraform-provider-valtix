@@ -64,12 +64,12 @@ Azure vWAN integration to peer the Service vNet to an existing vWAN vHub and orc
 ### To add a map of user-specified Tags to the Gateway instances
 ```hcl
 azure_vwan_details {
-  vhub_name = "vwan-vhub-us-west-2"
-  vhub_resource_group = "vwan-vhub-rg"
-  vhub_association_route_table_id = "/subscriptions/0a1b234c-0a1b-012a-0abc-01234567a8b9/resourceGroups/vwan-vhub-rg/providers/Microsoft.Network/virtualHubs/vwan-vhub-us-west-2/hubRouteTables/defaultRouteTable"
+  vhub_name                        = "vwan-vhub-us-west-2"
+  vhub_resource_group              = "vwan-vhub-rg"
+  vhub_association_route_table_id  = "/subscriptions/0a1b234c-0a1b-012a-0abc-01234567a8b9/resourceGroups/vwan-vhub-rg/providers/Microsoft.Network/virtualHubs/vwan-vhub-us-west-2/hubRouteTables/defaultRouteTable"
   vhub_propagation_route_table_ids = ["/subscriptions/0a1b234c-0a1b-012a-0abc-01234567a8b9/resourceGroups/vwan-vhub-rg/providers/Microsoft.Network/virtualHubs/vwan-vhub-us-west-2/hubRouteTables/defaultRouteTable"]
-  spokevpc_cidrs = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
-  propagate_cidrs = true
+  spokevpc_cidrs                   = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
+  propagate_cidrs                  = true
 }
 ```
 
