@@ -58,6 +58,7 @@ resource "valtix_address_object" "app3_ag" {
         tag_key   = "tag-key1"
         tag_value = "tag-value1"
     }
+  backend_address = true
 }
 ```
 For a complete set of arguments, see [DYNAMIC_APPLICATIONS (Reverse Proxy Target) Arguments](#dynamic_applications-reverse-proxy-target-arguments)
@@ -315,7 +316,7 @@ If the Address Object is configured with a set of FQDNs, the Valtix Gateway will
 * `tag_list` block representing a Tag key-value pair requires the following arguments:
 * `tag_key` - (Required) The Tag Key specified in a Tag key-value pair
 * `tag_value` - (Required) The Tag Value specified in a Tag key-value pair
-* `resource_type`- (Optional) The Resource type to restrict the scope of the Tag Key-Value pair. Applicable values: `RESOURCE_INSTANCE`, `RESOURCE_VPC`, `RESOURCE_SUBNET`, `RESOURCE_LOAD_BALANCER`, `RESOURCE_SECURITY_GROUP`, `RESOURCE_ASG`. If not supplied, the default value is `RESOURCE_INSTANCE`. 
+* `resource_type`- (Optional) The Resource type to restrict the scope of the Tag Key-Value pair. Applicable values: `RESOURCE_INSTANCE`, `RESOURCE_VPC`, `RESOURCE_SUBNET`, `RESOURCE_LOAD_BALANCER`, `RESOURCE_SECURITY_GROUP`, `RESOURCE_ASG`, `RESOURCE_APPLICATIONS`. If the resource `type` argument has a value of `DYNAMIC_APPLICATIONS` specified, the only applicable value is `RESOURCE_APPLICATIONS`. If the resource `type` argument has a value of `DYNAMIC_USER_DEFINED_TAG` specified, all values are applicable. If not specified, the default value is `RESOURCE_INSTANCE`. 
 
 ## Attribute Reference
 * `id` - ID of the Address Object resource that can be referenced in other resources (e.g., *valtix_service_object*, `address_group_ids`)
