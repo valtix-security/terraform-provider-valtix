@@ -57,7 +57,7 @@ resource "valtix_address_object" "app3_ag" {
   tag_list {
     tag_key       = "tag-key1"
     tag_value     = "tag-value1"
-    resource_type = "DYNAMIC_APPLICATIONS"
+    resource_type = "RESOURCE_APPLICATIONS"
   }
   backend_address = true
 }
