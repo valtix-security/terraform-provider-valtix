@@ -51,14 +51,15 @@ For a complete set of arguments, see [STATIC (Reverse Proxy Target) Arguments](#
 ### DYNAMIC_APPLICATIONS (Reverse Proxy Target) Example
 ```hcl
 resource "valtix_address_object" "app3_ag" {
-    name        = "app3"
-    description = "Dynamic Applications (backend)"
-    type        = "DYNAMIC_APPLICATIONS"
-    tag_list {
-        tag_key   = "tag-key1"
-        tag_value = "tag-value1"
+  name        = "app3"
+  description = "Dynamic Applications (backend)"
+  type        = "DYNAMIC_APPLICATIONS"
+  tag_list {
+    tag_key       = "tag-key1"
+    tag_value     = "tag-value1"
+    resource_type = "DYNAMIC_APPLICATIONS"
+  }
   backend_address = true
-    }
 }
 ```
 For a complete set of arguments, see [DYNAMIC_APPLICATIONS (Reverse Proxy Target) Arguments](#dynamic_applications-reverse-proxy-target-arguments)
