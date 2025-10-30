@@ -51,13 +51,14 @@ For a complete set of arguments, see [STATIC (Reverse Proxy Target) Arguments](#
 ### DYNAMIC_APPLICATIONS (Reverse Proxy Target) Example
 ```hcl
 resource "valtix_address_object" "app3_ag" {
-    name        = "app3"
-    description = "Dynamic Applications (backend)"
-    type        = "DYNAMIC_APPLICATIONS"
-    tag_list {
-        tag_key   = "tag-key1"
-        tag_value = "tag-value1"
-    }
+  name        = "app3"
+  description = "Dynamic Applications (backend)"
+  type        = "DYNAMIC_APPLICATIONS"
+  tag_list {
+    tag_key       = "tag-key1"
+    tag_value     = "tag-value1"
+    resource_type = "RESOURCE_APPLICATIONS"
+  }
   backend_address = true
 }
 ```
@@ -218,7 +219,7 @@ If the Address Object is configured with a set of FQDNs, the Valtix Gateway will
 * `vpc_id` - (Optional) The VPC/VNet ID to restrict the scope of the `tag_list`
 * `region` - (Optional) The Region to restrict the scope of the `tag_list`
 * `resource_group` - (Azure only) The Resource Group to restrict the scope of the `tag_list`
-* `tag_list` - (Required) A single block that represents a Tag key-value pair associated with one or more Application Load Balancers. `tag_list` structure [defined below](#tag-list). The `tag_list` is used to dynamically associate the IPs or FQDNs of the set of Application Load Balancers that match the Tag key-value pair.  
+* `tag_list` - (Required) A single block that represents a Tag key-value pair associated with one or more Application Load Balancers and API Gateways. `tag_list` structure [defined below](#tag-list). The `tag_list` is used to dynamically associate the IPs or FQDNs of the set of Application Load Balancers and API Gateways that match the Tag key-value pair.  
 * `backend_address` - (Required) This argument must be set to `true`
 <br><br>For an example, see [DYNAMIC_APPLICATIONS (Reverse Proxy Target) Example](#dynamic_applications-reverse-proxy-target-example)
 
