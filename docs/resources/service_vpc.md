@@ -37,12 +37,13 @@ resource "valtix_service_vpc" "azure_service_vnet" {
 ### GCP Service VPC
 ```hcl
 resource "valtix_service_vpc" "gcp_service_vpc" {
-  name               = "gcp-service-vpc"
-  csp_account_name   = "gcp-account1"
-  region             = "us-east1"
-  cidr               = "10.0.0.0/24"
-  management_cidr    = "10.0.1.0/24"
-  availability_zones = ["us-east1-b", "us-east1-c"]
+  name                      = "gcp-service-vpc"
+  csp_account_name          = "gcp-account1"
+  region                    = "us-east1"
+  cidr                      = "10.0.0.0/24"
+  management_cidr           = "10.0.1.0/24"
+  second_datapath_vpc_cidr  = "10.0.2.0/24"
+  availability_zones        = ["us-east1-b", "us-east1-c"]
 }
 ```
 
@@ -50,11 +51,12 @@ resource "valtix_service_vpc" "gcp_service_vpc" {
 * `name` - (Required) Name of the Service VPC/VNet
 * `csp_account_name` - (Required) The CSP Account name (configured in Multicloud Defense) where the Service VPC/VNet will be deployed
 * `region` - (Required) The Region/Location where the Service VPC/VNet will be deployed
-* `cidr` - (Required) CIDR of the Service VPC/VNet to be deployed.  For GCP only: This CIDR is used for the Datapath Subnet created within the Datapath VPC as part of the GCP Service VPC construct. When the Gateways are deployed within the GCP Service VPC construct (Management and Datapath VPCs), the datapath interfaces will be deployed in the Datapath VPC / Subnet.  This CIDR block must be different than the CIDR specified in the `management_cidr` argument.
+* `cidr` - (Required) CIDR of the Service VPC/VNet to be deployed.  For GCP only: This CIDR is used for the Datapath Subnet created within the Datapath VPC as part of the GCP Service VPC construct. When the Gateways are deployed within the GCP Service VPC construct (Management and Datapath VPCs), the datapath interfaces will be deployed in the Datapath VPC / Subnet.  This CIDR block must be different than the CIDRs specified in the `management_cidr` and `second_datapath_vpc_cidr` arguments.
 * `availability_zones` - (Required) List of Availability Zones for the Region/Location to associate with the Service VPC/VNet. Multicloud Defense Gateways deployed in this Service VPC/VNet will have instances deployed in all associated Availability Zones.
 * `transit_gateway_id` - (Required for AWS) Transit Gateway ID for the Service VPC to attach to
 * `azure_resource_group` - (Required for Azure) Resource Group where the Service VNet and its resources will be orchestrated
-* `management_cidr` - (Required for GCP) The CIDR used for the Management Subnet created within the Management VPC as part of the GCP Service VPC construct. When the Gateways are deployed within the GCP Service VPC construct (Management and Datapath VPCs), the management interfaces will be deployed in the Management VPC / Subnet.  This CIDR block must be different than the CIDR specified in the `cidr` argument.
+* `management_cidr` - (Required for GCP) The CIDR used for the Management Subnet created within the Management VPC as part of the GCP Service VPC construct. When the Gateways are deployed within the GCP Service VPC construct (Management and Datapath VPCs), the management interfaces will be deployed in the Management VPC / Subnet.  This CIDR block must be different than the CIDRs specified in the `cidr` and `second_datapath_vpc_cidr` arguments.
+* `second_datapath_vpc_cidr` - (Optional for GCP) The CIDR used for the second Datapath VPC created as part of the GCP Service VPC construct.  This CIDR block must be different than the CIDRs specified in the `cidr` and `management_cidr` arguments.
 * `use_nat_gateway` - (Optional for AWS) Applicable values are `true` or `false`. If set to `true`, AWS NAT Gateways will be orchestrated to use for all egress traffic to the Internet.  If not specified, the default value is `false`.
 * `azure_vwan_details` - (Optional for Azure) Specifies the Azure vWAN integration to peer the Service vNet to an existing vWAN vHub and orchestrate the spoke vNet CIDRs as static routes into the vWAN vHub route tables. See [Azure vWAN Details](#azure-vwan-details) for the block structure.
 

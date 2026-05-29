@@ -236,6 +236,10 @@ For EDGE mode EGRESS Gateway set the `security_type = EGRESS`
             * **AZURE_D8S_V5** (8 core)
             * **AZURE_D4S_V5** (4 core)
             * **AZURE_D2S_V5** (2 core)
+        * **DS_V6** (supported for `valtix_gateway`; not supported for `valtix_ftdv_gateway`)
+            * **AZURE_D8S_V6** (8 core)
+            * **AZURE_D4S_V6** (4 core)
+            * **AZURE_D2S_V6** (2 core)
     * **GCP**
         * **E2**
             * **GCP_E2_8** (8 core)

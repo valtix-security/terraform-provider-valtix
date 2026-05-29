@@ -21,22 +21,68 @@ resource "valtix_ftdv_gateway" "aws_ftdv_gw1" {
 }
 ```
 
-### Azure FTDv Gateway
+The Azure and GCP examples below rely on the default Smart Licensing settings so the examples stay focused on CSP-specific configuration.
+
+### Azure Ingress FTDv Gateway
 ```hcl
-resource "valtix_gateway" "azure_ftdv_gw1" {
-  name                 = "azure-ftdv-gw1"
-  description          = "Azure FTDv Gateway 1"
-  csp_account_name     = valtix_cloud_account.azure_act.name
-  region               = var.region
-  vpc_id               = valtix_service_vpc.svpc1.id
-  instance_type        = "AZURE_D8S_V3"
-  azure_resource_group = "rg1"
-  ssh_public_key       = file(var.ssh_public_key_file)
-  ftdv_version         = "7.6.0"
-  ftdv_policy_id       = "06B65657-5F61-0ed3-0000-004294985858"
-  ftdv_password        = "<need to fill in>"
-  ftdv_license_model   = "MULTICLOUD_DEFENSE"
+resource "valtix_ftdv_gateway" "azure_ftdv_gw1" {
+  name                  = "azure-ftdv-gw1"
+  description           = "Azure FTDv Gateway 1"
+  csp_account_name      = valtix_cloud_account.azure_act.name
+  region                = "eastus"
+  vpc_id                = valtix_service_vpc.svpc1.id
+  instance_type         = "AZURE_D8S_V5"
+  security_type         = ["INGRESS"]
+  azure_resource_group  = "rg1"
+  ssh_public_key        = file(var.ssh_public_key_file)
+  min_instances         = 1
+  max_instances         = 2
+  ftdv_version          = "7.7.0"
+  ftdv_policy_id        = var.ftdv_policy_id
+  ftdv_password         = var.ftdv_password
+
+  tags = {
+    owner = "terraform-example"
+  }
+
+  settings {
+    name  = "controller.use_internal_lb"
+    value = true
+  }
 }
+```
+
+### GCP Ingress FTDv Gateway
+```hcl
+resource "valtix_ftdv_gateway" "gcp_ftdv_gw1" {
+  name                      = "gcp-ftdv-gw1"
+  description               = "GCP FTDv Gateway 1"
+  csp_account_name          = valtix_cloud_account.gcp_act.name
+  region                    = "us-east1"
+  vpc_id                    = valtix_service_vpc.svpc1.id
+  instance_type             = "GCP_C2_4"
+  security_type             = ["INGRESS"]
+  gcp_service_account_email = "valtix-gateway@example-project-123456.iam.gserviceaccount.com"
+  ssh_public_key            = file(var.ssh_public_key_file)
+  min_instances             = 1
+  max_instances             = 2
+  ftdv_version              = "7.7.0"
+  ftdv_policy_id            = var.ftdv_policy_id
+  ftdv_password             = var.ftdv_password
+
+  tags = {
+    owner = "terraform-example"
+  }
+}
+```
+
+### FTDv Gateway Security Types
+```hcl
+# Ingress only
+security_type = ["INGRESS"]
+
+# Egress and east-west
+security_type = ["EGRESS", "EAST-WEST"]
 ```
 
 ## Argument Reference
@@ -46,6 +92,7 @@ resource "valtix_gateway" "azure_ftdv_gw1" {
 * `csp_account_name` - (Required) The CSP account where the Gateway will be deployed
 * `region` - (Required) Region where the Gateway will be deployed
 * `vpc_id` - (Required) VPC/VNet where the Gateway will be deployed. The value must refer to the `id` attribute of the [`valtix_service_vpc`](/terraform/valtix_service_vpc/#valtix_service_vpc) resource.
+* `security_type` - (Optional) List of security types enabled on the FTDv Gateway. Applicable values are `INGRESS`, `EGRESS` and `EAST-WEST`.  Use `["INGRESS"]` for an ingress-only Gateway, or `["EGRESS", "EAST-WEST"]` for egress/east-west traffic inspection.  If not specified, the Gateway is deployed for egress traffic.
 * `instance_type` - (Required) The instance type used when deploying the Gateway.  Applicable CSP-specific values are:
     * **AWS**
         * **C5**
@@ -53,26 +100,37 @@ resource "valtix_gateway" "azure_ftdv_gw1" {
             * **AWS_C5_2XLARGE** (8 core)
             * **AWS_C5_XLARGE** (4 core)
     * **Azure**
-        * **D5_V2**
+        * **DS_V2**
             * **AZURE_D5_V2** (16 core)
             * **AZURE_D4_V2** (8 core)
             * **AZURE_D3_V2** (4 core)
+        * **DS_V5**
+            * **AZURE_D16S_V5** (16 core)
+            * **AZURE_D8S_V5** (8 core)
+            * **AZURE_D4S_V5** (4 core)
+    * **GCP**
+        * **C2**
+            * **GCP_C2_4** (4 core)
+            * **GCP_C2_8** (8 core)
+            * **GCP_C2_16** (16 core)
 * `min_instances` - (Optional) Minimum number of instances per availability zone.  If not specified, the default value is `1`.
 * `max_instances` - (Optional) Maximum number of instances per availability zone.  If not specified, the default value is `3`.
 * `aws_iam_role_firewall` - (Required - AWS) The AWS IAM role that defines the permissions for the Gateway to integrate with other AWS Account resources such as Key Pairs, Secrets Manager and Key Management Service (KMS).
 * `azure_resource_group` - (Optional - Azure) Azure Resource Group name used to associate all created Gateway resources
 * `azure_user_identity_id` - (Optional - Azure) The Azure User Assigned Identity that defines the permissions for the Gateway to integrate with other Azure Subscription resources such as Key Pairs, Key Vault and Blob Storage. The value specified should be the resource full path.
 * `ssh_key_pair` - (Optional - AWS, Azure) Name of the SSH Key Pair created within the AWS Account or Azure Subscription.  The CSP Key Pairs are Regional constructs and must be created in the same Region as specified by the `region` argument where the Gateway will be deployed.
-* `ssh_public_key` - (Optional - Azure) The SSH public key to be assigned to the Gateway instances. Must be *ssh-rsa* only.
+* `ssh_public_key` - (Optional - Azure, GCP) The SSH public key to be assigned to the Gateway instances. Must be *ssh-rsa* only.
+* `gcp_service_account_email` - (Required - GCP) The GCP Service Account Email that defines the permissions for the Gateway to integrate with other GCP Project resources such as Secrets Manager and Storage Buckets.
+* `gcp_user_name` - (Optional - GCP) Name to use as the user when SSH to a GCP Gateway instance. When not specified, `centos` is used.
 * `health_check_port` - (Optional) TCP Port number that the Multicloud Defense orchestrated load balancers use for health checks to the Gateway instances.  If not specified, the default value is `65534`. A rule must be configured on the `datapath_security_group` to allow traffic to this TCP Port.
 * `gateway_state` - (Optional) Specifies the state of the Gateway.  Applicable values are `ACTIVE` and `INACTIVE`.  When set to `ACTIVE`, the Gateway will be enabled and operational.  When set to `INACTIVE`, the Gateway will be disabled and not operational.  If not specified, the default is `ACTIVE`.
 * `wait_for_gateway_state` - (Optional) Determines if Terraform should wait for the Gateway state, defined by the `gateway_state` argument, to be achieved before completing.  Applicable values are `true` and `false`.  If not specified, the default value is `true`.
 * `ftdv_version` - (Required) Represents the image version to be used for this Gateway
 * `ftdv_policy_id` - (Optional) Represents the ID of the policy to assign to the Gateway.  If not specified, the Multicloud Defense Controller will create a new policy and assign this policy to the Gateway.  The policy ID can be obtained from within cdFMC by clicking into the policy and copying the `uuid` value from the URL.  This argument cannot be updated after Gateway deployment.  An update operation will be blocked.  Policy changes to the Gateway instances must be done within cdFMC.
-* `ftpv_password` - (Required) The admin password to assign to each Gateway instance
-* `ftdv_license_mode` - (Optional) The license mode to use for this Gateway.  Applicable values are: `MULTICLOUD_DEFENSE` or `SMART_LICENSING`.  If not specified, the default value is `SMART_LICENSE`.
-* `ftdv_licenses` - (Optional) A comma-separated list of license types to use when the `ftdv_license_mode` is specified as `SMART_LICENSE`.  Applicable values are: `BASE`, `CARRIER`, `MALWARE`, `THREAT` and `URLFILTER`.  `BASE` is always required.  `THREAT` is required if also specifying `MALWARE`.  If not specified, the default value is `BASE`.
-* `ftdv_perforemance_tier` - (Optional) The performance tier to use when the `ftdv_license_mode` is specified as `SMART_LICENSE`.  Applicable values are: For AWS, `FTDv20`, `FTDv30`, `FTDv50` or `FTDv100`.  For Azure, `FTDv5`, `FTDv10`, `FTDv20`, `FTDv30`, `FTDv50` or `FTDv100`.  If not specified, the default value is `FTDv50`.
+* `ftdv_password` - (Required) The admin password to assign to each Gateway instance
+* `ftdv_license_model` - (Optional) The license model to use for this Gateway.  Applicable values are: `MULTICLOUD_DEFENSE` or `SMART_LICENSE`.  If not specified, the default value is `SMART_LICENSE`.
+* `ftdv_licenses` - (Optional) A list of license types to use when the `ftdv_license_model` is specified as `SMART_LICENSE`.  Applicable values are: `BASE`, `CARRIER`, `MALWARE`, `THREAT` and `URLFilter`.  `BASE` is always required.  `THREAT` is required if also specifying `MALWARE`.  If not specified, the default value is `BASE`.
+* `ftdv_performance_tier` - (Optional) The performance tier to use when the `ftdv_license_model` is specified as `SMART_LICENSE`.  Applicable values are: For AWS, `FTDv20`, `FTDv30`, `FTDv50` or `FTDv100`.  For Azure and GCP, `FTDv5`, `FTDv10`, `FTDv20`, `FTDv30`, `FTDv50` or `FTDv100`.  If not specified, the default value is `FTDv50`.
 * `tags` - (Optional) User-defined Tags. This is a map of one or more user-defined key/value pairs that will be applied to each Gateway instance. The key is an unquoted name and the value is a quoted string.  See [Gateway Tags](#gateway-tags) for the block structure.  The Multicloud Defense Controller will add a Tag with keys of `Name` and `valtix_acct` during Gateway orchestration.  If a user-defined tag for either of those keys is specified, the user-defined values will used in place of the Controller-defined values.
 * `settings` - (Optional) Gateway Settings block. This block can be repeated multiple times. See [Gateway Settings](#gateway-settings) for the block structure.
 
@@ -80,7 +138,7 @@ resource "valtix_gateway" "azure_ftdv_gw1" {
 ## Gateway Settings
 Gateway Settings are set of configurable settings that can be specified by the user and applied to the Gateway and its corresponding Gateway Instances.  If a change to the settings from their defaults are necessary, the individual setting and the configured value can be applied to the list of settings as part of the settings block of the Gateway resource.
 
-### Gateway AWS/Azure EBS/Disk Encryption Settings
+### Gateway AWS/Azure/GCP EBS/Disk Encryption Settings
 
 #### To enable AWS EBS Encryption using default KMS Key
 ```hcl
@@ -115,11 +173,24 @@ settings {
   value = "/subscriptions/1111111-33f9-4f5c-86e4-222222222/resourceGroups/valtix-rg/providers/Microsoft.Compute/diskEncryptionSets/valtixDiskEncryptionSet"
 }
 ```
-~> **Note on AWS/Azure EBS/Disk Encryption Setting using default CSP Key**
-The EBS Encryption Gateway setting using default KMS key only applies to Gateways deployed in AWS.  There is no need to use this setting to enable Disk Encryption for a Gateway deployed in Azure.  For AWS, EBS Encryption is disabled by default and the Gateway settings are needed to enable.  In Azure, Disk Encryption is enabled by default using a CSP key and cannot be disabled.
 
-~> **Note on AWS/Azure EBS/Disk Encryption Setting using a Customer Managed Encryption Key (CMEK)**
-The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Key (CMEK).  The key specified is created in specific locations related to each CSP.  For AWS, the key is created in the Key Management System (KMS) and referenced by its ID.  For Azure, the key is created in the Disk Encryption Sets and referenced by its full path.  The Azure Access control (IAM) Role for the Multicloud Defense Controller (valtix-controller-role) requires an additional permission: `Microsoft.Compute/sshPublicKeys/read`.  This permission has been updated in the Azure PowerShell script used to prepare the Subscription for onboarding into Multicloud Defense.
+#### To enable GCP Disk Encryption using specified Crypto Key
+```hcl
+settings {
+  name  = "gateway.gcp.disk.encryption.key.customer_key"
+  value = "<Crypto Key Path>"
+}
+
+settings {
+  name  = "gateway.gcp.disk.encryption.key.customer_key"
+  value = "projects/security-icon-111111/locations/us-east1/keyRings/valtix-disk-encryption/cryptoKeys/key1"
+}
+```
+~> **Note on AWS/Azure/GCP EBS/Disk Encryption Setting using default CSP Key**
+The EBS Encryption Gateway setting using default KMS key only applies to Gateways deployed in AWS.  There is no need to use this setting to enable Disk Encryption for a Gateway deployed in Azure or GCP.  For AWS, EBS Encryption is disabled by default and the Gateway settings are needed to enable.  In Azure and GCP, Disk Encryption is enabled by default using a CSP key and cannot be disabled.
+
+~> **Note on AWS/Azure/GCP EBS/Disk Encryption Setting using a Customer Managed Encryption Key (CMEK)**
+The EBS/Disk Encryption Gateway setting can use a Customer Managed Encryption Key (CMEK).  The key specified is created in specific locations related to each CSP.  For AWS, the key is created in the Key Management System (KMS) and referenced by its ID.  For Azure, the key is created in the Disk Encryption Sets and referenced by its full path.  The Azure Access control (IAM) Role for the Multicloud Defense Controller (valtix-controller-role) requires an additional permission: `Microsoft.Compute/sshPublicKeys/read`.  This permission has been updated in the Azure PowerShell script used to prepare the Subscription for onboarding into Multicloud Defense.  For GCP, the key is created as a Key Management Key Ring and referenced by its relative path.  The Role / Principal for Cloud KMS CryptoKey Encrypter / Decrypter requires the Compute Engine Service Agent (`service-PROJECT_NUMBER@compute-system.iam.gserviceaccount.com`) to be specified.
 
 ### Gateway Assign Public IP Setting
 
@@ -130,6 +201,19 @@ settings {
   value = false
 }
 ```
+
+### Gateway Ingress Internal Load Balancer Setting
+
+#### To deploy the ingress Gateway endpoint as an internal load balancer
+```hcl
+settings {
+  name  = "controller.use_internal_lb"
+  value = true
+}
+```
+
+~> **Note on Ingress Internal Load Balancer Setting**
+The Ingress Internal Load Balancer setting applies to FTDv Gateways that include `INGRESS` in `security_type`. When this setting is not specified or is set to `false`, the Controller deploys the default public ingress load balancer for the CSP.
 
 ### Gateway Instance Creation Retry Settings
 ```hcl
@@ -170,7 +254,7 @@ Any change to the Gateway Tags block will be refelected when a new Gateway insta
 * `ftdv_license_model` - Licensing models applied to the Gateway
 * `ftdv_performance_tier` - Performance tier applied to the Gateway 
 * `ftdv_policy_id` - ID of the policy applied to the Gateway
-* `gateway_endpoint` - (Azure only) The NLB endpoint (IP Address) to be used as a target for routing traffic to the Gateway
+* `gateway_endpoint` - (Azure, GCP) The load balancer endpoint (IP Address) to be used as a target for routing traffic to the Gateway
 * `gateway_gwlb_endpoints` - (AWS only) AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
 
     ```json
