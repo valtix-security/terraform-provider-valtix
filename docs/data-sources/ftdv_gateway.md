@@ -17,7 +17,7 @@ data "valtix_ftdv_gateway" "aws_ftdv_gw1" {
 * `ftdv_license_model` - Licensing models applied to the Gateway
 * `ftdv_performance_tier` - Performance tier applied to the Gateway 
 * `ftdv_policy_id` - ID of the policy applied to the Gateway
-* `gateway_endpoint` - (Azure only) The NLB endpoint (IP Address) to be used as a target for routing traffic to the Gateway
+* `gateway_endpoint` - (Azure, GCP) The load balancer endpoint (IP Address) to be used as a target for routing traffic to the Gateway
 * `gateway_gwlb_endpoints` - (AWS only) AWS Gateway Load Balancer endpoints created in each of the AZs displayed in the format as follows:
     ```hcl
     gateway_gwlb_endpoints {
